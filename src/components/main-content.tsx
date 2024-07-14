@@ -155,29 +155,28 @@ export const MainContent = () => {
     }
 
     try {
-      // const response = await fetch("http://127.0.0.1:5000/api/mcq", {
-      //   method: "POST",
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({ topic: topic, quantity: quantity })
-      // });
+      const response = await fetch("http://127.0.0.1:5000/api/mcq", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ topic: topic, quantity: quantity })
+      });
 
-      // const mcqs = response.mcqs.map(item => {
-      //   const lines = item.split('\n');
-      //   const question = lines[0];
-      //   const choices = lines.slice(1, lines.length - 1);
-      //   const correctAnswer = lines[lines.length - 1].replace('Correct answer: ', '');
+      const result = await response.json()
 
-      //   return {
-      //     question,
-      //     choices,
-      //     correctAnswer
-      //   };
-      // });
+      const mcqs = result.mcqs.map((item: string) => {
+        const lines = item.split('\n');
+        const question = lines[0];
+        const choices = lines.slice(1, lines.length - 1);
+        const correctAnswer = lines[lines.length - 1].replace('Correct answer: ', '');
 
-      const response = await mockApiCall(formData); // Thay thế đường dẫn API thực tế của bạn nếu cần
-      const mcqs = response.mcqs;
+        return {
+          question,
+          choices,
+          correctAnswer
+        };
+      });
 
       setMcqResult(mcqs);
     } catch (error) {

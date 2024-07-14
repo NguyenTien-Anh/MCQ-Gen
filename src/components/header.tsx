@@ -7,7 +7,7 @@ export const Header = () => {
         <h2 className="font-bold text-lg">📚 Quiz Generator</h2>
 
         <Button>
-          <a href="https://github.com/khoido2003/quiz-generator">
+          <a href="https://github.com/NguyenTien-Anh/MCQ-Gen">
             Star on Github ❤
           </a>
         </Button>
