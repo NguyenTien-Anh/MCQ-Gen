@@ -4,135 +4,88 @@ import JSZip from "jszip";
 import { Document as DocxDocument } from "docx";
 
 // Set up PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js`;
-
-// Mock API call: TEST RESULTS - cái này là dữ liệu mẫu tôi để đấy để ô test frontend mà ko cần kết nối backend, khi nòa có backend thì xóa đoạn này đi là dc
-
-const mockApiCall = async (formData: FormData) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        mcqs: [
-          {
-            question: "What is the capital of France?",
-            choices: ["Paris", "Berlin", "London", "Rome"],
-            correctAnswer: "Paris",
-          },
-          {
-            question: "Explain the theory of relativity.",
-            choices: [
-              "Albert Einstein",
-              "Isaac Newton",
-              "Stephen Hawking",
-              "Marie Curie",
-            ],
-            correctAnswer: "Albert Einstein",
-          },
-          {
-            question: "What is 2 + 2?",
-            choices: ["1", "2", "3", "4"],
-            correctAnswer: "4",
-          },
-          {
-            question: "Who wrote 'To Kill a Mockingbird'?",
-            choices: [
-              "Harper Lee",
-              "Mark Twain",
-              "J.K. Rowling",
-              "Jane Austen",
-            ],
-            correctAnswer: "Harper Lee",
-          },
-        ],
-      });
-    }, 5000);
-  });
-};
-
-//////////////////////////////////////////////////////////////////
-
-// THIS IS THE MAIN CODE THAT HANDLE THE UI
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
 
 export const MainContent = () => {
-  const [selectedFileName, setSelectedFileName] =
-    useState<string>("No file chosen");
-  const [fileContent, setFileContent] = useState<string | null>(null);
+  // const [selectedFileName, setSelectedFileName] =
+  //   useState<string>("No file chosen");
+  // const [fileContent, setFileContent] = useState<string | null>(null);
   const [inputText, setInputText] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
-  const [difficulty, setDifficulty] = useState<string>("Easy");
+  const [difficulty, setDifficulty] = useState<string>("auto");
   const [mcqResult, setMcqResult] = useState<any[]>([]);
-  const [previewData, setPreviewData] = useState<string | null>(null);
+  // const [previewData, setPreviewData] = useState<string | null>(null);
   const [isFileUpload, setIsFileUpload] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleFileInputChange = async (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const fileType = file.type;
+  // const handleFileInputChange = async (
+  //   event: ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     const fileType = file.type;
 
-      if (fileType === "application/pdf") {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onload = async () => {
-          try {
-            const typedArray = new Uint8Array(reader.result as ArrayBuffer);
-            const pdf = await pdfjsLib.getDocument({ data: typedArray })
-              .promise;
-            let textContent = "";
-            for (let i = 1; i <= pdf.numPages; i++) {
-              const page = await pdf.getPage(i);
-              const text = await page.getTextContent();
-              text.items.forEach((item: any) => {
-                textContent += item.str + " ";
-              });
-            }
-            setFileContent(textContent);
-          } catch (error) {
-            console.error("Error reading PDF file:", error);
-            setFileContent(
-              "Error reading PDF file. Check console for details."
-            );
-          }
-        };
-      } else if (fileType === "text/plain") {
-        const reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => {
-          setFileContent(reader.result as string);
-        };
-      } else if (
-        fileType ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) {
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(file);
-        reader.onload = async () => {
-          try {
-            const zip = new JSZip();
-            const content = await zip.loadAsync(reader.result as ArrayBuffer);
-            const doc = await DocxDocument.load(content);
-            let paragraphs = "";
-            doc.paragraphs.forEach((paragraph) => {
-              paragraphs += paragraph.text + "\n";
-            });
-            setFileContent(paragraphs);
-          } catch (error) {
-            console.error("Error reading DOCX file:", error);
-            setFileContent(
-              "Error reading DOCX file. Check console for details."
-            );
-          }
-        };
-      }
+  //     if (fileType === "application/pdf") {
+  //       const reader = new FileReader();
+  //       reader.readAsArrayBuffer(file);
+  //       reader.onload = async () => {
+  //         try {
+  //           const typedArray = new Uint8Array(reader.result as ArrayBuffer);
+  //           const pdf = await pdfjsLib.getDocument({ data: typedArray })
+  //             .promise;
+  //           let textContent = "";
+  //           for (let i = 1; i <= pdf.numPages; i++) {
+  //             const page = await pdf.getPage(i);
+  //             const text = await page.getTextContent();
+  //             text.items.forEach((item: any) => {
+  //               textContent += item.str + " ";
+  //             });
+  //           }
+  //           setFileContent(textContent);
+  //         } catch (error) {
+  //           console.error("Error reading PDF file:", error);
+  //           setFileContent(
+  //             "Error reading PDF file. Check console for details."
+  //           );
+  //         }
+  //       };
+  //     } else if (fileType === "text/plain") {
+  //       const reader = new FileReader();
+  //       reader.readAsText(file);
+  //       reader.onload = () => {
+  //         setFileContent(reader.result as string);
+  //       };
+  //     } else if (
+  //       fileType ===
+  //       "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  //     ) {
+  //       const reader = new FileReader();
+  //       reader.readAsArrayBuffer(file);
+  //       reader.onload = async () => {
+  //         try {
+  //           const zip = new JSZip();
+  //           const content = await zip.loadAsync(reader.result as ArrayBuffer);
+  //           const doc = await DocxDocument.load(content);
+  //           let paragraphs = "";
+  //           doc.paragraphs.forEach((paragraph) => {
+  //             paragraphs += paragraph.text + "\n";
+  //           });
+  //           setFileContent(paragraphs);
+  //         } catch (error) {
+  //           console.error("Error reading DOCX file:", error);
+  //           setFileContent(
+  //             "Error reading DOCX file. Check console for details."
+  //           );
+  //         }
+  //       };
+  //     }
 
-      setSelectedFileName(file.name);
-    } else {
-      setSelectedFileName("No file chosen");
-    }
-  };
+  //     setSelectedFileName(file.name);
+  //   } else {
+  //     setSelectedFileName("No file chosen");
+  //   }
+  // };
 
   const handleFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -157,10 +110,7 @@ export const MainContent = () => {
     try {
       const response = await fetch("http://127.0.0.1:5000/api/mcq", {
         method: "POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ topic: topic, quantity: quantity })
+        body: formData
       });
 
       const result = await response.json()
@@ -169,7 +119,7 @@ export const MainContent = () => {
         const lines = item.split('\n');
         const question = lines[0];
         const choices = lines.slice(1, lines.length - 1);
-        const correctAnswer = lines[lines.length - 1].replace('Correct answer: ', '');
+        const correctAnswer = lines[lines.length - 1];
 
         return {
           question,
@@ -186,16 +136,16 @@ export const MainContent = () => {
     }
   };
 
-  const handlePreview = () => {
-    const preview = `
-      Topic: ${topic}
-      Quantity: ${quantity}
-      Difficulty: ${difficulty}
-      File: ${selectedFileName}
-      Input Text: ${isFileUpload ? "N/A" : inputText}
-    `;
-    setPreviewData(preview);
-  };
+  // const handlePreview = () => {
+  //   const preview = `
+  //     Topic: ${topic}
+  //     Quantity: ${quantity}
+  //     Difficulty: ${difficulty}
+  //     File: ${selectedFileName}
+  //     Input Text: ${isFileUpload ? "N/A" : inputText}
+  //   `;
+  //   setPreviewData(preview);
+  // };
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col items-center py-10">
@@ -239,8 +189,10 @@ export const MainContent = () => {
                   type="file"
                   id="fileInput"
                   className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded file:text-sm file:font-medium file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
-                  accept=".pdf,.txt,.docx"
-                  onChange={handleFileInputChange}
+                  accept=".pdf"
+                  // accept=".pdf,.txt,.docx"
+                  // onChange={handleFileInputChange}
+                  disabled={loading}
                 />
                 {/* <p className="text-gray-500 mt-2">{selectedFileName}</p> */}
               </label>
@@ -252,6 +204,7 @@ export const MainContent = () => {
                   onChange={(e) => setInputText(e.target.value)}
                   className="block w-full p-2 border border-gray-300 rounded"
                   rows={4}
+                  disabled={loading}
                 />
               </label>
             )}
@@ -267,6 +220,8 @@ export const MainContent = () => {
                 value={topic}
                 onChange={(e) => setTopic(e.target.value)}
                 className="block w-full p-2 border border-gray-300 rounded"
+                required
+                disabled={loading}
               />
             </label>
             <div className="flex space-x-4">
@@ -275,9 +230,12 @@ export const MainContent = () => {
                 <input
                   type="number"
                   id="quantity"
+                  min={1}
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
                   className="block w-full p-2 border border-gray-300 rounded"
+                  required
+                  disabled={loading}
                 />
               </label>
               <label className="block flex-1">
@@ -286,10 +244,12 @@ export const MainContent = () => {
                   value={difficulty}
                   onChange={(e) => setDifficulty(e.target.value)}
                   className="block w-full p-2 border border-gray-300 rounded"
+                  disabled={loading}
                 >
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
+                  <option value="auto">Auto</option>
+                  <option value="dễ">Easy</option>
+                  <option value="trung bình">Medium</option>
+                  <option value="cao">Hard</option>
                 </select>
               </label>
             </div>
@@ -305,7 +265,7 @@ export const MainContent = () => {
               className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 mt-2"
               disabled={loading}
             >
-              {loading ? "Submitting..." : "Submit"}
+              {loading ? "Generating..." : "Submit"}
             </button>
           </div>
         </form>
@@ -323,30 +283,28 @@ export const MainContent = () => {
               {previewData}
             </pre>
           </div>
-        )} */}
+        )} 
 
-        {/* <div className="border border-gray-300 rounded-lg p-4 mt-6">
+        <div className="border border-gray-300 rounded-lg p-4 mt-6">
           <h2 className="text-lg font-medium mb-2">File Content</h2>
           <pre className="bg-gray-50 p-4 border border-gray-200 rounded overflow-auto">
             {fileContent || "No content available"}
           </pre>
         </div> */}
 
-        <div className="border border-gray-300 rounded-lg p-4 mt-6">
-          <h2 className="text-lg font-medium mb-2">MCQ Results</h2>
+        {!loading ? (<div className="border border-gray-300 rounded-lg p-4 mt-6">
+          <h2 className="text-lg font-medium mb-2">Results</h2>
           {mcqResult.length > 0 ? (
             mcqResult.map((mcq, index) => (
               <div key={index} className="mb-4">
-                <p className="font-medium">{mcq.question}</p>
-                <ul className="list-disc list-inside">
+                <p className="font-medium">{index+1}. {mcq.question}</p>
                   {mcq.choices.map((choice, idx) => (
-                    <li key={idx} className="ml-4">
+                    <p key={idx} className="ml-4">
                       {choice}
-                    </li>
+                    </p>
                   ))}
-                </ul>
-                <p className="text-sm text-gray-600">
-                  Correct Answer:{" "}
+                <p className="text-gray-600">
+                  {/* Correct Answer:{" "} */}
                   <span className="font-semibold">{mcq.correctAnswer}</span>
                 </p>
               </div>
@@ -355,10 +313,13 @@ export const MainContent = () => {
             <p className="text-center">No results available</p>
           )}
         </div>
+        ) : (
+          <p className="text-center">Please wait</p>
+        )}
       </div>
       <footer className="mt-8 text-gray-500 text-sm">
         <p className="text-center">
-          Designed and Crafted by Nguyen Tien Anh
+        By Nguyen Tien Anh & Ngo Tien Duc
         </p>
       </footer>
     </div>
