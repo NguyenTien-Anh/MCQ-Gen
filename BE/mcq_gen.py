@@ -1,9 +1,3 @@
-# !pip install llama-index
-# !pip install llama-index-llms-anthropic
-# !pip install llama-index-llms-mistralai
-# !pip install -q --upgrade google-generativeai langchain-google-genai chromadb pypdf
-# !pip install langchain-community langchain-core
-
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
@@ -11,14 +5,6 @@ from llama_index.core import VectorStoreIndex, Document
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core import Settings
 from llama_index.core import PromptTemplate
-# import warnings
-# from langchain import PromptTemplate as PromptTemplateLangchain
-# from langchain.vectorstores import Chroma
-# from langchain.text_splitter import RecursiveCharacterTextSplitter
-# from langchain.docstore.document import Document as GeminiDocument
-# from langchain.chains import RetrievalQA
-# from langchain_google_genai import GoogleGenerativeAIEmbeddings
-# from langchain_google_genai import ChatGoogleGenerativeAI
 from PyPDF2 import PdfReader
 from dotenv import load_dotenv
 import os
@@ -106,14 +92,17 @@ B. Đáp án 2
 C. Đáp án 3
 D. Đáp án 4
 Đáp án đúng: (Chỉ ra đáp án đúng)
-
+HÃY CHẮC CHẮN CÂU HỎI TRẮC NGHIỆM ĐƯỢC VIẾT BẰNG TIẾNG VIỆT.
 ## Current Conversation
 Dưới đây là cuộc trò chuyện hiện tại bao gồm các tin nhắn của con người và trợ lý xen kẽ nhau.
 
 """
 
 data = None
-
+def check(s):
+    if s.find("A.") & s.find("B.") & s.find("C.") & s.find("D.") & s.find("Đáp án"):
+        return True
+    return False
 
 def read_pdf_file(file):
     print('----------------file-pdf---------------')
@@ -233,28 +222,6 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status):
                                          llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
                                          max_tokens=-1)
 
-    # Gemini
-    # warnings.filterwarnings("ignore")
-    # restart python kernal if issues with langchain import.
-    # model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.1,convert_system_message_to_human=True)
-    # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-    # gemini_documents = [GeminiDocument(page_content=file_content)]
-    # gemini_text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=1000)
-    # context = "\n\n".join(str(p.page_content) for p in gemini_documents)
-    # texts = gemini_text_splitter.split_text(context)
-    # vector_index = Chroma.from_texts(texts, embeddings).as_retriever(search_kwargs={"k":3})
-
-    # template = """
-    # Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ 1 chủ đề hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm.
-    # Từ chủ đề được đưa vào, hãy chọn ra một số nội dung có thể tạo câu hỏi trắc nghiệm.
-    # Đảm bảo định dạng câu trả lời là các nội dung được để định dạng kiểu list trong python.
-    # Ví dụ: ["nội dung 1", "nội dung 2", "nội dung 3", "nội dung 4"]
-    # \nVăn bản đầu vào (Context): {context}
-    # \nCâu hỏi (Question): {question}
-    # \nCâu trả lời (Answer):"""
-    # QA_CHAIN_PROMPT = PromptTemplateLangchain.from_template(template)
-    # qa_chain = RetrievalQA.from_chain_type(model, retriever=vector_index, return_source_documents=True, chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
-
     query_engine_tools = [
         QueryEngineTool(
             query_engine=query_engine1,
@@ -307,21 +274,26 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status):
     agent.update_prompts({"agent_worker:system_prompt": react_system_prompt})
     agent.reset()
 
-    # select_topic_prompt = "Chọn " + str(quantity) +  " nội dung liên quan đến chủ đề bất kì" + topic
-    # result = qa_chain({"query": select_topic_prompt})
-    # subTopics = result["result"][1:-1]
-    # print(subTopics)
-
     mcqs = []
     for s in subTopics.split(","):
-        prompt = " Tạo 1 câu hỏi trắc nghiệm có nội dung liên quan đến " + s
-        if difficulty != "auto":
-            prompt = prompt + " có độ khó ở mức " + str(difficulty)
-        prompt = prompt + ", sau đó sử dụng công cụ kiểm tra lại."
-        print("In ra prompt: ")
-        print(prompt)
-        question = agent.chat(prompt)
-        mcqs.append(str(question))
+        kq=""
+        while True: 
+            prompt = " Tạo 1 câu hỏi trắc nghiệm có nội dung liên quan đến " + s +" trong chủ đề "+topic
+            if difficulty == "dễ":
+                prompt = prompt + " có độ khó ở mức dễ. Câu hỏi yêu cầu kiến thức cơ bản hoặc phổ biến mà hầu hết mọi người trong lĩnh vực đó có thể trả lời mà không cần suy nghĩ nhiều."
+            if difficulty == "trung bình":
+                prompt = prompt + " có độ khó ở mức trung bình. Câu hỏi yêu cầu kiến thức hơi nâng cao một chút, có thể cần một chút tư duy hoặc hiểu biết sâu hơn trong lĩnh vực đó."
+            if difficulty == "cao":
+                prompt = prompt + " có độ khó ở mức khó. Câu hỏi yêu cầu kiến thức chuyên sâu, có thể đòi hỏi người trả lời phải có kinh nghiệm thực tế hoặc nghiên cứu kỹ lưỡng để trả lời chính xác."
+            prompt = prompt + ", sau đó sử dụng công cụ kiểm tra lại."
+            print("In ra prompt: ")
+            print(prompt)
+            question = agent.chat(prompt)
+            if check(str(question)): 
+                kq=question
+                break
+                
+        mcqs.append(str(kq))
     return mcqs
 
 
