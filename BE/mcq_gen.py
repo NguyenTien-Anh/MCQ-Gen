@@ -149,7 +149,7 @@ def select_topic(topic, quantity):
     print('subTopics:', subTopics)
     return subTopics
 def check(s):
-    if s.find("A.") and s.find("B.") and s.find("C.") and s.find("D.") and s.lower().find("đáp án"):
+    if s.startswith("Câu") and s.find("A.")!=-1 and s.find("B.")!=-1 and s.find("C.")!=-1 and s.find("D.")!=-1 and s.lower().find("đáp án")!=-1:
         return True
     return False
 
