@@ -7,9 +7,7 @@ from llama_index.core import Settings
 from llama_index.core import PromptTemplate
 from PyPDF2 import PdfReader
 from dotenv import load_dotenv
-import os
 from docx import Document as DocxDocument
-import win32com
 
 load_dotenv()
 
@@ -92,15 +90,66 @@ B. Đáp án 2
 C. Đáp án 3
 D. Đáp án 4
 Đáp án đúng: (Chỉ ra đáp án đúng)
-HÃY CHẮC CHẮN CÂU HỎI TRẮC NGHIỆM ĐƯỢC VIẾT BẰNG TIẾNG VIỆT.
+
+
+---
+HÃY CHẮC CHẮN CÂU HỎI TRẮC NGHIỆM ĐƯỢC VIẾT BẰNG TIẾNG VIỆT VÀ ĐÚNG ĐỊNH DẠNG TRÊN. 
 ## Current Conversation
 Dưới đây là cuộc trò chuyện hiện tại bao gồm các tin nhắn của con người và trợ lý xen kẽ nhau.
 
 """
 
 data = None
+def select_topic(topic, quantity):
+    PROMPT_TEMPLATE0 = (
+        "Dưới đây là một chủ đề về một môn học."
+        "\n -----------------------------\n"
+        "{context_str}"
+        "\n -----------------------------\n"
+        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề được yêu cầu, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm."
+        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể."
+        "Các nội dung được chọn phải có liên quan đến chủ đề được yêu cầu, được viết khái quát và ngắn gọn."
+        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python."
+        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]"
+        "Đưa ra danh sách nội dung: {query_str}"
+    )
+    QA_PROMPT0 = PromptTemplate(PROMPT_TEMPLATE0)
+
+    PROMPT_TEMPLATE0_other = (
+        "Dưới đây là một chủ đề về một môn học."
+        "\n -----------------------------\n"
+        "{context_str}"
+        "\n -----------------------------\n"
+        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề mà bạn tự chọn ra, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm."
+        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể."
+        "Các nội dung được chọn phải có liên quan đến chủ đề đã chọn, được viết khái quát và ngắn gọn."
+        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python."
+        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]"
+        "Đưa ra danh sách nội dung: {query_str}"
+    )
+
+    QA_PROMPT0_other = PromptTemplate(PROMPT_TEMPLATE0_other)
+    select_topic_prompt = ''
+    query_engine0 = ''
+    if topic != '':
+        select_topic_prompt ="Hãy chọn " + str(
+            quantity) + " nội dung liên quan đến chủ đề \"" + topic + "\" và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
+        query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0,
+                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             max_tokens=-1)
+    else:
+        select_topic_prompt = "Hãy chọn " + str(
+            quantity) + " nội dung bất kì trong dữ liệu bạn có và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
+        query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
+                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             max_tokens=-1)
+    print('select_topic_prompt:', select_topic_prompt)
+    response = query_engine0.query(select_topic_prompt)
+    subTopics = str(response)[1:-1]
+    print('subTopics:', subTopics)
+    return subTopics
 def check(s):
-    if s.find("A.") & s.find("B.") & s.find("C.") & s.find("D.") & s.find("Đáp án"):
+    if s.find("A.") and s.find("B.") and s.find("C.") and s.find("D.") and s.lower().find("đáp án"):
         return True
     return False
 
@@ -153,67 +202,8 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status):
         data = VectorStoreIndex.from_documents(documents=gpt_documents, transformations=[text_splitter])
 
     print('tạo câu hỏi')
-    template_0 = """
-    Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề được yêu cầu, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm.
-    Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể.
-    Các nội dung được chọn phải có liên quan đến chủ đề được yêu cầu, được viết khái quát và ngắn gọn.
-    Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python.
-    Ví dụ: ["nội dung 1", "nội dung 2", "nội dung 3",...]"""
 
-    template_0_other = """
-        Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, hãy tự lựa chọn một chủ đề và tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm.
-        Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể.
-        Các nội dung được chọn phải có liên quan đến chủ đề bạn nghĩ ra, được viết khái quát và ngắn gọn.
-        Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python.
-        Ví dụ: ["nội dung 1", "nội dung 2", "nội dung 3",...]"""
-
-    PROMPT_TEMPLATE0 = (
-        "Dưới đây là một chủ đề về một môn học."
-        "\n -----------------------------\n"
-        "{context_str}"
-        "\n -----------------------------\n"
-        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề được yêu cầu, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm."
-        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể."
-        "Các nội dung được chọn phải có liên quan đến chủ đề được yêu cầu, được viết khái quát và ngắn gọn."
-        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python."
-        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]"
-        "Đưa ra danh sách nội dung: {query_str}"
-    )
-    QA_PROMPT0 = PromptTemplate(PROMPT_TEMPLATE0)
-
-    PROMPT_TEMPLATE0_other = (
-        "Dưới đây là một chủ đề về một môn học."
-        "\n -----------------------------\n"
-        "{context_str}"
-        "\n -----------------------------\n"
-        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề mà bạn tự chọn ra, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm."
-        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể."
-        "Các nội dung được chọn phải có liên quan đến chủ đề đã chọn, được viết khái quát và ngắn gọn."
-        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python."
-        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]"
-        "Đưa ra danh sách nội dung: {query_str}"
-    )
-
-    QA_PROMPT0_other = PromptTemplate(PROMPT_TEMPLATE0_other)
-    select_topic_prompt = ''
-    query_engine0 = ''
-    if topic != '':
-        select_topic_prompt = template_0 + "\nYêu cầu: Hãy chọn " + str(
-            quantity) + " nội dung liên quan đến chủ đề \"" + topic + "\" và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
-        query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
-                                             max_tokens=-1)
-    else:
-        select_topic_prompt = template_0_other + "\nYêu cầu: Hãy chọn " + str(
-            quantity) + " nội dung liên quan chủ đề mà bạn tự chọn và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
-        query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
-                                             max_tokens=-1)
-    print('select_topic_prompt:', select_topic_prompt)
-    response = query_engine0.query(select_topic_prompt)
-    subTopics = str(response)[1:-1]
-    print('subTopics:', subTopics)
-
+    
     # GPT
     query_engine1 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT1,
                                          llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.5, max_tokens=512),
@@ -273,18 +263,23 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status):
     react_system_prompt = PromptTemplate(react_system_header_str)
     agent.update_prompts({"agent_worker:system_prompt": react_system_prompt})
     agent.reset()
-
+    subTopics=select_topic(topic, quantity)
+    list_topic=subTopics.split("',")
+    while len(list_topic)<int(quantity): 
+        subTopics=select_topic(topic, quantity )
+        list_topic=subTopics.split("',")
     mcqs = []
-    for s in subTopics.split(","):
+    for i in range(0,int(quantity)):
+        s=list_topic[i]
         kq=""
         while True: 
             prompt = " Tạo 1 câu hỏi trắc nghiệm có nội dung liên quan đến " + s +" trong chủ đề "+topic
             if difficulty == "dễ":
-                prompt = prompt + " có độ khó ở mức dễ. Câu hỏi yêu cầu kiến thức cơ bản hoặc phổ biến mà hầu hết mọi người trong lĩnh vực đó có thể trả lời mà không cần suy nghĩ nhiều."
+                prompt = prompt + " có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản."
             if difficulty == "trung bình":
-                prompt = prompt + " có độ khó ở mức trung bình. Câu hỏi yêu cầu kiến thức hơi nâng cao một chút, có thể cần một chút tư duy hoặc hiểu biết sâu hơn trong lĩnh vực đó."
+                prompt = prompt + " có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng."
             if difficulty == "cao":
-                prompt = prompt + " có độ khó ở mức khó. Câu hỏi yêu cầu kiến thức chuyên sâu, có thể đòi hỏi người trả lời phải có kinh nghiệm thực tế hoặc nghiên cứu kỹ lưỡng để trả lời chính xác."
+                prompt = prompt + " có độ khó ở mức khó. Câu hỏi khó là câu hỏi dễ gây nhầm lẫn, đòi hỏi sự suy luận của người dùng. "
             prompt = prompt + ", sau đó sử dụng công cụ kiểm tra lại."
             print("In ra prompt: ")
             print(prompt)
