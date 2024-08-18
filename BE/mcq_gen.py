@@ -292,11 +292,4 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status):
     return mcqs
 
 
-if __name__ == "__main__":
-    topic = 'Thao tác với File'
-    quantity = 1
-    difficulty = 'easy'
-    file = None
-    inputText = ''
-    result = mcqGen(topic, quantity, difficulty, file, inputText)
-    print(result)
+
