@@ -25,6 +25,23 @@ PROMPT_TEMPLATE1 = (
 )
 QA_PROMPT1 = PromptTemplate(PROMPT_TEMPLATE1)
 
+PROMPT_TEMPLATE_BLOOM = (
+    "Dưới đây là một câu hỏi về môn học cơ sở dữ liệu."
+    "\n -----------------------------\n"
+    "{context_str}"
+    "\n -----------------------------\n"
+    "Bạn là một chuyên gia về giảng dạy cơ sở dữ liệu, hãy đánh giá câu hỏi tôi đưa vào theo thang đo bloom. Với thang đo bloom có 6 level như sau,"
+    "Remember (Nhớ lại thông tin, sự kiện, thuật ngữ cơ bản): Ví dụ: Học sinh liệt kê các thành phần hóa học của nước (H2O gồm hai nguyên tử hydro và một nguyên tử oxy)."
+    "Understand (Hiểu ý nghĩa của một khái niệm đơn lẻ): Ví dụ: Học sinh giải thích tại sao quá trình quang hợp cần ánh sáng mặt trời để tạo ra năng lượng cho cây."
+    "Apply (Sử dụng thông tin đã biết trong các tình huống khác nhau): Ví dụ: Học sinh sử dụng định luật Newton về chuyển động để giải quyết một bài toán liên quan đến lực và gia tốc của một vật trong một tình huống mới."
+    "Analyze (Phân tích thông tin thành các phần và hiểu mối quan hệ giữa chúng): Ví dụ: Học sinh phân tích một đoạn văn và chia nhỏ các yếu tố như chủ đề chính, luận điểm phụ và bằng chứng hỗ trợ."
+    "Evaluate (Đánh giá giá trị của ý tưởng hoặc quan điểm): Ví dụ: Học sinh đánh giá độ tin cậy của hai nguồn tin khác nhau về biến đổi khí hậu, đưa ra lý do tại sao một nguồn có thể đáng tin cậy hơn nguồn kia."
+    "Create (Tạo ra hoặc kết hợp kiến thức để đề xuất các giải pháp thay thế): Ví dụ: Học sinh thiết kế một mô hình năng lượng tái tạo mới bằng cách kết hợp các kiến thức về năng lượng gió và năng lượng mặt trời để cung cấp điện cho một ngôi làng nhỏ."
+    "Đưa ra câu trả lời là 1 level đánh giá và không cần giải thích: {query_str}"
+)
+QA_PROMPT_BLOOM = PromptTemplate(PROMPT_TEMPLATE_BLOOM)
+
+
 PROMPT_TEMPLATE2 = (
     "Đầu vào là 1 câu hỏi trắc nghiệm."
     "\n -----------------------------\n"
@@ -180,7 +197,7 @@ def read_txt_file(file):
     return file_content
 
 
-def mcqGen(topic, quantity, difficulty, file, inputText, status):
+def mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice):
     global data
     if status == 'true':
         print('tạo data')
@@ -287,8 +304,16 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status):
             if check(str(question)): 
                 kq=question
                 break
-                
-        mcqs.append(str(kq))
+        print("aaaaaaaaaa")
+        query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
+                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             max_tokens=-1)  
+        bloom = query_engine_bloom.query(str(kq))
+        print("bbbbbbbbbbb")
+        print(str(bloom))
+        kq=str(kq)+"Đánh giá: "+ str(bloom)
+        print(kq)
+        mcqs.append(kq )
     return mcqs
 
 
