@@ -11,9 +11,13 @@ export const MainContent = () => {
   const [isFileUpload, setIsFileUpload] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<boolean>(false);
-  const [isSingleChoice, setIsSingleChoice] = useState<boolean>(true);
+  const [questionType, setQuestionType] = useState<string>("singleChoice");
 
   const resultRef = useRef<HTMLDivElement>(null);
+
+  const handleQuestionTypeChange = (type: string) => {
+    setQuestionType(type);
+  };
 
   useEffect(() => {
     if (mcqResult.length > 0 && resultRef.current) {
@@ -33,7 +37,7 @@ export const MainContent = () => {
   };
 
   const handleFormSubmit = async (event: FormEvent) => {
-    
+
 
     event.preventDefault();
     setLoading(true);
@@ -43,7 +47,7 @@ export const MainContent = () => {
     formData.append("quantity", quantity.toString());
     formData.append("difficulty", difficulty);
     formData.append("status", status.toString());
-    formData.append("isSingleChoice", isSingleChoice.toString());
+    formData.append("questionType", questionType);
 
     if (isFileUpload) {
       const fileInput = document.getElementById("fileInput") as HTMLInputElement;
@@ -80,7 +84,7 @@ export const MainContent = () => {
 
       setMcqResult(mcqs);
       setStatus(false); // Reset status after successful form submission
-      
+
     } catch (error) {
       setMcqResult([{ error: (error as Error).message }]);
     } finally {
@@ -166,28 +170,38 @@ export const MainContent = () => {
           <div className="border border-gray-300 rounded-lg p-4">
             <h2 className="text-lg font-medium mb-2">Question type</h2>
             <div className="flex items-center mb-4">
-                <input
-                  type="radio"
-                  id="singleChoice"
-                  checked={isSingleChoice}
-                  onChange={() => setIsSingleChoice(true)}
-                  className="ml-4 mr-2"
-                />
-                <label htmlFor="singleChoice" className="text-gray-700">
-                  Single choice
-                </label>
-                <input
-                  type="radio"
-                  id="multipleChoice"
-                  checked={!isSingleChoice}
-                  onChange={() => setIsSingleChoice(false)}
-                  className="ml-4 mr-2"
-                />
-                <label htmlFor="multipleChoice" className="text-gray-700">
-                  Multiple choice
-                </label>
-              </div>
+              <input
+                type="radio"
+                id="singleChoice"
+                checked={questionType === "singleChoice"}
+                onChange={() => handleQuestionTypeChange("singleChoice")}
+                className="ml-4 mr-2"
+              />
+              <label htmlFor="singleChoice" className="text-gray-700">
+                Single choice
+              </label>
+              <input
+                type="radio"
+                id="multipleChoice"
+                checked={questionType === "multipleChoice"}
+                onChange={() => handleQuestionTypeChange("multipleChoice")}
+                className="ml-4 mr-2"
+              />
+              <label htmlFor="multipleChoice" className="text-gray-700">
+                Multiple choice
+              </label>
+              <input
+                type="radio"
+                id="trueFalse"
+                checked={questionType === "trueFalse"}
+                onChange={() => handleQuestionTypeChange("trueFalse")}
+                className="ml-4 mr-2"
+              />
+              <label htmlFor="trueFalse" className="text-gray-700">
+                True/False Question
+              </label>
             </div>
+          </div>
 
           <div className="border border-gray-300 rounded-lg p-4 mt-4">
             <h2 className="text-lg font-medium mb-2">MCQ Parameters</h2>

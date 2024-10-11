@@ -197,7 +197,7 @@ def read_txt_file(file):
     return file_content
 
 
-def mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice):
+def mcqGen(topic, quantity, difficulty, file, inputText, status, questionType):
     global data
     if status == 'true':
         print('tạo data')

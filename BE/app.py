@@ -21,16 +21,16 @@ def mcq():
     file = request.files['file'] if 'file' in request.files else None
     inputText = data.get('inputText')
     status = data.get('status')
-    isSingleChoice = data.get('isSingleChoice')
+    questionType = data.get('questionType')
 
     print('topic:', topic)
     print('quantity:', quantity)
     print('difficulty:', difficulty)
     print('status:', status)
-    print('isSingleChoice:', isSingleChoice)
+    print('questionType:', questionType)
 
     try:
-        mcqs = mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice)
+        mcqs = mcqGen(topic, quantity, difficulty, file, inputText, status, questionType)
 
         return jsonify({'mcqs': mcqs})
     except ValueError:
