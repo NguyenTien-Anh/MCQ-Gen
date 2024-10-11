@@ -16,11 +16,11 @@ text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
 Settings.text_splitter = text_splitter
 
 PROMPT_TEMPLATE1 = (
-    "Dưới đây là một chủ đề về một môn học."
+    "Dưới đây là một chủ đề về môn học cơ sở dữ liệu."
     "\n -----------------------------\n"
     "{context_str}"
     "\n -----------------------------\n"
-    "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm gồm 4 đáp án dựa trên chủ đề đưa vào và chỉ ra đáp án đúng."
+    "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên chủ đề đưa vào và chỉ ra đáp án đúng."
     "Tạo câu hỏi về chủ đề là:  {query_str}"
 )
 QA_PROMPT1 = PromptTemplate(PROMPT_TEMPLATE1)
@@ -49,13 +49,13 @@ PROMPT_TEMPLATE2 = (
     "\n -----------------------------\n"
     "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn."
     "Đầu ra là 1 lời đánh giá và một câu hỏi trắc nghiệm. Hãy đánh giá và cập nhật câu hỏi:  {query_str}."
-    "Đảm bảo định dạng phản hồi là 1 lời đánh giá và 1 câu hỏi trắc nghiệm có 4 đáp án lựa chọn, sau đó chỉ rõ đáp án đúng."
+    "Đảm bảo định dạng phản hồi là 1 lời đánh giá và 1 câu hỏi trắc nghiệm, sau đó chỉ rõ đáp án đúng."
 )
 QA_PROMPT2 = PromptTemplate(PROMPT_TEMPLATE2)
 
 react_system_header_str = """\
 Bạn được thiết kế để phục vụ một chức năng duy nhất: tạo ra các câu hỏi trắc nghiệm.\
-Đáp án cuối cùng bạn cần đưa ra là một câu hỏi trắc nghiệm với bốn lựa chọn và chỉ định câu trả lời đúng.\
+Đáp án cuối cùng bạn cần đưa ra là một câu hỏi trắc nghiệm theo yêu cầu và chỉ định câu trả lời đúng.\
 
 ## Tools
 Bạn có quyền truy cập vào nhiều công cụ khác nhau.
@@ -90,7 +90,7 @@ mà không cần sử dụng thêm bất kỳ công cụ nào. Lúc đó bạn P
 
 ```
 Thought: Tôi có thể đưa ra câu hỏi trắc nghiệm, mà không cần sử dụng thêm bất kỳ công cụ nào.
-Answer: Câu trả lời phải là một câu hỏi trắc nghiệm với bốn lựa chọn và chỉ định câu trả lời đúng.  [câu trả lời ở đây]
+Answer: Câu trả lời phải là một câu hỏi trắc nghiệm và chỉ định câu trả lời đúng.  [câu trả lời ở đây]
 ```
 
 ```
@@ -99,16 +99,26 @@ Answer: Xin lỗi, tôi không thể trả lời yêu cầu của bạn.
 ```
 
 ## Additional Rules
-- Câu trả lời PHẢI là một câu hỏi trắc nghiệm với bốn lựa chọn và chỉ định câu trả lời đúng, được viết bằng tiếng việt.
-- Câu trả lời PHẢI có định dạng sau: 
+- Câu trả lời PHẢI là một câu hỏi trắc nghiệm và chỉ định câu trả lời đúng, được viết bằng tiếng việt.
+- Câu trả lời PHẢI thuộc một trong các định dạng sau: 
+----
 Câu hỏi: (Đưa ra câu hỏi)
 A. Đáp án 1
 B. Đáp án 2
 C. Đáp án 3
 D. Đáp án 4
 Đáp án đúng: (Chỉ ra đáp án đúng)
-
-
+---
+Câu hỏi: (Đưa ra câu hỏi)
+A. Đúng.
+B. Sai.
+---
+Câu hỏi: (Đưa ra câu hỏi)
+A. Đáp án 1
+B. Đáp án 2
+C. Đáp án 3
+D. Đáp án 4
+Đáp án đúng: (Chỉ ra cáp đáp đúng - khi câu hỏi là câu có nhiều đáp án đúng).
 ---
 HÃY CHẮC CHẮN CÂU HỎI TRẮC NGHIỆM ĐƯỢC VIẾT BẰNG TIẾNG VIỆT VÀ ĐÚNG ĐỊNH DẠNG TRÊN. 
 ## Current Conversation
@@ -118,20 +128,6 @@ Dưới đây là cuộc trò chuyện hiện tại bao gồm các tin nhắn c�
 
 data = None
 def select_topic(topic, quantity):
-    PROMPT_TEMPLATE0 = (
-        "Dưới đây là một chủ đề về một môn học."
-        "\n -----------------------------\n"
-        "{context_str}"
-        "\n -----------------------------\n"
-        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề được yêu cầu, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm."
-        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể."
-        "Các nội dung được chọn phải có liên quan đến chủ đề được yêu cầu, được viết khái quát và ngắn gọn."
-        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python."
-        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]"
-        "Đưa ra danh sách nội dung: {query_str}"
-    )
-    QA_PROMPT0 = PromptTemplate(PROMPT_TEMPLATE0)
-
     PROMPT_TEMPLATE0_other = (
         "Dưới đây là một chủ đề về một môn học."
         "\n -----------------------------\n"
@@ -151,7 +147,7 @@ def select_topic(topic, quantity):
     if topic != '':
         select_topic_prompt ="Hãy chọn " + str(
             quantity) + " nội dung liên quan đến chủ đề \"" + topic + "\" và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
-        query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0,
+        query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
                                              llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
     else:
@@ -166,7 +162,7 @@ def select_topic(topic, quantity):
     print('subTopics:', subTopics)
     return subTopics
 def check(s):
-    if s.startswith("Câu") and s.find("A.")!=-1 and s.find("B.")!=-1 and s.find("C.")!=-1 and s.find("D.")!=-1 and s.lower().find("đáp án")!=-1:
+    if s.startswith("Câu") and s.find("A.")!=-1 and s.find("B.")!=-1 and s.lower().find("đáp án")!=-1:
         return True
     return False
 
@@ -197,7 +193,7 @@ def read_txt_file(file):
     return file_content
 
 
-def mcqGen(topic, quantity, difficulty, file, inputText, status, questionType):
+def mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice):
     global data
     if status == 'true':
         print('tạo data')
@@ -218,7 +214,7 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, questionType):
         gpt_documents = [Document(text=content)]
         data = VectorStoreIndex.from_documents(documents=gpt_documents, transformations=[text_splitter])
 
-    print('tạo câu hỏi')
+    print('Tạo câu hỏi')
 
     
     # GPT
@@ -282,38 +278,41 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, questionType):
     agent.reset()
     subTopics=select_topic(topic, quantity)
     list_topic=subTopics.split("',")
-    while len(list_topic)<int(quantity): 
-        subTopics=select_topic(topic, quantity )
-        list_topic=subTopics.split("',")
+    if len(list_topic)<int(quantity):
+        print("Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này")
+    difficulty_dict={
+        "dễ": "Câu hỏi có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản.",
+        "trung bình": "Câu hỏi có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng.",
+        "cao": "Câu hỏi có độ khó ở mức khó. Câu hỏi khó là câu hỏi dễ gây nhầm lẫn, đòi hỏi sự suy luận của người dùng.",
+        "auto": ""
+    }
+    type_mcq_dict={
+        "single_choice": "Câu hỏi có định dạng gồm 1 câu hỏi, 4 câu trả lời và 1 đáp án đúng.",
+        "multi_choice": "Câu hỏi có định dạng gồm 1 câu hỏi, 4 câu trả lời và có ít nhất 2 đáp án đúng.",
+        "tf_question": "Câu hỏi có định dạng gồm 1 câu hỏi, 2 câu trả lời là đúng hoặc sai và 1 đáp án đúng."
+    }
+
     mcqs = []
     for i in range(0,int(quantity)):
         s=list_topic[i]
         kq=""
         while True: 
-            prompt = " Tạo 1 câu hỏi trắc nghiệm có nội dung liên quan đến " + s +" trong chủ đề "+topic
-            if difficulty == "dễ":
-                prompt = prompt + " có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản."
-            if difficulty == "trung bình":
-                prompt = prompt + " có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng."
-            if difficulty == "cao":
-                prompt = prompt + " có độ khó ở mức khó. Câu hỏi khó là câu hỏi dễ gây nhầm lẫn, đòi hỏi sự suy luận của người dùng. "
-            prompt = prompt + ", sau đó sử dụng công cụ kiểm tra lại."
+            prompt = " Tạo 1 câu hỏi trắc nghiệm có nội dung liên quan đến " + s +" trong chủ đề "+topic+ "của bộ môn cơ sở dữ liệu. Câu hỏi "+ difficulty_dict[difficulty]+ type_mcq_dict[questionType]
+            prompt = prompt + "Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
             print("In ra prompt: ")
             print(prompt)
             question = agent.chat(prompt)
             if check(str(question)): 
                 kq=question
                 break
-        print("aaaaaaaaaa")
         query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
                                              llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)  
-        bloom = query_engine_bloom.query(str(kq))
-        print("bbbbbbbbbbb")
-        print(str(bloom))
-        kq=str(kq)+"Đánh giá: "+ str(bloom)
-        print(kq)
-        mcqs.append(kq )
+        # bloom = query_engine_bloom.query(str(kq))
+        # kq=str(kq)+"Đánh giá: "+ str(bloom)
+        # print(kq)
+        kq=str(kq)
+        mcqs.append(kq)
     return mcqs
 
 
