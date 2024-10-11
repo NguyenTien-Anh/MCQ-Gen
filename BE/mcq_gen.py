@@ -193,7 +193,7 @@ def read_txt_file(file):
     return file_content
 
 
-def mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice):
+def mcqGen(topic, quantity, difficulty, file, inputText, status, questionType):
     global data
     if status == 'true':
         print('tạo data')
@@ -287,9 +287,9 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice)
         "auto": ""
     }
     type_mcq_dict={
-        "single_choice": "Câu hỏi có định dạng gồm 1 câu hỏi, 4 câu trả lời và 1 đáp án đúng.",
-        "multi_choice": "Câu hỏi có định dạng gồm 1 câu hỏi, 4 câu trả lời và có ít nhất 2 đáp án đúng.",
-        "tf_question": "Câu hỏi có định dạng gồm 1 câu hỏi, 2 câu trả lời là đúng hoặc sai và 1 đáp án đúng."
+        "singleChoice": "Câu hỏi có định dạng gồm 1 câu hỏi, 4 câu trả lời và 1 đáp án đúng.",
+        "multipleChoice": "Câu hỏi có định dạng gồm 1 câu hỏi, 4 câu trả lời và có ít nhất 2 đáp án đúng.",
+        "trueFalse": "Câu hỏi có định dạng gồm 1 câu hỏi, 2 câu trả lời là đúng hoặc sai và 1 đáp án đúng."
     }
 
     mcqs = []
@@ -305,9 +305,9 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, isSingleChoice)
             if check(str(question)): 
                 kq=question
                 break
-        query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
-                                             max_tokens=-1)  
+        # query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
+        #                                      llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+        #                                      max_tokens=-1)  
         # bloom = query_engine_bloom.query(str(kq))
         # kq=str(kq)+"Đánh giá: "+ str(bloom)
         # print(kq)
