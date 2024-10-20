@@ -179,7 +179,7 @@ export const MainContent = () => {
                 type="radio"
                 id="SingleChoice"
                 checked={questionType === "SingleChoice"}
-                onChange={() => handleQuestionTypeChange("SingleChoice")}
+                onChange={() => {handleQuestionTypeChange("SingleChoice"), setNumAnswer(4)}}
                 className="ml-4 mr-2"
               />
               <label htmlFor="SingleChoice" className="text-gray-700">
@@ -189,7 +189,7 @@ export const MainContent = () => {
                 type="radio"
                 id="MultipleChoice"
                 checked={questionType === "MultipleChoice"}
-                onChange={() => handleQuestionTypeChange("MultipleChoice")}
+                onChange={() => {handleQuestionTypeChange("MultipleChoice"), setNumAnswer(4)}}
                 className="ml-4 mr-2"
               />
               <label htmlFor="MultipleChoice" className="text-gray-700">
@@ -199,13 +199,15 @@ export const MainContent = () => {
                 type="radio"
                 id="TrueFalse"
                 checked={questionType === "TrueFalse"}
-                onChange={() => handleQuestionTypeChange("TrueFalse")}
+                onChange={() => {handleQuestionTypeChange("TrueFalse"), setNumAnswer(2)}}
                 className="ml-4 mr-2"
               />
               <label htmlFor="TrueFalse" className="text-gray-700">
                 True/False Question
               </label>
+              
             </div>
+              (Note: If you choose True/False, the number of answers must be 2)
             <h2 className="text-lg font-medium mb-2">Recheck?</h2>
             <div className="flex items-center mb-4">
               <input
