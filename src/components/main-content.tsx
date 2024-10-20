@@ -6,12 +6,14 @@ export const MainContent = () => {
   const [prevInputText, setPrevInputText] = useState<string>("");
   const [topic, setTopic] = useState<string>("");
   const [quantity, setQuantity] = useState<number>(1);
+  const [numAnswer, setNumAnswer] = useState<number>(4);
   const [difficulty, setDifficulty] = useState<string>("auto");
   const [mcqResult, setMcqResult] = useState<any[]>([]);
   const [isFileUpload, setIsFileUpload] = useState<boolean>(true);
+  const [isRecheck, setIsRecheck] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<boolean>(false);
-  const [questionType, setQuestionType] = useState<string>("singleChoice");
+  const [questionType, setQuestionType] = useState<string>("SingleChoice");
 
   const resultRef = useRef<HTMLDivElement>(null);
 
@@ -48,6 +50,8 @@ export const MainContent = () => {
     formData.append("difficulty", difficulty);
     formData.append("status", status.toString());
     formData.append("questionType", questionType);
+    formData.append("numAnswer", numAnswer.toString());
+    formData.append("isRecheck", isRecheck.toString());
 
     if (isFileUpload) {
       const fileInput = document.getElementById("fileInput") as HTMLInputElement;
@@ -69,19 +73,20 @@ export const MainContent = () => {
       }
 
       const result = await response.json();
-      const mcqs = result.mcqs.map((item: string) => {
-        const lines = item.split('\n');
-        const question = lines[0];
-        const choices = lines.slice(1, lines.length - 1);
-        const correctAnswer = lines[lines.length - 1];
-
+      // console.log(typeof result.mcqs)
+      // console.log("mcq: ", result.mcqs)
+      const mcqs = result.mcqs.map(item => {
+        const correctAnswers = item.answers
+          .filter(answer => answer.isCorrectAnswer === "true")
+          .map(answer => answer.answer);
+      
         return {
-          question,
-          choices,
-          correctAnswer
+          "question": item.question.replace(/\"/g, ""), // Loại bỏ dấu ngoặc kép thừa
+          "choices": item.answers.map(answer => answer.answer),
+          "correctAnswer": correctAnswers.join("; ") // Kết hợp các đáp án đúng thành một chuỗi
         };
       });
-
+      console.log("mcqs: ", mcqs)
       setMcqResult(mcqs);
       setStatus(false); // Reset status after successful form submission
 
@@ -172,33 +177,56 @@ export const MainContent = () => {
             <div className="flex items-center mb-4">
               <input
                 type="radio"
-                id="singleChoice"
-                checked={questionType === "singleChoice"}
-                onChange={() => handleQuestionTypeChange("singleChoice")}
+                id="SingleChoice"
+                checked={questionType === "SingleChoice"}
+                onChange={() => handleQuestionTypeChange("SingleChoice")}
                 className="ml-4 mr-2"
               />
-              <label htmlFor="singleChoice" className="text-gray-700">
+              <label htmlFor="SingleChoice" className="text-gray-700">
                 Single choice
               </label>
               <input
                 type="radio"
-                id="multipleChoice"
-                checked={questionType === "multipleChoice"}
-                onChange={() => handleQuestionTypeChange("multipleChoice")}
+                id="MultipleChoice"
+                checked={questionType === "MultipleChoice"}
+                onChange={() => handleQuestionTypeChange("MultipleChoice")}
                 className="ml-4 mr-2"
               />
-              <label htmlFor="multipleChoice" className="text-gray-700">
+              <label htmlFor="MultipleChoice" className="text-gray-700">
                 Multiple choice
               </label>
               <input
                 type="radio"
-                id="trueFalse"
-                checked={questionType === "trueFalse"}
-                onChange={() => handleQuestionTypeChange("trueFalse")}
+                id="TrueFalse"
+                checked={questionType === "TrueFalse"}
+                onChange={() => handleQuestionTypeChange("TrueFalse")}
                 className="ml-4 mr-2"
               />
-              <label htmlFor="trueFalse" className="text-gray-700">
+              <label htmlFor="TrueFalse" className="text-gray-700">
                 True/False Question
+              </label>
+            </div>
+            <h2 className="text-lg font-medium mb-2">Recheck?</h2>
+            <div className="flex items-center mb-4">
+              <input
+                type="radio"
+                id="true"
+                checked={isRecheck}
+                onChange={() => setIsRecheck(true)}
+                className="ml-4 mr-2"
+              />
+              <label htmlFor="true" className="text-gray-700">
+                True
+              </label>
+              <input
+                type="radio"
+                id="false"
+                checked={!isRecheck}
+                onChange={() => setIsRecheck(false)}
+                className="ml-4 mr-2"
+              />
+              <label htmlFor="false" className="text-gray-700">
+                False
               </label>
             </div>
           </div>
@@ -225,6 +253,20 @@ export const MainContent = () => {
                   min={1}
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
+                  className="block w-full p-2 border border-gray-300 rounded"
+                  required
+                  disabled={loading}
+                />
+              </label>
+              <label className="block flex-1">
+                <span className="text-gray-700">Num of answer:</span>
+                <input
+                  type="number"
+                  id="numAnswer"
+                  min={2}
+                  max={5}
+                  value={numAnswer}
+                  onChange={(e) => setNumAnswer(Number(e.target.value))}
                   className="block w-full p-2 border border-gray-300 rounded"
                   required
                   disabled={loading}
@@ -274,7 +316,7 @@ export const MainContent = () => {
                     </p>
                   ))}
                   <p className="text-gray-600">
-                    <span className="font-medium">Correct Answer:</span> {mcq.correctAnswer}
+                    <span className="font-medium">Đáp án đúng:</span> {mcq.correctAnswer}
                   </p>
                 </div>
               ))

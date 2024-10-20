@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from mcq_gen import mcqGen
 from flask_cors import CORS
-import os
 
 app = Flask(__name__)
 CORS(app)
@@ -22,16 +21,15 @@ def mcq():
     inputText = data.get('inputText')
     status = data.get('status')
     questionType = data.get('questionType')
+    numAnswer = int(data.get('numAnswer'))
+    isRecheck = True if data.get('isRecheck') == 'true' else False
 
-    print('topic:', topic)
-    print('quantity:', quantity)
-    print('difficulty:', difficulty)
-    print('status:', status)
-    print('questionType:', questionType)
-
+    # print("num ans 1: ", numAnswer)
+    print("is recheck: ", isRecheck)
     try:
-        mcqs = mcqGen(topic, quantity, difficulty, file, inputText, status, questionType)
-
+        mcqs = mcqGen(topic, quantity, difficulty, file, inputText, status, questionType, numAnswer, isRecheck)
+        # print("__________")
+        # print(type(mcqs))
         return jsonify({'mcqs': mcqs})
     except ValueError:
         return jsonify({'error': 'Error'}), 400
