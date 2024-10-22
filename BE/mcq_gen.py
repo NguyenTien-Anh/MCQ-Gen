@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from docx import Document as DocxDocument
 import json
 import re
+import string
 
 load_dotenv()
 
@@ -160,15 +161,22 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, type, number_of
 
 def format_mcq(mcqs):
     def parse_question(mcq):
+        print("mcq: ", mcq)
         mcq = re.sub('\n+', '\n', mcq)
         lines = mcq.split("\n")
         question = lines[0].strip()
         answers = []
         correct_answer = lines[-1].split(": ")[1].strip()
 
+        print("Correct answer: ", correct_answer)
+
         for line in lines[1:-1]:
-            answer_text = line.strip()
+            answer_text = line.strip(string.punctuation)
+
+
+
             is_correct = "true" if correct_answer.lower().find(answer_text.lower()) != -1 else "false"
+            print(f"answer_text: {answer_text} - is_correct: {is_correct}")
             answers.append({"answer": answer_text, "isCorrectAnswer": is_correct})
 
         question_dict = {
@@ -356,6 +364,9 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     }
     mcqs = []
     for i in range(0, int(quantity)):
+        if len(list_topic) < int(quantity):
+            print("Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này")
+            return "Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này"
         s = list_topic[i]
         kq = ""
         prompt = type_dict[
@@ -441,6 +452,7 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
     list_topic = subTopics.split("',")
     if len(list_topic) < int(quantity):
         print("Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này")
+        return "Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này"
     difficulty_dict = {
         "dễ": "Câu hỏi có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản.",
         "trung bình": "Câu hỏi có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng.",

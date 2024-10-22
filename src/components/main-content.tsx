@@ -8,6 +8,7 @@ export const MainContent = () => {
   const [quantity, setQuantity] = useState<number>(1);
   const [numAnswer, setNumAnswer] = useState<number>(4);
   const [difficulty, setDifficulty] = useState<string>("auto");
+  const [notice, setNotice] = useState<string>("");
   const [mcqResult, setMcqResult] = useState<any[]>([]);
   const [isFileUpload, setIsFileUpload] = useState<boolean>(true);
   const [isRecheck, setIsRecheck] = useState<boolean>(true);
@@ -73,22 +74,29 @@ export const MainContent = () => {
       }
 
       const result = await response.json();
-      // console.log(typeof result.mcqs)
-      // console.log("mcq: ", result.mcqs)
-      const mcqs = result.mcqs.map(item => {
-        const correctAnswers = item.answers
-          .filter(answer => answer.isCorrectAnswer === "true")
-          .map(answer => answer.answer);
-      
-        return {
-          "question": item.question.replace(/\"/g, ""), // Loại bỏ dấu ngoặc kép thừa
-          "choices": item.answers.map(answer => answer.answer),
-          "correctAnswer": correctAnswers.join("; ") // Kết hợp các đáp án đúng thành một chuỗi
-        };
-      });
-      console.log("mcqs: ", mcqs)
-      setMcqResult(mcqs);
-      setStatus(false); // Reset status after successful form submission
+      console.log(typeof result.mcqs)
+      if (typeof result.mcqs === "string") {
+        const noty = result.mcqs;
+        setNotice(noty)
+        setStatus(false)
+      } else {
+        // console.log("mcq: ", result.mcqs)
+        const mcqs = result.mcqs.map(item => {
+          const correctAnswers = item.answers
+            .filter(answer => answer.isCorrectAnswer === "true")
+            .map(answer => answer.answer);
+
+          return {
+            "question": item.question.replace(/\"/g, ""), // Loại bỏ dấu ngoặc kép thừa
+            "choices": item.answers.map(answer => answer.answer),
+            "correctAnswer": correctAnswers.join("; ") // Kết hợp các đáp án đúng thành một chuỗi
+          };
+        });
+        console.log("mcqs: ", mcqs)
+        setNotice("")
+        setMcqResult(mcqs);
+        setStatus(false);
+      } // Reset status after successful form submission
 
     } catch (error) {
       setMcqResult([{ error: (error as Error).message }]);
@@ -179,7 +187,7 @@ export const MainContent = () => {
                 type="radio"
                 id="SingleChoice"
                 checked={questionType === "SingleChoice"}
-                onChange={() => {handleQuestionTypeChange("SingleChoice"), setNumAnswer(4)}}
+                onChange={() => { handleQuestionTypeChange("SingleChoice"), setNumAnswer(4) }}
                 className="ml-4 mr-2"
               />
               <label htmlFor="SingleChoice" className="text-gray-700">
@@ -189,7 +197,7 @@ export const MainContent = () => {
                 type="radio"
                 id="MultipleChoice"
                 checked={questionType === "MultipleChoice"}
-                onChange={() => {handleQuestionTypeChange("MultipleChoice"), setNumAnswer(4)}}
+                onChange={() => { handleQuestionTypeChange("MultipleChoice"), setNumAnswer(4) }}
                 className="ml-4 mr-2"
               />
               <label htmlFor="MultipleChoice" className="text-gray-700">
@@ -199,15 +207,15 @@ export const MainContent = () => {
                 type="radio"
                 id="TrueFalse"
                 checked={questionType === "TrueFalse"}
-                onChange={() => {handleQuestionTypeChange("TrueFalse"), setNumAnswer(2)}}
+                onChange={() => { handleQuestionTypeChange("TrueFalse"), setNumAnswer(2) }}
                 className="ml-4 mr-2"
               />
               <label htmlFor="TrueFalse" className="text-gray-700">
                 True/False Question
               </label>
-              
+
             </div>
-              (Note: If you choose True/False, the number of answers must be 2)
+            (Note: If you choose True/False, the number of answers must be 2)
             <h2 className="text-lg font-medium mb-2">Recheck?</h2>
             <div className="flex items-center mb-4">
               <input
@@ -308,6 +316,9 @@ export const MainContent = () => {
         {!loading && (
           <div ref={resultRef} className="border border-gray-300 rounded-lg p-4 mt-6">
             <h2 className="text-lg font-medium mb-2">Results</h2>
+            <p className="text-gray-600">
+              <span className="font-medium">{notice}</span>
+            </p>
             {mcqResult.length > 0 ? (
               mcqResult.map((mcq, index) => (
                 <div key={index} className="mb-4">
