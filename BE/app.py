@@ -24,13 +24,13 @@ def mcq():
     numAnswer = int(data.get('numAnswer'))
     isRecheck = True if data.get('isRecheck') == 'true' else False
 
-    # print("num ans 1: ", numAnswer)
-    print("is recheck: ", isRecheck)
     try:
-        mcqs = mcqGen(topic, quantity, difficulty, file, inputText, status, questionType, numAnswer, isRecheck)
-        # print("__________")
-        # print(type(mcqs))
-        return jsonify({'mcqs': mcqs})
+        mcqs, notify = mcqGen(topic, quantity, difficulty, file, inputText, status, questionType, numAnswer, isRecheck)
+
+        return jsonify({
+            'mcqs': mcqs,
+            'notify': notify
+        })
     except ValueError:
         return jsonify({'error': 'Error'}), 400
 

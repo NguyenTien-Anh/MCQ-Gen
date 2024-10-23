@@ -119,7 +119,6 @@ def check(s):
 
 
 def read_pdf_file(file):
-    print('----------------file-pdf---------------')
     file_content = ''
     reader = PdfReader(file)
     num_pages = len(reader.pages)
@@ -132,7 +131,6 @@ def read_pdf_file(file):
 
 def read_docx_file(file):
     file_content = ''
-    print('----------------file-docx---------------')
     doc = DocxDocument(file)
     for para in doc.paragraphs:
         file_content += " " + para.text
@@ -140,43 +138,47 @@ def read_docx_file(file):
 
 
 def read_txt_file(file):
-    print('----------------file-txt---------------')
     file_content = file.read().decode('utf-8')
     return file_content
 
 
 def mcqGen(topic, quantity, difficulty, file, inputText, status, type, number_of_answers=4, is_check=True):
-    print("topic: ", topic)
-    print("quantity: ", quantity)
-    print("diff: ", difficulty)
-    print("status: ", status)
-    print("type: ", type)
+    print("TOPIC: ", topic)
+    print("QUANTITY: ", quantity)
+    print("DIFFICULTY: ", difficulty)
+    print("STATUS: ", status)
+    print("TYPE: ", type)
     if is_check:
-        print("có kiểm tra lại")
+        print("CÓ KIỂM TRA LẠI !!!")
         return mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers)
     else:
-        print("không kiểm tra")
+        print("KHÔNG KIỂM TRA LẠI !!!")
         return mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers)
 
 
 def format_mcq(mcqs):
     def parse_question(mcq):
-        print("mcq: ", mcq)
-        mcq = re.sub('\n+', '\n', mcq)
+        print("**CÂU HỎI TRƯỚC KHI FORMAT****************************")
+        print(mcq)
+        print("******************************************************")
         lines = mcq.split("\n")
         question = lines[0].strip()
         answers = []
-        correct_answer = lines[-1].split(": ")[1].strip()
+        try:
+            correct_answer = lines[-1].split(": ")[1].strip()
+        except:
+            correct_answer = ""
 
-        print("Correct answer: ", correct_answer)
+        print("ĐÁP ÁN ĐÚNG: ", correct_answer)
 
         for line in lines[1:-1]:
             answer_text = line.strip(string.punctuation)
 
-
+            if answer_text == "":
+                continue
 
             is_correct = "true" if correct_answer.lower().find(answer_text.lower()) != -1 else "false"
-            print(f"answer_text: {answer_text} - is_correct: {is_correct}")
+            print(f"CÂU TRẢ LỜI: {answer_text} - IS_CORRECT: {is_correct}")
             answers.append({"answer": answer_text, "isCorrectAnswer": is_correct})
 
         question_dict = {
@@ -190,13 +192,14 @@ def format_mcq(mcqs):
 
 
 def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers=4):
-    print("num ans: ", number_of_answers)
+    print("NUM ANSWERS: ", number_of_answers)
     global data
 
     if status == 'true':
-        print('tạo data')
+        print('ĐANG TẠO DATA ...')
         file_content = ""
         if file is not None:
+            print("ĐANG ĐỌC FILE ...")
             ext_file = file.filename.split('.')[-1]
             if ext_file == 'pdf':
                 file_content = read_pdf_file(file)
@@ -206,13 +209,15 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
                 file_content = read_txt_file(file)
             else:
                 raise ValueError("Unsupported file type")
+            print("ĐỌC FILE THÀNH CÔNG !!!")
 
         text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
         content = file_content if file is not None else inputText
         gpt_documents = [Document(text=content)]
         data = VectorStoreIndex.from_documents(documents=gpt_documents, transformations=[text_splitter])
+        print("TẠO DATA THÀNH CÔNG !!!")
 
-    print('Tạo câu hỏi')
+    print('ĐANG TẠO CÂU HỎI ...')
     llm = OpenAI(model="gpt-3.5-turbo-0125")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
@@ -229,10 +234,9 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         "Ví dụ cho việc thực hiện quy trình là:"
         "{prompt_example}"
         "\n -----------------------------\n"
+        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str} "
         "** Yêu cầu về định dạng câu trả lời là: **"
         "{attention}"
-        "\n -----------------------------\n"
-        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str}"
     )
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
     with open('prompt.json', 'r', encoding='utf-8') as file:
@@ -240,7 +244,6 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
 
     gen_prompt_step_by_step = ""
     gen_prompt_example = ""
-    attention = ""
     gen_attention = ""
     for prompt_gen in list_prompt_gen['prompt_gen']:
         if prompt_gen['type'] == type and prompt_gen['number_of_answers'] == number_of_answers:
@@ -248,7 +251,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             gen_prompt_example = prompt_gen["prompt_example"]
             gen_attention = prompt_gen["attention"]
 
-    print("get attention: ", gen_attention)
+    print("ATTENTION: ", gen_attention)
     QA_PROMPT_GEN_FORMAT = QA_PROMPT_GEN.partial_format(prompt_step_by_step=gen_prompt_step_by_step,
                                                         prompt_example=gen_prompt_example, attention=gen_attention)
     # print(QA_PROMPT_GEN_FORMAT)
@@ -274,10 +277,8 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     eva_prompt_step_by_step = "Bước 1: Kiểm tra độ rõ ràng của câu hỏi và các đáp án. Bước 2: Đánh giá tính liên quan của câu hỏi đến nội dung đã học. Bước 3: Xác minh tính đúng đắn của đáp án đúng và sai. Bước 4: Đánh giá độ khó của câu hỏi. Bước 5: Đánh giá tính khách quan của câu hỏi. Bước 6: Sửa đổi câu hỏi nếu cần thiết dựa trên các đánh giá. Bước 7: Trả về câu hỏi đã được sửa đổi hoặc câu hỏi ban đầu."
     eva_prompt_example = "Bước 1: Câu hỏi \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" là rõ ràng và dễ hiểu.\nBước 2: Câu hỏi này liên quan trực tiếp đến nội dung đã học về cơ sở dữ liệu và các loại khóa.\nBước 3: Đáp án A) Khóa chính (Primary Key) là đúng. Các đáp án B) Khóa ngoại (Foreign Key), C) Khóa duy nhất (Unique Key), D) Khóa kết hợp (Composite Key), và E) Khóa tạm thời (Temporary Key) đều không phải là đáp án đúng cho câu hỏi này.\nBước 4: Độ khó của câu hỏi được đánh giá là trung bình vì nó yêu cầu người học hiểu rõ về các loại khóa trong cơ sở dữ liệu.\nBước 5: Câu hỏi này là khách quan, không thiên vị và không dẫn đến bất kỳ sự nhầm lẫn nào cho người trả lời.\nBước 6: Không cần sửa đổi câu hỏi, vì nó đã đạt yêu cầu và rõ ràng.\nCâu hỏi trắc nghiệm cuối cùng: \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" A) Khóa chính (Primary Key) B) Khóa ngoại (Foreign Key) C) Khóa duy nhất (Unique Key) D) Khóa kết hợp (Composite Key) E) Khóa tạm thời (Temporary Key) Đáp án đúng: A) Khóa chính (Primary Key)."
     attention_eva_dict = {
-        "MultipleChoice": "Câu hỏi trắc nghiệm MultipleChoice gồm " + str(
-            number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng. ",
-        "SingleChoice": "Câu hỏi trắc nghiệm SingleChoice gồm " + str(
-            number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
+        "MultipleChoice": "Câu hỏi trắc nghiệm MultipleChoice gồm " + str(number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng. ",
+        "SingleChoice": "Câu hỏi trắc nghiệm SingleChoice gồm " + str(number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
         "TrueFalse": "Câu hỏi trắc nghiệm TrueFalse chỉ gồm 2 loại đáp án là 'đúng' và 'sai'.",
     }
     print(attention_eva_dict[type])
@@ -347,8 +348,10 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     agent.reset()
     subTopics = select_topic(topic, quantity)
     list_topic = subTopics.split("',")
+    notify = ""
     if len(list_topic) < int(quantity):
-        print("Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này")
+        notify = "XIN LỖI CHÚNG TÔI KHÔNG THỂ SINH ĐỦ CÂU HỎI CHO CHỦ ĐỀ NÀY"
+        print(notify)
     difficulty_dict = {
         "dễ": "Câu hỏi có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản.",
         "trung bình": "Câu hỏi có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng.",
@@ -364,9 +367,8 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     }
     mcqs = []
     for i in range(0, int(quantity)):
-        if len(list_topic) < int(quantity):
-            print("Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này")
-            return "Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này"
+        if i > len(list_topic):
+            continue
         s = list_topic[i]
         kq = ""
         prompt = type_dict[
@@ -376,20 +378,22 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         question = agent.chat(prompt)
         kq = str(question.response)
         mcqs.append(kq)
-    print(mcqs)
+    print("TẠO CÂU HỎI THÀNH CÔNG !!!")
+    print("ĐANG FORMAT CÂU HỎI ...")
     mcqs = format_mcq(mcqs)
-    print(mcqs)
-    return mcqs
+    print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
+    return mcqs, notify
 
 
 def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers=4):
+    print("NUM ANSWERS: ", number_of_answers)
     global data
     if file is None:
-        print("File: None")
+        print("File IS NONE. USE INPUT TEXT !!!")
     else:
-        print("File is not None")
+        print("USING FILE !!!")
     if status == 'true':
-        print('tạo data')
+        print('ĐANG TẠO DATA ...')
         file_content = ""
         if file is not None:
             ext_file = file.filename.split('.')[-1]
@@ -406,8 +410,9 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
         content = file_content if file is not None else inputText
         gpt_documents = [Document(text=content)]
         data = VectorStoreIndex.from_documents(documents=gpt_documents, transformations=[text_splitter])
+        print("TẠO DATA THÀNH CÔNG !!!")
 
-    print('Tạo câu hỏi')
+    print('ĐANG TẠO CÂU HỎI ...')
     llm = OpenAI(model="gpt-3.5-turbo-0125")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
@@ -424,17 +429,17 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
         "Ví dụ cho việc thực hiện quy trình là:"
         "{prompt_example}"
         "\n -----------------------------\n"
-        "** Yêu cầu về định dạng câu trả lời là: **"
-        "{attention}"
-        "\n -----------------------------\n"
-        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str}"
+        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi trắc nghiệm theo yêu cầu."
+        "Yêu cầu sinh câu hỏi là: {query_str}"
+        "**Đảm bảo định dạng câu trả lời chỉ gồm 1 câu hỏi trắc nghiệm theo yêu cầu, câu hỏi ở dòng 1, đáp án đúng ghi trên 1 dòng."
+        " Yêu cầu về định dạng câu trả lời là: "
+        "{attention} **"
     )
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
     with open('prompt.json', 'r', encoding='utf-8') as file:
         list_prompt_gen = json.load(file)
     gen_prompt_step_by_step = ""
     gen_prompt_example = ""
-    attention = ""
     gen_attention = ""
     for prompt_gen in list_prompt_gen['prompt_gen']:
         if prompt_gen['type'] == type and prompt_gen['number_of_answers'] == number_of_answers:
@@ -450,9 +455,10 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
                                          max_tokens=-1)
     subTopics = select_topic(topic, quantity)
     list_topic = subTopics.split("',")
+    notify = ""
     if len(list_topic) < int(quantity):
-        print("Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này")
-        return "Xin lỗi chúng tôi không thể sinh đủ số câu hỏi cho chủ đề này"
+        notify = "XIN LỖI CHÚNG TÔI KHÔNG THỂ SINH ĐỦ SỐ CÂU HỎI CHO CHỦ ĐỀ NÀY"
+        print(notify)
     difficulty_dict = {
         "dễ": "Câu hỏi có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản.",
         "trung bình": "Câu hỏi có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng.",
@@ -460,25 +466,22 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
         "auto": ""
     }
     type_dict = {
-        "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(
-            number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng và nhiều nhất " + str(
-            number_of_answers - 2) + "đáp án sai. ",
-        "SingleChoice": "Tạo 1 câu hỏi trắc nghiệm singlechoice gồm " + str(
-            number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
+        "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng và " + str(number_of_answers - 2) + "đáp án sai. Đảm bảo có ít nhất 2 đáp án đúng.",
+        "SingleChoice": "Tạo 1 câu hỏi trắc nghiệm singlechoice gồm " + str(number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
         "TrueFalse": "Tạo 1 câu hỏi trắc nghiệm TrueFalse chỉ gồm 2 loại đáp án là 'đúng' và 'sai'.",
     }
     mcqs = []
     for i in range(0, int(quantity)):
+        if i > len(list_topic):
+            continue
         s = list_topic[i]
         kq = ""
-        prompt = type_dict[
-                     type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + "của bộ môn cơ sở dữ liệu. " + \
-                 difficulty_dict[difficulty]
-        prompt = prompt + "Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
+        prompt = type_dict[type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + "của bộ môn cơ sở dữ liệu. " + difficulty_dict[difficulty]
         question = query_engine1.query(prompt)
-        kq = str(question)
+        kq=str(question)
         mcqs.append(kq)
-    print(mcqs)
+    print("TẠO CÂU HỎI THÀNH CÔNG !!!")
+    print("ĐANG FORMAT CÂU HỎI ...")
     mcqs = format_mcq(mcqs)
-    print(mcqs)
-    return mcqs
+    print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
+    return mcqs, notify

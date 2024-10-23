@@ -75,28 +75,21 @@ export const MainContent = () => {
 
       const result = await response.json();
       console.log(typeof result.mcqs)
-      if (typeof result.mcqs === "string") {
-        const noty = result.mcqs;
-        setNotice(noty)
-        setStatus(false)
-      } else {
-        // console.log("mcq: ", result.mcqs)
-        const mcqs = result.mcqs.map(item => {
-          const correctAnswers = item.answers
-            .filter(answer => answer.isCorrectAnswer === "true")
-            .map(answer => answer.answer);
+      const mcqs = result.mcqs.map(item => {
+        const correctAnswers = item.answers
+          .filter(answer => answer.isCorrectAnswer === "true")
+          .map(answer => answer.answer);
 
-          return {
-            "question": item.question.replace(/\"/g, ""), // Loại bỏ dấu ngoặc kép thừa
-            "choices": item.answers.map(answer => answer.answer),
-            "correctAnswer": correctAnswers.join("; ") // Kết hợp các đáp án đúng thành một chuỗi
-          };
-        });
-        console.log("mcqs: ", mcqs)
-        setNotice("")
-        setMcqResult(mcqs);
-        setStatus(false);
-      } // Reset status after successful form submission
+        return {
+          "question": item.question.replace(/\"/g, ""), // Loại bỏ dấu ngoặc kép thừa
+          "choices": item.answers.map(answer => answer.answer),
+          "correctAnswer": correctAnswers.join(" - ") // Kết hợp các đáp án đúng thành một chuỗi
+        };
+      });
+      console.log("mcqs: ", mcqs)
+      setNotice(result.notify)
+      setMcqResult(mcqs);
+      setStatus(false);
 
     } catch (error) {
       setMcqResult([{ error: (error as Error).message }]);
