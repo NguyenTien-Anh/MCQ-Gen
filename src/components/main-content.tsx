@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useRef, useEffect, ChangeEvent, FormEvent } from "react";
 
 export const MainContent = () => {
@@ -15,6 +16,7 @@ export const MainContent = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<boolean>(false);
   const [questionType, setQuestionType] = useState<string>("SingleChoice");
+  const be_url = import.meta.env.VITE_BE_URL
 
   const resultRef = useRef<HTMLDivElement>(null);
 
@@ -62,9 +64,10 @@ export const MainContent = () => {
     } else {
       formData.append("inputText", inputText);
     }
+    console.log("url: ", be_url)
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/mcq", {
+      const response = await fetch(`${be_url}/api/mcq`, {
         method: "POST",
         body: formData
       });

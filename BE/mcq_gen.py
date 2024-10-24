@@ -177,7 +177,8 @@ def format_mcq(mcqs):
             if answer_text == "":
                 continue
 
-            is_correct = "true" if correct_answer.lower().find(answer_text.lower()) != -1 else "false"
+            is_correct = "true" if (correct_answer.lower().find(answer_text.lower()) != -1 or
+                                    answer_text.lower().find(correct_answer.lower()) != -1) else "false"
             print(f"CÂU TRẢ LỜI: {answer_text} - IS_CORRECT: {is_correct}")
             answers.append({"answer": answer_text, "isCorrectAnswer": is_correct})
 
@@ -367,7 +368,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     }
     mcqs = []
     for i in range(0, int(quantity)):
-        if i > len(list_topic):
+        if i > len(list_topic) - 1:
             continue
         s = list_topic[i]
         kq = ""
