@@ -64,10 +64,10 @@ export const MainContent = () => {
     } else {
       formData.append("inputText", inputText);
     }
-    console.log("url: ", be_url)
+    // console.log("url: ", be_url)
 
     try {
-      const response = await fetch(`${be_url}/api/mcq`, {
+      const response = await fetch(`${be_url}/api`, {
         method: "POST",
         body: formData
       });
@@ -77,7 +77,7 @@ export const MainContent = () => {
       }
 
       const result = await response.json();
-      console.log(typeof result.mcqs)
+      // console.log(typeof result.mcqs)
       const mcqs = result.mcqs.map(item => {
         const correctAnswers = item.answers
           .filter(answer => answer.isCorrectAnswer === "true")
@@ -89,7 +89,7 @@ export const MainContent = () => {
           "correctAnswer": correctAnswers.join(" - ") // Kết hợp các đáp án đúng thành một chuỗi
         };
       });
-      console.log("mcqs: ", mcqs)
+      // console.log("mcqs: ", mcqs)
       setNotice(result.notify)
       setMcqResult(mcqs);
       setStatus(false);
@@ -207,11 +207,14 @@ export const MainContent = () => {
                 className="ml-4 mr-2"
               />
               <label htmlFor="TrueFalse" className="text-gray-700">
-                True/False Question
+                True/False
               </label>
-
             </div>
-            (Note: If you choose True/False, the number of answers must be 2)
+            <b>Note: Question type - number of answer constraints</b>
+            <p>True/False: 2</p>
+            <p>Single choice: 2 - 5</p>
+            <p>Multiple choice: 3 - 5</p>
+            <br></br>
             <h2 className="text-lg font-medium mb-2">Recheck?</h2>
             <div className="flex items-center mb-4">
               <input
@@ -222,7 +225,7 @@ export const MainContent = () => {
                 className="ml-4 mr-2"
               />
               <label htmlFor="true" className="text-gray-700">
-                True
+                Yes
               </label>
               <input
                 type="radio"
@@ -232,7 +235,7 @@ export const MainContent = () => {
                 className="ml-4 mr-2"
               />
               <label htmlFor="false" className="text-gray-700">
-                False
+                No
               </label>
             </div>
           </div>

@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from mcq_gen import mcqGen
 from flask_cors import CORS
 
@@ -8,7 +8,7 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return "PTIT AI tools"
 
 
 @app.route('/api/mcq', methods=['POST'])

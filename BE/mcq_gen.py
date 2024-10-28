@@ -80,7 +80,7 @@ data = None
 
 def select_topic(topic, quantity):
     PROMPT_TEMPLATE0_other = (
-        "Dưới đây là một chủ đề về môn học cơ sở dữ liệu."
+        "Dưới đây là một chủ đề về môn học."
         "\n -----------------------------\n"
         "{context_str}"
         "\n -----------------------------\n"
@@ -225,8 +225,8 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
 
     PROMPT_TEMPLATE_GEN = (
         "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng."
-        "Đầu vào là một nội dung môn học cơ sở dữ liệu."
-        "Dữ liệu đưa vào là tài liệu về môn học cơ sở dữ liệu liên quan đến nội dung đầu vào."
+        "Đầu vào là một nội dung môn học."
+        "Dữ liệu đưa vào là tài liệu về môn học."
         "\n -----------------------------\n"
         "{context_str}"
         "\n -----------------------------\n"
@@ -258,8 +258,8 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     # print(QA_PROMPT_GEN_FORMAT)
     PROMPT_TEMPLATE_EVA = (
         "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn."
-        "Đầu vào là 1 câu hỏi trắc nghiệm về môn học cơ sở dữ liệu."
-        "Dữ liệu đưa vào là tài liệu về môn học cơ sở dữ liệu liên quan đến câu hỏi đầu vào."
+        "Đầu vào là 1 câu hỏi trắc nghiệm về môn học."
+        "Dữ liệu đưa vào là tài liệu về môn học."
         "\n -----------------------------\n"
         "{context_str}"
         "\n -----------------------------\n"
@@ -373,7 +373,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         s = list_topic[i]
         kq = ""
         prompt = type_dict[
-                     type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + "của bộ môn cơ sở dữ liệu. " + \
+                     type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + \
                  difficulty_dict[difficulty]
         prompt = prompt + "Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
         question = agent.chat(prompt)
@@ -420,8 +420,8 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
 
     PROMPT_TEMPLATE_GEN = (
         "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng."
-        "Đầu vào là một nội dung môn học cơ sở dữ liệu."
-        "Dữ liệu đưa vào là tài liệu về môn học cơ sở dữ liệu liên quan đến nội dung đầu vào."
+        "Đầu vào là một nội dung môn học."
+        "Dữ liệu đưa vào là tài liệu về môn học."
         "\n -----------------------------\n"
         "{context_str}"
         "\n -----------------------------\n"
@@ -477,7 +477,7 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
             continue
         s = list_topic[i]
         kq = ""
-        prompt = type_dict[type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + "của bộ môn cơ sở dữ liệu. " + difficulty_dict[difficulty]
+        prompt = type_dict[type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + difficulty_dict[difficulty]
         question = query_engine1.query(prompt)
         kq=str(question)
         mcqs.append(kq)
