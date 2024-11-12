@@ -1,3 +1,4 @@
+
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
@@ -9,7 +10,6 @@ from PyPDF2 import PdfReader
 from dotenv import load_dotenv
 from docx import Document as DocxDocument
 import json
-import re
 import string
 
 load_dotenv()
@@ -81,14 +81,14 @@ data = None
 def select_topic(topic, quantity):
     PROMPT_TEMPLATE0_other = (
         "Dưới đây là một chủ đề về môn học."
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "{context_str}"
-        "\n -----------------------------\n"
-        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề mà bạn tự chọn ra, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm."
-        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể."
-        "Các nội dung được chọn phải có liên quan đến chủ đề đã chọn, được viết khái quát và ngắn gọn."
-        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python."
-        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]"
+        "\n-----------------------------\n"
+        "Bạn là một chuyên gia tạo câu hỏi trắc nghiệm, từ một chủ đề mà bạn tự chọn ra, hãy tìm ra các nội dung có thể sử dụng để tạo câu hỏi trắc nghiệm. "
+        "Nếu không thể chọn đủ số lượng yêu cầu, hãy cố gắng chọn ra nhiều nhất có thể. "
+        "Các nội dung được chọn phải có liên quan đến chủ đề đã chọn, được viết khái quát và ngắn gọn. "
+        "Đảm bảo định dạng câu trả lời bao gồm các nội dung được viết theo kiểu list trong python. "
+        "Ví dụ: ['nội dung 1', 'nội dung 2', 'nội dung 3',...]. "
         "Đưa ra danh sách nội dung: {query_str}"
     )
 
@@ -107,8 +107,9 @@ def select_topic(topic, quantity):
         query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
                                              llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
+
     response = query_engine0.query(select_topic_prompt)
-    subTopics = str(response)[1:-1]
+    subTopics = str(response).split('[')[-1][:-1]
     return subTopics
 
 
@@ -224,21 +225,22 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     Settings.text_splitter = text_splitter
 
     PROMPT_TEMPLATE_GEN = (
-        "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng."
-        "Đầu vào là một nội dung môn học."
+        "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng. "
+        "Đầu vào là một nội dung môn học. "
         "Dữ liệu đưa vào là tài liệu về môn học."
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "{context_str}"
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "Quy trình thực hiện step by step để tạo câu hỏi trắc nghiệm."
-        "{prompt_step_by_step}"
+        "\n{prompt_step_by_step}\n"
         "Ví dụ cho việc thực hiện quy trình là:"
-        "{prompt_example}"
-        "\n -----------------------------\n"
-        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str} "
-        "** Yêu cầu về định dạng câu trả lời là: **"
+        "\n{prompt_example}"
+        "\n-----------------------------\n"
+        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str}\n"
+        "**Yêu cầu về định dạng câu trả lời là:**\n"
         "{attention}"
     )
+    print(f"---------------PROMPT_TEMPLATE_GEN-----------------\n{PROMPT_TEMPLATE_GEN}")
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
     with open('prompt.json', 'r', encoding='utf-8') as file:
         list_prompt_gen = json.load(file)
@@ -252,37 +254,43 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             gen_prompt_example = prompt_gen["prompt_example"]
             gen_attention = prompt_gen["attention"]
 
-    print("ATTENTION: ", gen_attention)
+    print(f"\n\n\n------------gen_prompt_step_by_step--------------------\n{gen_prompt_step_by_step}")
+    print(f"\n\n\n------------gen_prompt_example-------------------------\n{gen_prompt_example}")
+    print(f"\n\n\n------------gen_attention------------------------------\n{gen_attention}")
+
     QA_PROMPT_GEN_FORMAT = QA_PROMPT_GEN.partial_format(prompt_step_by_step=gen_prompt_step_by_step,
                                                         prompt_example=gen_prompt_example, attention=gen_attention)
     # print(QA_PROMPT_GEN_FORMAT)
     PROMPT_TEMPLATE_EVA = (
-        "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn."
-        "Đầu vào là 1 câu hỏi trắc nghiệm về môn học."
+        "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn. "
+        "Đầu vào là 1 câu hỏi trắc nghiệm về môn học. "
         "Dữ liệu đưa vào là tài liệu về môn học."
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "{context_str}"
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "Hãy thực hiện step by step các bước theo quy trình để đánh giá câu hỏi trắc nghiệm."
-        "{prompt_step_by_step}"
-        "Ví dụ cho cách thực hiện quy trình trên."
+        "\n{prompt_step_by_step}\n"
+        "Ví dụ cho cách thực hiện quy trình trên.\n"
         "{prompt_example}"
-        "\n -----------------------------\n"
-        "Định dạng của câu hỏi cần đánh giá là:"
+        "\n-----------------------------\n"
+        "Định dạng của câu hỏi cần đánh giá là:\n"
         "**{attention_eva}**"
-        "\n -----------------------------\n"
-        "Đầu ra là 1 lời đánh giá và một câu hỏi trắc nghiệm. Hãy đánh giá và cập nhật câu hỏi:  {query_str}."
+        "\n-----------------------------\n"
+        "Đầu ra là 1 lời đánh giá và một câu hỏi trắc nghiệm. Hãy đánh giá và cập nhật câu hỏi:  {query_str}. "
         "Đảm bảo định dạng phản hồi là 1 lời đánh giá và 1 câu hỏi trắc nghiệm, sau đó chỉ rõ đáp án đúng."
     )
+    print(f"\n\n\n---------------PROMPT_TEMPLATE_EVA-----------------\n{PROMPT_TEMPLATE_EVA}")
     QA_PROMPT_EVA = PromptTemplate(PROMPT_TEMPLATE_EVA)
-    eva_prompt_step_by_step = "Bước 1: Kiểm tra độ rõ ràng của câu hỏi và các đáp án. Bước 2: Đánh giá tính liên quan của câu hỏi đến nội dung đã học. Bước 3: Xác minh tính đúng đắn của đáp án đúng và sai. Bước 4: Đánh giá độ khó của câu hỏi. Bước 5: Đánh giá tính khách quan của câu hỏi. Bước 6: Sửa đổi câu hỏi nếu cần thiết dựa trên các đánh giá. Bước 7: Trả về câu hỏi đã được sửa đổi hoặc câu hỏi ban đầu."
+    eva_prompt_step_by_step = "Bước 1: Kiểm tra độ rõ ràng của câu hỏi và các đáp án.\nBước 2: Đánh giá tính liên quan của câu hỏi đến nội dung đã học.\nBước 3: Xác minh tính đúng đắn của đáp án đúng và sai.\nBước 4: Đánh giá độ khó của câu hỏi.\nBước 5: Đánh giá tính khách quan của câu hỏi.\nBước 6: Sửa đổi câu hỏi nếu cần thiết dựa trên các đánh giá.\nBước 7: Trả về câu hỏi đã được sửa đổi hoặc câu hỏi ban đầu."
     eva_prompt_example = "Bước 1: Câu hỏi \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" là rõ ràng và dễ hiểu.\nBước 2: Câu hỏi này liên quan trực tiếp đến nội dung đã học về cơ sở dữ liệu và các loại khóa.\nBước 3: Đáp án A) Khóa chính (Primary Key) là đúng. Các đáp án B) Khóa ngoại (Foreign Key), C) Khóa duy nhất (Unique Key), D) Khóa kết hợp (Composite Key), và E) Khóa tạm thời (Temporary Key) đều không phải là đáp án đúng cho câu hỏi này.\nBước 4: Độ khó của câu hỏi được đánh giá là trung bình vì nó yêu cầu người học hiểu rõ về các loại khóa trong cơ sở dữ liệu.\nBước 5: Câu hỏi này là khách quan, không thiên vị và không dẫn đến bất kỳ sự nhầm lẫn nào cho người trả lời.\nBước 6: Không cần sửa đổi câu hỏi, vì nó đã đạt yêu cầu và rõ ràng.\nCâu hỏi trắc nghiệm cuối cùng: \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" A) Khóa chính (Primary Key) B) Khóa ngoại (Foreign Key) C) Khóa duy nhất (Unique Key) D) Khóa kết hợp (Composite Key) E) Khóa tạm thời (Temporary Key) Đáp án đúng: A) Khóa chính (Primary Key)."
     attention_eva_dict = {
-        "MultipleChoice": "Câu hỏi trắc nghiệm MultipleChoice gồm " + str(number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng. ",
+        "MultipleChoice": "Câu hỏi trắc nghiệm MultipleChoice gồm " + str(number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng.",
         "SingleChoice": "Câu hỏi trắc nghiệm SingleChoice gồm " + str(number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
         "TrueFalse": "Câu hỏi trắc nghiệm TrueFalse chỉ gồm 2 loại đáp án là 'đúng' và 'sai'.",
     }
-    print(attention_eva_dict[type])
+    print(f"\n\n\n---------------eva_prompt_step_by_step-------------------\n{eva_prompt_step_by_step}")
+    print(f"\n\n\n---------------eva_prompt_example----------------------\n{eva_prompt_example}")
+    print(f"\n\n\n---------------attention_eva_dict[type]----------------\n{attention_eva_dict[type]}")
     QA_PROMPT_EVA_FORMAT = QA_PROMPT_EVA.partial_format(prompt_step_by_step=eva_prompt_step_by_step,
                                                         prompt_example=eva_prompt_example,
                                                         attention_eva=attention_eva_dict[type])
@@ -302,8 +310,8 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             metadata=ToolMetadata(
                 name="Create",
                 description=(
-                    "Đầu vào là một yêu cầu. Đầu ra là một câu hỏi trắc nghiệm và có chỉ rõ đáp án đúng."
-                    "Tạo câu hỏi trắc nghiệm về nội dung được yêu cầu."
+                    "Đầu vào là một yêu cầu. Đầu ra là một câu hỏi trắc nghiệm và có chỉ rõ đáp án đúng. "
+                    "Tạo câu hỏi trắc nghiệm về nội dung được yêu cầu. "
                     "Sử dụng các công cụ khác để đánh giá câu hỏi."
                 ),
             ),
@@ -313,11 +321,11 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             metadata=ToolMetadata(
                 name="Check1",
                 description=(
-                    "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng."
-                    "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại."
-                    "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời."
-                    "Nếu các đáp án tương tự nhau thì hãy sửa lại."
-                    "Cải thiện câu hỏi trắc nghiệm."
+                    "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng.  "
+                    "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
+                    "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
+                    "Nếu các đáp án tương tự nhau thì hãy sửa lại. "
+                    "Cải thiện câu hỏi trắc nghiệm. "
                     "Kết quả cuối cùng là 1 câu hỏi trắc nghiệm."
                 ),
             ),
@@ -327,11 +335,11 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             metadata=ToolMetadata(
                 name="Check2",
                 description=(
-                    "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng."
-                    "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại."
-                    "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời."
-                    "Nếu các đáp án tương tự nhau thì hãy sửa lại."
-                    "Cải thiện câu hỏi trắc nghiệm."
+                    "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng. "
+                    "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
+                    "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
+                    "Nếu các đáp án tương tự nhau thì hãy sửa lại. "
+                    "Cải thiện câu hỏi trắc nghiệm. "
                     "Kết quả cuối cùng là 1 câu hỏi trắc nghiệm."
                 ),
             ),
@@ -348,7 +356,9 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     agent.update_prompts({"agent_worker:system_prompt": react_system_prompt})
     agent.reset()
     subTopics = select_topic(topic, quantity)
-    list_topic = subTopics.split("',")
+    print(f"\n\n\n----------------subTopics----------------\n{subTopics}")
+    list_topic = subTopics.split(", ")
+    print(f"\n\n\n-----------------list_topic---------------\n{list_topic}")
     notify = ""
     if len(list_topic) < int(quantity):
         notify = "XIN LỖI CHÚNG TÔI KHÔNG THỂ SINH ĐỦ CÂU HỎI CHO CHỦ ĐỀ NÀY"
@@ -361,7 +371,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     }
     type_dict = {
         "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(
-            number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng. ",
+            number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng.",
         "SingleChoice": "Tạo 1 câu hỏi trắc nghiệm singlechoice gồm " + str(
             number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
         "TrueFalse": "Tạo 1 câu hỏi trắc nghiệm TrueFalse chỉ gồm 2 loại đáp án đúng hoặc sai và có 1 đáp án đúng, 1 đáp án sai.",
@@ -370,12 +380,23 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     for i in range(0, int(quantity)):
         if i > len(list_topic) - 1:
             continue
-        s = list_topic[i]
+        genned_topic = list_topic[i]
+        print(f"\n\n\n----------------------gened_topic-----------------\n{genned_topic}")
+        if genned_topic[2] == '.':
+            genned_topic = genned_topic[4:]
+        if genned_topic[-2] == '.':
+            genned_topic = genned_topic[:-2] + genned_topic[-1]
         kq = ""
-        prompt = type_dict[
-                     type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + \
+        if topic != "":
+            prompt = type_dict[
+                     type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + " trong chủ đề \"" + topic + "\". " + \
                  difficulty_dict[difficulty]
-        prompt = prompt + "Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
+        else:
+            prompt = type_dict[
+                         type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + ". " + \
+                     difficulty_dict[difficulty]
+        prompt = prompt + " Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
+        print(f"\n\n\n-------------------prompt------------------------\n{prompt}")
         question = agent.chat(prompt)
         kq = str(question.response)
         mcqs.append(kq)
@@ -419,23 +440,22 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
     Settings.text_splitter = text_splitter
 
     PROMPT_TEMPLATE_GEN = (
-        "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng."
-        "Đầu vào là một nội dung môn học."
+        "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng. "
+        "Đầu vào là một nội dung môn học. "
         "Dữ liệu đưa vào là tài liệu về môn học."
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "{context_str}"
-        "\n -----------------------------\n"
+        "\n-----------------------------\n"
         "Quy trình thực hiện step by step để tạo câu hỏi trắc nghiệm."
-        "{prompt_step_by_step}"
+        "\n{prompt_step_by_step}\n"
         "Ví dụ cho việc thực hiện quy trình là:"
-        "{prompt_example}"
-        "\n -----------------------------\n"
-        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi trắc nghiệm theo yêu cầu."
-        "Yêu cầu sinh câu hỏi là: {query_str}"
-        "**Đảm bảo định dạng câu trả lời chỉ gồm 1 câu hỏi trắc nghiệm theo yêu cầu, câu hỏi ở dòng 1, đáp án đúng ghi trên 1 dòng."
-        " Yêu cầu về định dạng câu trả lời là: "
-        "{attention} **"
+        "\n{prompt_example}"
+        "\n-----------------------------\n"
+        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str}\n"
+        "**Yêu cầu về định dạng câu trả lời là:**\n"
+        "{attention}"
     )
+    print(f"---------------PROMPT_TEMPLATE_GEN-----------------\n{PROMPT_TEMPLATE_GEN}")
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
     with open('prompt.json', 'r', encoding='utf-8') as file:
         list_prompt_gen = json.load(file)
@@ -449,13 +469,20 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
             gen_attention = prompt_gen["attention"]
     QA_PROMPT_GEN_FORMAT = QA_PROMPT_GEN.partial_format(prompt_step_by_step=gen_prompt_step_by_step,
                                                         prompt_example=gen_prompt_example, attention=gen_attention)
+
+    print(f"\n\n\n------------gen_prompt_step_by_step--------------------\n{gen_prompt_step_by_step}")
+    print(f"\n\n\n------------gen_prompt_example-------------------------\n{gen_prompt_example}")
+    print(f"\n\n\n------------gen_attention------------------------------\n{gen_attention}")
+
     # print(QA_PROMPT_GEN_FORMAT)
     # GPT
     query_engine1 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_GEN_FORMAT,
                                          llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.5, max_tokens=512),
                                          max_tokens=-1)
     subTopics = select_topic(topic, quantity)
-    list_topic = subTopics.split("',")
+    print(f"\n\n\n------------------subTopics----------------\n{subTopics}")
+    list_topic = subTopics.split(", ")
+    print(f"\n\n\n-------------------list_topic--------------\n{list_topic}")
     notify = ""
     if len(list_topic) < int(quantity):
         notify = "XIN LỖI CHÚNG TÔI KHÔNG THỂ SINH ĐỦ SỐ CÂU HỎI CHO CHỦ ĐỀ NÀY"
@@ -467,17 +494,33 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
         "auto": ""
     }
     type_dict = {
-        "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng và " + str(number_of_answers - 2) + "đáp án sai. Đảm bảo có ít nhất 2 đáp án đúng.",
-        "SingleChoice": "Tạo 1 câu hỏi trắc nghiệm singlechoice gồm " + str(number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
-        "TrueFalse": "Tạo 1 câu hỏi trắc nghiệm TrueFalse chỉ gồm 2 loại đáp án là 'đúng' và 'sai'.",
+        "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(
+            number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng.",
+        "SingleChoice": "Tạo 1 câu hỏi trắc nghiệm singlechoice gồm " + str(
+            number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
+        "TrueFalse": "Tạo 1 câu hỏi trắc nghiệm TrueFalse chỉ gồm 2 loại đáp án đúng hoặc sai và có 1 đáp án đúng, 1 đáp án sai.",
     }
     mcqs = []
     for i in range(0, int(quantity)):
         if i > len(list_topic):
             continue
-        s = list_topic[i]
+        if i > len(list_topic) - 1:
+            continue
+        genned_topic = list_topic[i]
+        if genned_topic[2] == '.':
+            genned_topic = genned_topic[4:]
+        if genned_topic[-2] == '.':
+            genned_topic = genned_topic[:-2] + genned_topic[-1]
         kq = ""
-        prompt = type_dict[type] + "Câu hỏi có nội dung liên quan đến " + s + " trong chủ đề " + topic + difficulty_dict[difficulty]
+        if topic != "":
+            prompt = type_dict[
+                     type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + " trong chủ đề \"" + topic + "\". " + \
+                 difficulty_dict[difficulty]
+        else:
+            prompt = type_dict[
+                         type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + ". " + \
+                     difficulty_dict[difficulty]
+        print(f"\n\n\n----------------prompt--------------\n{prompt}")
         question = query_engine1.query(prompt)
         kq=str(question)
         mcqs.append(kq)
