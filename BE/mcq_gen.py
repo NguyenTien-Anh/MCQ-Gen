@@ -12,6 +12,7 @@ from docx import Document as DocxDocument
 import json
 import string
 
+
 load_dotenv()
 
 react_system_header_str = """\
@@ -76,6 +77,54 @@ Dưới đây là cuộc trò chuyện hiện tại bao gồm các tin nhắn c�
 
 """
 data = None
+
+def get_bloom_evaluation(question):
+    PROMPT_TEMPLATE_BLOOM = (
+    "Dưới đây là một câu hỏi về một môn học bất kỳ."
+    "\n -----------------------------\n"
+    "{context_str}"
+    "\n -----------------------------\n"
+    "Bạn là một chuyên gia về giảng dạy, hãy đánh giá câu hỏi tôi đưa vào theo thang đo Bloom. Thang đo Bloom có 6 cấp độ như sau:"
+    "\n\n1. **Nhớ (Remember)**: Cấp độ này yêu cầu người học ghi nhớ hoặc nhận diện thông tin đã học, không cần hiểu sâu hay giải thích thêm. "
+    "Câu hỏi ở cấp độ này sẽ kiểm tra khả năng nhớ lại các khái niệm, sự kiện, hoặc định nghĩa. "
+    "Ví dụ: 'Nêu định nghĩa của lực ma sát.'"
+    "\n   A. Lực cản trở chuyển động của vật trên bề mặt\n   B. Lực giúp tăng tốc vật chuyển động\n   C. Lực hút giữa hai vật\n   D. Lực làm vật dừng lại hoàn toàn"
+    
+    "\n\n2. **Hiểu (Understand)**: Câu hỏi yêu cầu người học giải thích hoặc diễn giải ý nghĩa của thông tin đã học. "
+    "Đây là cấp độ yêu cầu người học không chỉ nhớ thông tin mà còn phải hiểu và có thể giải thích được ý nghĩa của thông tin đó. "
+    "Ví dụ: 'Tại sao một vật chuyển động lại dừng lại khi không có lực tác dụng thêm?'"
+    "\n   A. Do lực hấp dẫn\n   B. Do lực ma sát làm tiêu hao động năng\n   C. Do trọng lượng vật giảm dần\n   D. Do vận tốc ban đầu không đủ lớn"
+    
+    "\n\n3. **Áp dụng (Apply)**: Câu hỏi yêu cầu sử dụng kiến thức trong tình huống thực tế. "
+    "Ở cấp độ này, người học phải vận dụng các lý thuyết hoặc nguyên lý vào một tình huống mới hoặc thực tế. "
+    "Ví dụ: 'Một xe ô tô đang di chuyển với vận tốc 60 km/h, lực ma sát tác dụng lên xe là 500 N. Tính lực kéo cần thiết để xe giữ nguyên tốc độ.'"
+    "\n   A. 400 N\n   B. 500 N\n   C. 600 N\n   D. 0 N"
+    
+    "\n\n4. **Phân tích (Analyze)**: Câu hỏi yêu cầu người học phân tích thông tin, chia nhỏ và xác định mối quan hệ giữa các phần của thông tin. "
+    "Ở cấp độ này, người học phải phân tích các yếu tố hoặc mối quan hệ giữa các phần của vấn đề để hiểu rõ hơn về chúng. "
+    "Ví dụ: 'Điều gì xảy ra khi tăng độ nhám của bề mặt tiếp xúc trong một hệ thống ma sát?'"
+    "\n   A. Tăng ma sát và giảm chuyển động\n   B. Giảm ma sát và tăng chuyển động\n   C. Không thay đổi ma sát\n   D. Không ảnh hưởng đến chuyển động"
+    
+    "\n\n5. **Đánh giá (Evaluate)**: Câu hỏi yêu cầu người học đưa ra nhận định hoặc đánh giá về một vấn đề hoặc quan điểm. "
+    "Câu hỏi ở cấp độ này yêu cầu người học đưa ra phán đoán dựa trên các tiêu chí hoặc bằng chứng, đánh giá một quan điểm hoặc giải pháp. "
+    "Ví dụ: 'Đánh giá hiệu quả của việc sử dụng phanh ABS trên ô tô so với phanh thường.'"
+    "\n   A. Giúp xe dừng nhanh hơn\n   B. Tăng độ an toàn khi phanh gấp\n   C. Giảm chi phí bảo trì xe\n   D. Không có lợi ích cụ thể nào"
+    
+    "\n\n6. **Sáng tạo (Create)**: Câu hỏi yêu cầu người học tạo ra một sản phẩm mới hoặc giải pháp sáng tạo từ kiến thức đã học. "
+    "Đây là cấp độ yêu cầu người học phát triển một ý tưởng, thiết kế hoặc giải pháp mới. "
+    "Ví dụ: 'Thiết kế một hệ thống phanh xe mới có khả năng tự động điều chỉnh lực phanh dựa trên điều kiện mặt đường.'"
+    "\n   A. Hệ thống điều chỉnh lực bằng cảm biến nhiệt\n   B. Hệ thống ABS kết hợp với phân bố lực phanh điện tử\n   C. Phanh tay kết hợp với hệ thống phanh cơ khí\n   D. Phanh từ tính sử dụng lực hút nam châm"
+    
+    "\n\nHãy đưa ra câu trả lời là **1 level đánh giá** phù hợp nhất (Nhớ, Hiểu, Áp dụng, Phân tích, Đánh giá, hoặc Sáng tạo) mà không cần giải thích: {query_str}"
+    )
+
+    QA_PROMPT_BLOOM = PromptTemplate(PROMPT_TEMPLATE_BLOOM)
+    query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
+                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             max_tokens=-1)
+    response = query_engine_bloom.query(question)
+    return response
+
 
 
 def select_topic(topic, quantity):
@@ -195,23 +244,23 @@ def format_mcq(mcqs):
 
 def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers=4):
     print("NUM ANSWERS: ", number_of_answers)
-    global data
+    global data, file_content
 
     if status == 'true':
         print('ĐANG TẠO DATA ...')
-        file_content = ""
-        if file is not None:
-            print("ĐANG ĐỌC FILE ...")
-            ext_file = file.filename.split('.')[-1]
-            if ext_file == 'pdf':
-                file_content = read_pdf_file(file)
-            elif ext_file == 'docx':
-                file_content = read_docx_file(file)
-            elif ext_file == 'txt':
-                file_content = read_txt_file(file)
-            else:
-                raise ValueError("Unsupported file type")
-            print("ĐỌC FILE THÀNH CÔNG !!!")
+        # file_content = ""
+        # if file is not None:
+            # print("ĐANG ĐỌC FILE ...")
+            # ext_file = file.filename.split('.')[-1]
+            # if ext_file == 'pdf':
+                # file_content = read_pdf_file(file)
+            # elif ext_file == 'docx':
+                # file_content = read_docx_file(file)
+            # elif ext_file == 'txt':
+                # file_content = read_txt_file(file)
+            # else:
+                # raise ValueError("Unsupported file type")
+            # print("ĐỌC FILE THÀNH CÔNG !!!")
 
         text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
         content = file_content if file is not None else inputText
@@ -223,6 +272,19 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     llm = OpenAI(model="gpt-3.5-turbo-0125")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
+    bloom_dict = {
+    "Nhớ": "Câu hỏi yêu cầu người học ghi nhớ hoặc nhận diện thông tin đã học trước đó. Câu hỏi chỉ yêu cầu người học có thể nhớ lại các sự kiện, khái niệm, thuật ngữ, hoặc định nghĩa mà họ đã học. Câu hỏi ở cấp độ này chỉ yêu cầu nhớ lại thông tin, không yêu cầu giải thích hay phân tích gì thêm. Ví dụ: 'Đâu là năm diễn ra Cách mạng Tháng Tám ở Việt Nam?' \nA. 1945 \nB. 1954 \nC. 1975 \nD. 1986",
+    
+    "Hiểu": "Câu hỏi yêu cầu người học giải thích hoặc diễn giải ý nghĩa của thông tin đã học. Người học phải hiểu và nắm vững ý nghĩa của thông tin trước khi có thể diễn đạt lại bằng từ ngữ của mình. Câu hỏi này yêu cầu người học phải làm rõ những gì họ đã học thay vì chỉ đơn giản là nhớ thông tin. Ví dụ: 'Chọn câu trả lời đúng nhất để giải thích tại sao lá cây có màu xanh?' \nA. Do chứa diệp lục hấp thụ ánh sáng xanh \nB. Do chứa diệp lục phản xạ ánh sáng xanh \nC. Do chứa nước trong tế bào lá \nD. Do chứa các sắc tố hấp thụ tất cả ánh sáng ngoại trừ xanh",
+    
+    "Áp dụng": "Câu hỏi yêu cầu sử dụng kiến thức đã học trong các tình huống thực tế. Người học cần phải áp dụng các lý thuyết hoặc nguyên lý vào một tình huống mới. Đây là cấp độ yêu cầu người học sử dụng các công cụ hoặc quy tắc đã học để giải quyết vấn đề. Ví dụ: 'Nếu một tam giác có hai cạnh là 3 cm và 4 cm, đâu là độ dài cạnh huyền?' \nA. 5 cm \nB. 6 cm \nC. 7 cm \nD. 8 cm",
+    
+    "Phân tích": "Câu hỏi yêu cầu người học phân tích thông tin, chia nhỏ thành các phần và hiểu mối quan hệ giữa chúng. Người học cần phải xem xét các yếu tố chi tiết và hiểu cách chúng liên kết hoặc tác động với nhau. Đây là cấp độ đòi hỏi tư duy phức tạp và khả năng phân tích sâu sắc. Ví dụ: 'Trong bài thơ “Tây Tiến” của Quang Dũng, chi tiết nào sau đây thể hiện tinh thần hào hùng của người lính?' \nA. 'Sông Mã xa rồi Tây Tiến ơi!' \nB. 'Đêm mơ Hà Nội dáng kiều thơm' \nC. 'Rải rác biên cương mồ viễn xứ' \nD. 'Áo bào thay chiếu anh về đất'",
+    
+    "Đánh giá": "Câu hỏi yêu cầu đưa ra phán đoán hoặc nhận xét về một ý tưởng, quan điểm dựa trên tiêu chí hoặc bằng chứng học được. Người học cần phải sử dụng lý thuyết và các dữ liệu có sẵn để đánh giá một vấn đề hoặc giải pháp. Đây là cấp độ yêu cầu đưa ra quan điểm cá nhân dựa trên các lý lẽ vững chắc. Ví dụ: 'Đánh giá ý kiến sau: Biến đổi khí hậu là thách thức lớn nhất đối với nhân loại hiện nay. Bạn đồng ý với nhận định này không?' \nA. Hoàn toàn đồng ý \nB. Phần nào đồng ý \nC. Không đồng ý \nD. Không có ý kiến",
+    
+    "Sáng tạo": "Câu hỏi yêu cầu người học tạo ra một sản phẩm mới, ý tưởng mới hoặc giải pháp sáng tạo dựa trên những kiến thức đã học. Đây là cấp độ yêu cầu người học không chỉ tái tạo lại thông tin mà còn phải sáng tạo, phát triển những điều mới mẻ từ kiến thức hiện có. Ví dụ: 'Bạn được giao nhiệm vụ tổ chức một sự kiện tuyên truyền bảo vệ môi trường tại trường học. Đâu là ý tưởng phù hợp nhất?' \nA. Trồng cây xanh tại khuôn viên trường \nB. Tổ chức buổi hội thảo về môi trường \nC. Thiết kế áp phích tuyên truyền bảo vệ môi trường \nD. Cả A, B, và C đều đúng"
+    }
 
     PROMPT_TEMPLATE_GEN = (
         "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng. "
@@ -263,6 +325,9 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     # print(QA_PROMPT_GEN_FORMAT)
     PROMPT_TEMPLATE_EVA = (
         "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn. "
+        "Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó. "
+        "Mức độ khó yêu cầu là:" 
+        "{difficulty_bloom}"
         "Đầu vào là 1 câu hỏi trắc nghiệm về môn học. "
         "Dữ liệu đưa vào là tài liệu về môn học."
         "\n-----------------------------\n"
@@ -291,7 +356,8 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     print(f"\n\n\n---------------eva_prompt_step_by_step-------------------\n{eva_prompt_step_by_step}")
     print(f"\n\n\n---------------eva_prompt_example----------------------\n{eva_prompt_example}")
     print(f"\n\n\n---------------attention_eva_dict[type]----------------\n{attention_eva_dict[type]}")
-    QA_PROMPT_EVA_FORMAT = QA_PROMPT_EVA.partial_format(prompt_step_by_step=eva_prompt_step_by_step,
+    QA_PROMPT_EVA_FORMAT = QA_PROMPT_EVA.partial_format(difficulty_bloom=bloom_dict[difficulty],
+                                                        prompt_step_by_step=eva_prompt_step_by_step,
                                                         prompt_example=eva_prompt_example,
                                                         attention_eva=attention_eva_dict[type])
     # print(QA_PROMPT_EVA_FORMAT)
@@ -323,6 +389,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
                 description=(
                     "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng.  "
                     "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
+                    "Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó. "
                     "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
                     "Nếu các đáp án tương tự nhau thì hãy sửa lại. "
                     "Cải thiện câu hỏi trắc nghiệm. "
@@ -337,6 +404,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
                 description=(
                     "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng. "
                     "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
+                    "Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó. "
                     "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
                     "Nếu các đáp án tương tự nhau thì hãy sửa lại. "
                     "Cải thiện câu hỏi trắc nghiệm. "
@@ -363,12 +431,6 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     if len(list_topic) < int(quantity):
         notify = "XIN LỖI CHÚNG TÔI KHÔNG THỂ SINH ĐỦ CÂU HỎI CHO CHỦ ĐỀ NÀY"
         print(notify)
-    difficulty_dict = {
-        "dễ": "Câu hỏi có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản.",
-        "trung bình": "Câu hỏi có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng.",
-        "cao": "Câu hỏi có độ khó ở mức khó. Câu hỏi khó là câu hỏi dễ gây nhầm lẫn, đòi hỏi sự suy luận của người dùng.",
-        "auto": ""
-    }
     type_dict = {
         "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(
             number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng.",
@@ -390,44 +452,51 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         if topic != "":
             prompt = type_dict[
                      type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + " trong chủ đề \"" + topic + "\". " + \
-                 difficulty_dict[difficulty]
+                 bloom_dict[difficulty]
         else:
             prompt = type_dict[
                          type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + ". " + \
-                     difficulty_dict[difficulty]
+                     bloom_dict[difficulty]
         prompt = prompt + " Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
         print(f"\n\n\n-------------------prompt------------------------\n{prompt}")
         question = agent.chat(prompt)
         kq = str(question.response)
-        mcqs.append(kq)
-    print("TẠO CÂU HỎI THÀNH CÔNG !!!")
-    print("ĐANG FORMAT CÂU HỎI ...")
-    mcqs = format_mcq(mcqs)
-    print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
-    return mcqs, notify
+        eval_question = get_bloom_evaluation(kq)
+        kq= str("topic: ")+str(topic)+"\n"+ str("difficulty fist: ")+str(difficulty)+"\n"+ str("eval_question_with_bloom: ")+str(eval_question)+"\n"+str("Câu hỏi trắc nghiệm: ")+str(kq)
+        with open("kq_check.txt", "a", encoding="utf-8") as file:
+            file.write(kq)
+            file.write("\n\n\n")
+        # mcqs.append(kq)
+    # print("TẠO CÂU HỎI THÀNH CÔNG !!!")
+    # print("ĐANG FORMAT CÂU HỎI ...")
+    # mcqs = format_mcq(mcqs)
+    # print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
+    # return mcqs, notify
 
 
 def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers=4):
     print("NUM ANSWERS: ", number_of_answers)
-    global data
+    global data, file_content
     if file is None:
         print("File IS NONE. USE INPUT TEXT !!!")
     else:
         print("USING FILE !!!")
     if status == 'true':
         print('ĐANG TẠO DATA ...')
-        file_content = ""
-        if file is not None:
-            ext_file = file.filename.split('.')[-1]
-            if ext_file == 'pdf':
-                file_content = read_pdf_file(file)
-            elif ext_file == 'docx':
-                file_content = read_docx_file(file)
-            elif ext_file == 'txt':
-                file_content = read_txt_file(file)
-            else:
-                raise ValueError("Unsupported file type")
-
+        # file_content = ""
+        # if file is not None:
+            # file_path = file
+        # ext_file = file_path.split('.')[-1]
+        # ext_file = file.filename.split('.')[-1]
+        # if ext_file == 'pdf':
+            # file_content = read_pdf_file(file)
+            # elif ext_file == 'docx':
+                # file_content = read_docx_file(file)
+            # elif ext_file == 'txt':
+                # file_content = read_txt_file(file)
+            # else:
+            # raise ValueError("Unsupported file type")
+        # file_content = read_pdf_file(file)
         text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
         content = file_content if file is not None else inputText
         gpt_documents = [Document(text=content)]
@@ -438,6 +507,19 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
     llm = OpenAI(model="gpt-3.5-turbo-0125")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
+    bloom_dict = {
+    "Nhớ": "Câu hỏi yêu cầu người học ghi nhớ hoặc nhận diện thông tin đã học trước đó. Đây là cấp độ cơ bản nhất, chỉ yêu cầu người học có thể nhớ lại các sự kiện, khái niệm, thuật ngữ, hoặc định nghĩa mà họ đã học. Câu hỏi ở cấp độ này chỉ yêu cầu nhớ lại thông tin, không yêu cầu giải thích hay phân tích gì thêm. Ví dụ: 'Đâu là năm diễn ra Cách mạng Tháng Tám ở Việt Nam?' \nA. 1945 \nB. 1954 \nC. 1975 \nD. 1986",
+    
+    "Hiểu": "Câu hỏi yêu cầu người học giải thích hoặc diễn giải ý nghĩa của thông tin đã học. Người học phải hiểu và nắm vững ý nghĩa của thông tin trước khi có thể diễn đạt lại bằng từ ngữ của mình. Câu hỏi này yêu cầu người học phải làm rõ những gì họ đã học thay vì chỉ đơn giản là nhớ thông tin. Ví dụ: 'Chọn câu trả lời đúng nhất để giải thích tại sao lá cây có màu xanh?' \nA. Do chứa diệp lục hấp thụ ánh sáng xanh \nB. Do chứa diệp lục phản xạ ánh sáng xanh \nC. Do chứa nước trong tế bào lá \nD. Do chứa các sắc tố hấp thụ tất cả ánh sáng ngoại trừ xanh",
+    
+    "Áp dụng": "Câu hỏi yêu cầu sử dụng kiến thức đã học trong các tình huống thực tế. Người học cần phải áp dụng các lý thuyết hoặc nguyên lý vào một tình huống mới. Đây là cấp độ yêu cầu người học sử dụng các công cụ hoặc quy tắc đã học để giải quyết vấn đề. Ví dụ: 'Nếu một tam giác có hai cạnh là 3 cm và 4 cm, đâu là độ dài cạnh huyền?' \nA. 5 cm \nB. 6 cm \nC. 7 cm \nD. 8 cm",
+    
+    "Phân tích": "Câu hỏi yêu cầu người học phân tích thông tin, chia nhỏ thành các phần và hiểu mối quan hệ giữa chúng. Người học cần phải xem xét các yếu tố chi tiết và hiểu cách chúng liên kết hoặc tác động với nhau. Đây là cấp độ đòi hỏi tư duy phức tạp và khả năng phân tích sâu sắc. Ví dụ: 'Trong bài thơ “Tây Tiến” của Quang Dũng, chi tiết nào sau đây thể hiện tinh thần hào hùng của người lính?' \nA. 'Sông Mã xa rồi Tây Tiến ơi!' \nB. 'Đêm mơ Hà Nội dáng kiều thơm' \nC. 'Rải rác biên cương mồ viễn xứ' \nD. 'Áo bào thay chiếu anh về đất'",
+    
+    "Đánh giá": "Câu hỏi yêu cầu đưa ra phán đoán hoặc nhận xét về một ý tưởng, quan điểm dựa trên tiêu chí hoặc bằng chứng học được. Người học cần phải sử dụng lý thuyết và các dữ liệu có sẵn để đánh giá một vấn đề hoặc giải pháp. Đây là cấp độ yêu cầu đưa ra quan điểm cá nhân dựa trên các lý lẽ vững chắc. Ví dụ: 'Đánh giá ý kiến sau: Biến đổi khí hậu là thách thức lớn nhất đối với nhân loại hiện nay. Bạn đồng ý với nhận định này không?' \nA. Hoàn toàn đồng ý \nB. Phần nào đồng ý \nC. Không đồng ý \nD. Không có ý kiến",
+    
+    "Sáng tạo": "Câu hỏi yêu cầu người học tạo ra một sản phẩm mới, ý tưởng mới hoặc giải pháp sáng tạo dựa trên những kiến thức đã học. Đây là cấp độ yêu cầu người học không chỉ tái tạo lại thông tin mà còn phải sáng tạo, phát triển những điều mới mẻ từ kiến thức hiện có. Ví dụ: 'Bạn được giao nhiệm vụ tổ chức một sự kiện tuyên truyền bảo vệ môi trường tại trường học. Đâu là ý tưởng phù hợp nhất?' \nA. Trồng cây xanh tại khuôn viên trường \nB. Tổ chức buổi hội thảo về môi trường \nC. Thiết kế áp phích tuyên truyền bảo vệ môi trường \nD. Cả A, B, và C đều đúng"
+    }
 
     PROMPT_TEMPLATE_GEN = (
         "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng. "
@@ -487,12 +569,6 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
     if len(list_topic) < int(quantity):
         notify = "XIN LỖI CHÚNG TÔI KHÔNG THỂ SINH ĐỦ SỐ CÂU HỎI CHO CHỦ ĐỀ NÀY"
         print(notify)
-    difficulty_dict = {
-        "dễ": "Câu hỏi có độ khó ở mức dễ. Câu hỏi dễ là câu hỏi có thông tin dễ dàng tìm kiếm được trong văn bản.",
-        "trung bình": "Câu hỏi có độ khó ở mức trung bình. Câu hỏi trung bình là câu hỏi yêu cầu một vài bước tư duy đơn giản của người dùng.",
-        "cao": "Câu hỏi có độ khó ở mức khó. Câu hỏi khó là câu hỏi dễ gây nhầm lẫn, đòi hỏi sự suy luận của người dùng.",
-        "auto": ""
-    }
     type_dict = {
         "MultipleChoice": "Tạo 1 câu hỏi trắc nghiệm MultipleChoice gồm " + str(
             number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng.",
@@ -515,17 +591,99 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
         if topic != "":
             prompt = type_dict[
                      type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + " trong chủ đề \"" + topic + "\". " + \
-                 difficulty_dict[difficulty]
+                 bloom_dict[difficulty]
         else:
             prompt = type_dict[
                          type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + ". " + \
-                     difficulty_dict[difficulty]
+                     bloom_dict[difficulty]
         print(f"\n\n\n----------------prompt--------------\n{prompt}")
         question = query_engine1.query(prompt)
         kq=str(question)
-        mcqs.append(kq)
-    print("TẠO CÂU HỎI THÀNH CÔNG !!!")
-    print("ĐANG FORMAT CÂU HỎI ...")
-    mcqs = format_mcq(mcqs)
-    print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
-    return mcqs, notify
+        eval_question = get_bloom_evaluation(kq)
+        kq= str("topic: ")+str(topic)+"\n"+ str("difficulty fist: ")+str(difficulty)+"\n"+ str("eval_question_with_bloom: ")+str(eval_question)+"\n"+str(kq)
+        with open("kq1.txt", "a", encoding="utf-8") as file:
+            file.write(kq)
+            file.write("\n\n\n")
+        # mcqs.append(kq)
+    # print("TẠO CÂU HỎI THÀNH CÔNG !!!")
+    # print("ĐANG FORMAT CÂU HỎI ...")
+    # mcqs = format_mcq(mcqs)
+    # print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
+    # return mcqs, notify
+
+bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sáng tạo"]
+topics = [
+    "Khái niệm cơ sở dữ liệu là gì",
+    "Sự cần thiết của các hệ cơ sở dữ liệu",
+    "Mô hình kiến trúc 3 mức của cơ sở dữ liệu",
+    "Mục tiêu của các hệ cơ sở dữ liệu",
+    "Hệ quản trị cơ sở dữ liệu và người quản trị",
+    "Tổ chức lưu trữ dữ liệu",
+    "Các mô hình truy xuất dữ liệu",
+    "Khái niệm về tính toàn vẹn dữ liệu",
+    "Phụ thuộc hàm trong cơ sở dữ liệu",
+    "Chuẩn hóa dữ liệu và các dạng chuẩn",
+    "Ngôn ngữ SQL và truy vấn cơ sở dữ liệu",
+    "Các phép toán trong đại số quan hệ",
+    "Tối ưu hóa câu hỏi trong cơ sở dữ liệu",
+    "Cơ sở dữ liệu phân tán",
+    "Cơ sở dữ liệu hướng đối tượng",
+    "Mô hình cơ sở dữ liệu mạng",
+    "Mô hình cơ sở dữ liệu phân cấp",
+    "Mô hình thực thể - liên kết",
+    "Phân biệt các mô hình dữ liệu",
+    "Cơ sở dữ liệu quan hệ và lý thuyết của E.F. Codd",
+    "Mối quan hệ nhiều - nhiều trong cơ sở dữ liệu",
+    "An toàn và bảo mật cơ sở dữ liệu",
+    "Quản trị truy cập và quyền hạn trong cơ sở dữ liệu",
+    "Phân loại dữ liệu trong cơ sở dữ liệu",
+    "Vai trò của ánh xạ trong mô hình cơ sở dữ liệu",
+    "Các chiến lược sao lưu và phục hồi dữ liệu",
+    "Kiến trúc Client-Server trong cơ sở dữ liệu",
+    "Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet",
+    "Cấu trúc lưu trữ vật lý của cơ sở dữ liệu",
+    "Chức năng của các hệ quản trị cơ sở dữ liệu (DBMS)",
+    "Hệ thống các ký hiệu biểu diễn dữ liệu",
+    "Tập hợp các phép toán thao tác trên cơ sở dữ liệu",
+    "Mô hình dữ liệu mạng",
+    "Mô hình cơ sở dữ liệu phân cấp",
+    "Mô hình cơ sở dữ liệu quan hệ",
+    "Mô hình thực thể - liên kết",
+    "Các đặc trưng của mô hình dữ liệu",
+    "Sự ổn định trong thiết kế mô hình dữ liệu",
+    "Tính đơn giản và tính dư thừa trong mô hình dữ liệu",
+    "Tính đối xứng và cơ sở lý thuyết của mô hình dữ liệu",
+    "Phân biệt giữa các mô hình dữ liệu",
+    "Mô hình dữ liệu hướng đối tượng",
+    "Mô hình dữ liệu phân tán",
+    "Kiến trúc tổng quát hệ cơ sở dữ liệu 3 mức",
+    "Các mô hình truy xuất dữ liệu",
+    "Mô hình dữ liệu quan hệ và lý thuyết đại số quan hệ",
+    "Chuẩn hóa dữ liệu và chuẩn 3NF",
+    "Phương pháp khung nhìn trong tối ưu hóa câu hỏi truy vấn",
+    "Quy trình tối ưu hóa câu hỏi truy vấn trong cơ sở dữ liệu",
+    "Quản lý bộ đệm và bộ nhớ trong hệ quản trị cơ sở dữ liệu",
+    "Quản lý các thao tác trên cơ sở dữ liệu",
+    "Môi trường giao tiếp giữa người sử dụng và hệ cơ sở dữ liệu",
+    "Quản lý quyền hạn truy nhập trong cơ sở dữ liệu",
+    "Sự cần thiết của các hệ cơ sở dữ liệu trong quản lý thông tin",
+    "Các chiến lược sao lưu và phục hồi dữ liệu",
+    "Hệ thống phân tán và cơ sở dữ liệu phân tán",
+    "Tính toàn vẹn của dữ liệu và các ràng buộc toàn vẹn",
+    "Các phương pháp bảo vệ an toàn cơ sở dữ liệu",
+    "Cấu trúc và mô hình cơ sở dữ liệu Client-Server",
+    "Nguyên lý hoạt động của hệ quản trị cơ sở dữ liệu",
+    "Phân loại và quản lý các quyền truy cập cơ sở dữ liệu"
+]
+
+file_content=read_pdf_file("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf")
+import random
+for topic in topics:
+    bloom = random.choice(bloom_list)
+    file_path="E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf"
+    quantity=3
+    difficulty=bloom
+    number_of_answers=4
+    type="SingleChoice"
+    mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)
+    # print(test)

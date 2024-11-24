@@ -1,0 +1,1164 @@
+topic: Khái niệm cơ sở dữ liệu là gì
+difficulty fist: Phân tích
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi: Cơ sở dữ liệu là gì?
+
+A. Là một bộ sưu tập rất lớn về các loại dữ liệu tác nghiệp.
+B. Là một bộ sưu tập về âm thanh và hình ảnh.
+C. Là một bộ sưu tập về các loại sách và tạp chí.
+D. Là một bộ sưu tập về các loại thực phẩm.
+
+Đáp án đúng: A. Là một bộ sưu tập rất lớn về các loại dữ liệu tác nghiệp.
+
+
+topic: Khái niệm cơ sở dữ liệu là gì
+difficulty fist: Phân tích
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+Trong khái niệm cơ sở dữ liệu, điều gì là một ưu điểm khi tổ chức lưu trữ dữ liệu theo lý thuyết cơ sở dữ liệu?
+
+A. Dữ liệu được lưu trữ một cách tối ưu nhất
+B. Dữ liệu được lưu trữ một cách tăng cường dư thừa
+C. Dữ liệu không được lưu trữ theo quy tắc toán học
+D. Dữ liệu được lưu trữ một cách không khách quan
+
+Đáp án đúng: A. Dữ liệu được lưu trữ một cách tối ưu nhất
+
+
+topic: Khái niệm cơ sở dữ liệu là gì
+difficulty fist: Phân tích
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+"Mô hình kiến trúc 3 mức cơ sở dữ liệu trong cơ sở dữ liệu là gì?"
+
+A. Là mô hình kiến trúc gồm 3 bảng dữ liệu chính
+B. Là mô hình kiến trúc gồm 3 cấp độ khác nhau để tổ chức dữ liệu
+C. Là mô hình kiến trúc gồm 3 loại dữ liệu khác nhau
+D. Là mô hình kiến trúc gồm 3 hệ quản trị cơ sở dữ liệu khác nhau
+
+Đáp án đúng: B. Là mô hình kiến trúc gồm 3 cấp độ khác nhau để tổ chức dữ liệu
+
+
+topic: Sự cần thiết của các hệ cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi trắc nghiệm:
+
+Mục tiêu của các hệ cơ sở dữ liệu là gì?
+
+A. Để thay đổi cấu trúc lưu trữ dữ liệu một cách linh hoạt
+B. Để tạo ra nhiều bản sao dữ liệu để dễ dàng truy cập
+C. Để bảo đảm người sử dụng không thay đổi cấu trúc lưu trữ dữ liệu và chiến lược truy nhập tới các hệ cơ sở dữ liệu
+D. Để tối ưu hóa việc lưu trữ dữ liệu trên máy tính
+
+Đáp án đúng: C. Để bảo đảm người sử dụng không thay đổi cấu trúc lưu trữ dữ liệu và chiến lược truy nhập tới các hệ cơ sở dữ liệu.
+
+
+topic: Sự cần thiết của các hệ cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Đánh giá: Đánh giá (Evaluate)
+Câu hỏi trắc nghiệm:
+
+"Tính độc lập của dữ liệu thể hiện mô hình kiến trúc 3 mức trong hệ cơ sở dữ liệu bằng cách nào?"
+A. Tính độc lập của dữ liệu đảm bảo rằng dữ liệu không bị trùng lặp.
+B. Tính độc lập của dữ liệu đảm bảo rằng dữ liệu có thể được truy cập một cách đồng nhất.
+C. Tính độc lập của dữ liệu đảm bảo rằng dữ liệu có thể được thay đổi mà không ảnh hưởng đến các ứng dụng khác.
+D. Tính độc lập của dữ liệu đảm bảo rằng dữ liệu có thể được truy xuất một cách hiệu quả.
+
+Đáp án đúng: C. Tính độc lập của dữ liệu đảm bảo rằng dữ liệu có thể được thay đổi mà không ảnh hưởng đến các ứng dụng khác.
+
+
+topic: Sự cần thiết của các hệ cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi trắc nghiệm: Cơ sở dữ liệu là tài nguyên thông tin dùng chung cho nhiều người vì lý do gì?
+
+A. Để giảm bớt dư thừa dữ liệu trong lưu trữ
+B. Để tránh không nhất quán trong lưu trữ dữ liệu
+C. Để bảo đảm được tính toàn vẹn của dữ liệu
+D. Để chia sẻ chung cho nhiều người sử dụng
+
+Đáp án đúng: D. Để chia sẻ chung cho nhiều người sử dụng
+
+
+topic: Mô hình kiến trúc 3 mức của cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi trắc nghiệm: "Mô hình kiến trúc 3 mức của cơ sở dữ liệu là gì?"
+
+A. Mô hình phân cấp, mô hình mạng, mô hình quan hệ
+B. Mô hình phân cấp, mô hình đối tượng, mô hình mạng
+C. Mô hình phân cấp, mô hình đối tượng, mô hình quan hệ
+D. Mô hình mạng, mô hình đối tượng, mô hình quan hệ
+
+Đáp án đúng: C. Mô hình phân cấp, mô hình đối tượng, mô hình quan hệ
+
+
+topic: Mô hình kiến trúc 3 mức của cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi: Trong mô hình kiến trúc 3 mức của cơ sở dữ liệu, tại sao việc đảm bảo tính độc lập dữ liệu và tính ổn định cao là quan trọng?
+
+A. Để giảm thời gian truy xuất dữ liệu
+B. Để bảo đảm tính toàn vẹn dữ liệu
+C. Để tối ưu hóa câu hỏi
+D. Để giảm chi phí lưu trữ dữ liệu
+
+Đáp án đúng: B. Để bảo đảm tính toàn vẹn dữ liệu
+
+
+topic: Mô hình kiến trúc 3 mức của cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Vai trò và chức năng của hệ quản trị CSDL trong mô hình kiến trúc 3 mức của cơ sở dữ liệu là gì?
+
+A. Hệ quản trị CSDL giúp quản lý và bảo vệ dữ liệu trong cơ sở dữ liệu.
+B. Hệ quản trị CSDL chỉ đảm bảo tính toàn vẹn của dữ liệu.
+C. Hệ quản trị CSDL chỉ đảm bảo tính độc lập của dữ liệu.
+D. Hệ quản trị CSDL không liên quan đến mô hình kiến trúc 3 mức của cơ sở dữ liệu.
+
+Đáp án đúng: A. Hệ quản trị CSDL giúp quản lý và bảo vệ dữ liệu trong cơ sở dữ liệu.
+
+
+topic: Mục tiêu của các hệ cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Nhớ
+Câu hỏi trắc nghiệm:
+
+"Mục tiêu trao đổi trong hệ cơ sở dữ liệu đó là gì?"
+
+A. Mô hình dữ liệu đơn giản về cấu trúc
+B. Mục tiêu trao đổi: Mô hình dữ liệu đơn giản về cấu trúc
+C. Mục tiêu xử lý tệp: Người sử dụng có thể sử dụng ngôn ngữ bậc cao để biểu diễn các phép toán trên các mảng thông tin
+D. Mô hình được xây dựng trên cơ sở lý thuyết vững chắc
+
+Đáp án đúng: B. Mục tiêu trao đổi: Mô hình dữ liệu đơn giản về cấu trúc
+
+
+topic: Mục tiêu của các hệ cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+"Mục tiêu xử lý tệp trong hệ cơ sở dữ liệu là gì?"
+
+A. Tạo ra các biểu đồ thống kê từ dữ liệu
+B. Cho phép người dùng sử dụng ngôn ngữ bậc cao để biểu diễn các phép toán trên mảng thông tin
+C. Kiểm tra tính độc lập của dữ liệu
+D. Đảm bảo người dùng có thể truy cập và thao tác trên dữ liệu một cách hiệu quả
+
+Đáp án đúng: D. Đảm bảo người dùng có thể truy cập và thao tác trên dữ liệu một cách hiệu quả
+
+
+topic: Mục tiêu của các hệ cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Mục tiêu nào sau đây không phải là mục tiêu của các hệ cơ sở dữ liệu?
+A. Mục tiêu trao đổi
+B. Mục tiêu xử lý tệp
+C. Mục tiêu giảm chi phí
+D. Mục tiêu hướng giá trị
+
+Đáp án đúng: C. Mục tiêu giảm chi phí
+
+
+topic: Hệ quản trị cơ sở dữ liệu và người quản trị
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi trắc nghiệm: "Hệ quản trị cơ sở dữ liệu (DBMS) là gì?"
+
+A. Hệ quản trị cơ sở dữ liệu là một phần mềm giúp quản lý và tổ chức dữ liệu trong cơ sở dữ liệu.
+B. Hệ quản trị cơ sở dữ liệu là một loại máy tính chuyên dụng để lưu trữ dữ liệu.
+C. Hệ quản trị cơ sở dữ liệu là một hệ thống lưu trữ dữ liệu trên điện toán đám mây.
+D. Hệ quản trị cơ sở dữ liệu là một công cụ dùng để chia sẻ dữ liệu trên mạng Internet.
+
+Đáp án đúng: A. Hệ quản trị cơ sở dữ liệu là một phần mềm giúp quản lý và tổ chức dữ liệu trong cơ sở dữ liệu.
+
+
+topic: Hệ quản trị cơ sở dữ liệu và người quản trị
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Đánh giá: **Hiểu**
+Câu hỏi trắc nghiệm:
+
+Vai trò của người quản trị cơ sở dữ liệu trong việc điều khiển truy nhập và cấu trúc lưu trữ dữ liệu là gì?
+
+A. Chỉ người quản trị cơ sở dữ liệu mới có thể truy cập vào dữ liệu
+B. Người quản trị cơ sở dữ liệu không có vai trò quan trọng trong việc điều khiển truy nhập dữ liệu
+C. Người quản trị cơ sở dữ liệu đảm bảo an toàn, toàn vẹn và hiệu quả của dữ liệu
+D. Việc điều khiển truy nhập dữ liệu hoàn toàn tự động và không cần sự can thiệp của người quản trị
+
+Đáp án đúng: C. Người quản trị cơ sở dữ liệu đảm bảo an toàn, toàn vẹn và hiệu quả của dữ liệu
+
+
+topic: Hệ quản trị cơ sở dữ liệu và người quản trị
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Phân tích.
+Câu hỏi: "Cách nào sau đây không phải là một cách để bảo đảm tính độc lập của dữ liệu trong hệ quản trị cơ sở dữ liệu?"
+A. Sử dụng ràng buộc khóa ngoại để đảm bảo tính nhất quán dữ liệu.
+B. Sử dụng giao thức ACID để đảm bảo tính toàn vẹn của dữ liệu.
+C. Sử dụng hệ thống sao lưu và phục hồi dữ liệu định kỳ.
+D. Sử dụng ngôn ngữ lập trình để thay đổi cấu trúc dữ liệu một cách linh hoạt.
+Đáp án đúng: D. Sử dụng ngôn ngữ lập trình để thay đổi cấu trúc dữ liệu một cách linh hoạt.
+
+
+topic: Tổ chức lưu trữ dữ liệu
+difficulty fist: Đánh giá
+eval_question_with_bloom: Phân loại: Hiểu
+Câu hỏi trắc nghiệm: "Tính toàn vẹn dữ liệu là gì trong lĩnh vực tổ chức lưu trữ dữ liệu?"
+
+A. Tính khả thi của dữ liệu
+B. Tính toàn vẹn dữ liệu
+C. Tính độc lập của dữ liệu
+D. Tính nhất quán của dữ liệu
+
+Đáp án đúng: B. Tính toàn vẹn dữ liệu
+
+
+topic: Tổ chức lưu trữ dữ liệu
+difficulty fist: Đánh giá
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Tính độc lập của dữ liệu là yếu tố quan trọng trong việc bảo đảm gì với các chiến lược tìm kiếm, truy xuất dữ liệu?
+A. Tính khả thi của dữ liệu 
+B. Tính toàn vẹn dữ liệu 
+C. Tính độc lập của dữ liệu 
+D. Tính nhất quán của dữ liệu 
+
+Đáp án đúng: C. Tính độc lập của dữ liệu
+
+
+topic: Tổ chức lưu trữ dữ liệu
+difficulty fist: Đánh giá
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi trắc nghiệm: 
+
+Hệ quản trị CSDL đảm bảo tính độc lập dữ liệu và tính ổn định cao trong việc quản lý dữ liệu. Điều nào sau đây mô tả đúng về vai trò của hệ quản trị CSDL?
+
+A. Hệ quản trị CSDL không cần phải bảo vệ dữ liệu.
+B. Hệ quản trị CSDL không cần phải đảm bảo tính độc lập của dữ liệu.
+C. Hệ quản trị CSDL đảm bảo tính toàn vẹn dữ liệu và tính nhất quán của dữ liệu.
+D. Hệ quản trị CSDL không cần phải quản lý truy xuất dữ liệu.
+
+Đáp án đúng: C. Hệ quản trị CSDL đảm bảo tính toàn vẹn dữ liệu và tính nhất quán của dữ liệu.
+
+
+topic: Các mô hình truy xuất dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Trong mô hình dữ liệu quan hệ, điều gì đặc biệt về tính đối xứng phải được bảo toàn?
+
+A. Tính ngẫu nhiên của dữ liệu
+B. Tính toàn vẹn của dữ liệu
+C. Tính khả thi của dữ liệu
+D. Tính đối xứng của dữ liệu
+
+Đáp án đúng: D. Tính đối xứng của dữ liệu
+
+
+topic: Các mô hình truy xuất dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi: Trong mô hình dữ liệu logic, các toán hạng là gì và các phép toán là gì?
+A. Các toán hạng là biểu thức logic, các phép toán là phép AND, OR, NOT
+B. Các toán hạng là biểu thức số học, các phép toán là cộng, trừ, nhân, chia
+C. Các toán hạng là biểu thức chuỗi, các phép toán là nối chuỗi, cắt chuỗi
+D. Các toán hạng là biểu thức đại số quan hệ, các phép toán là JOIN, SELECT, WHERE
+
+Đáp án đúng: A. Các toán hạng là biểu thức logic, các phép toán là phép AND, OR, NOT
+
+
+topic: Các mô hình truy xuất dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi: Trong mô hình dữ liệu quan hệ, điều gì xác định rằng mỗi bản ghi trong bảng phải có một giá trị duy nhất để phân biệt nó với các bản ghi khác?
+A. Khóa chính
+B. Khóa ngoại
+C. Trường dữ liệu
+D. Index
+
+Đáp án đúng: A. Khóa chính
+
+
+topic: Khái niệm về tính toàn vẹn dữ liệu
+difficulty fist: Đánh giá
+eval_question_with_bloom: (Đánh giá)
+Câu hỏi trắc nghiệm:
+
+Định nghĩa về tính toàn vẹn dữ liệu trong cơ sở dữ liệu là gì?
+
+A. Tính khả thi của dữ liệu
+B. Tính toàn vẹn dữ liệu
+C. Tính độc lập của dữ liệu
+D. Tính nhất quán của dữ liệu
+
+Đáp án đúng: B. Tính toàn vẹn dữ liệu
+
+
+topic: Khái niệm về tính toàn vẹn dữ liệu
+difficulty fist: Đánh giá
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi: "Vai trò của tính toàn vẹn dữ liệu trong bảo đảm chất lượng dữ liệu là gì?"
+
+A. Tính độc lập của dữ liệu
+B. Tính toàn vẹn dữ liệu
+C. Tính nhất quán của dữ liệu
+D. Tính khả thi của dữ liệu
+
+Đáp án đúng: B. Tính toàn vẹn dữ liệu
+
+
+topic: Khái niệm về tính toàn vẹn dữ liệu
+difficulty fist: Đánh giá
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm: Các phương pháp và kỹ thuật nào được sử dụng để đảm bảo tính toàn vẹn dữ liệu?
+A. Chỉ sử dụng kiểm tra dữ liệu khi nhập liệu
+B. Sử dụng mã hóa dữ liệu để bảo vệ tính toàn vẹn
+C. Không cần phải đảm bảo tính toàn vẹn dữ liệu
+D. Sử dụng dữ liệu từ nguồn không tin cậy để tăng độ phong phú của dữ liệu
+
+Đáp án đúng: B. Sử dụng mã hóa dữ liệu để bảo vệ tính toàn vẹn
+
+
+topic: Phụ thuộc hàm trong cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Nhớ
+Câu hỏi: "Phụ thuộc hàm trong cơ sở dữ liệu là gì?"
+
+A. Một loại ràng buộc giữa các thuộc tính trong một bảng dữ liệu
+B. Quá trình xác định các quan hệ giữa các bảng dữ liệu
+C. Một loại hàm số tính toán trên dữ liệu trong cơ sở dữ liệu
+D. Quá trình tạo ra các bảng dữ liệu từ dữ liệu nguồn
+
+Đáp án đúng: A. Một loại ràng buộc giữa các thuộc tính trong một bảng dữ liệu
+
+
+topic: Phụ thuộc hàm trong cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm:
+
+Cách xác định phụ thuộc hàm trong một lược đồ quan hệ là gì?
+
+A. Phụ thuộc hàm không phụ thuộc vào quan hệ cụ thể.
+B. Phụ thuộc hàm phụ thuộc vào quan hệ cụ thể.
+C. Phụ thuộc hàm chỉ phụ thuộc vào thuộc tính khóa chính.
+D. Phụ thuộc hàm chỉ phụ thuộc vào thuộc tính ngoại khoá.
+
+Đáp án đúng: A. Phụ thuộc hàm không phụ thuộc vào quan hệ cụ thể.
+
+
+topic: Phụ thuộc hàm trong cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi: Trong thiết kế cơ sở dữ liệu, phụ thuộc hàm đóng vai trò quan trọng như thế nào?
+A. Phụ thuộc hàm giúp giảm thiểu việc lưu trữ dữ liệu
+B. Phụ thuộc hàm giúp tăng hiệu suất truy xuất dữ liệu
+C. Phụ thuộc hàm giúp xác định quan hệ giữa các bảng dữ liệu
+D. Phụ thuộc hàm giúp tạo ra dữ liệu ngẫu nhiên
+
+Đáp án đúng: C. Phụ thuộc hàm giúp xác định quan hệ giữa các bảng dữ liệu
+
+
+topic: Chuẩn hóa dữ liệu và các dạng chuẩn
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm:
+
+Trong quá trình chuẩn hóa dữ liệu, khái niệm "Phụ thuộc chức năng" đề cập đến việc:
+A. Loại bỏ dữ liệu trùng lặp trong cơ sở dữ liệu.
+B. Xác định các ràng buộc giữa các cột trong bảng dữ liệu.
+C. Tạo ra các quan hệ giữa các bảng dữ liệu khác nhau.
+D. Đảm bảo dữ liệu trong cơ sở dữ liệu tuân theo các quy tắc chuẩn.
+
+Đáp án đúng: B. Xác định các ràng buộc giữa các cột trong bảng dữ liệu.
+
+
+topic: Chuẩn hóa dữ liệu và các dạng chuẩn
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Trong chuẩn hóa dữ liệu, dạng chuẩn nào giúp loại bỏ sự phụ thuộc đa trị (multivalued dependency) giữa các cột trong bảng?
+
+A. Dạng chuẩn 1NF
+B. Dạng chuẩn 2NF
+C. Dạng chuẩn 3NF
+D. Dạng chuẩn BCNF
+
+Đáp án đúng: C. Dạng chuẩn 3NF
+
+
+topic: Chuẩn hóa dữ liệu và các dạng chuẩn
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Quy trình chuẩn hóa dữ liệu trong cơ sở dữ liệu là gì?
+
+A. Chỉ cần loại bỏ dữ liệu trùng lặp
+B. Chỉ cần chuyển đổi dữ liệu về cùng một đơn vị đo lường
+C. Loại bỏ dữ liệu không hợp lệ và không chuẩn
+D. Chuyển đổi dữ liệu về định dạng chuẩn để tiện lợi trong việc xử lý và phân tích
+
+Đáp án đúng: D. Chuyển đổi dữ liệu về định dạng chuẩn để tiện lợi trong việc xử lý và phân tích
+
+
+topic: Ngôn ngữ SQL và truy vấn cơ sở dữ liệu
+difficulty fist: Áp dụng
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+Câu lệnh SELECT trong SQL được sử dụng để:
+A. Xóa dữ liệu từ bảng.
+B. Thêm dữ liệu vào bảng.
+C. Truy vấn dữ liệu từ bảng.
+D. Cập nhật dữ liệu trong bảng.
+
+Đáp án đúng: C. Truy vấn dữ liệu từ bảng.
+
+
+topic: Ngôn ngữ SQL và truy vấn cơ sở dữ liệu
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích.
+Câu hỏi: "Trong ngôn ngữ SQL, câu lệnh WHERE được sử dụng để làm gì?"
+A. Để sắp xếp dữ liệu theo thứ tự tăng dần.
+B. Để chọn các cột dữ liệu cần hiển thị trong kết quả truy vấn.
+C. Để lọc dữ liệu dựa trên điều kiện cụ thể.
+D. Để kết hợp dữ liệu từ nhiều bảng khác nhau.
+Đáp án đúng: C. Để lọc dữ liệu dựa trên điều kiện cụ thể.
+
+
+topic: Ngôn ngữ SQL và truy vấn cơ sở dữ liệu
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi: Trong câu lệnh SQL, mệnh đề nào được sử dụng để nhóm các hàng dữ liệu theo các thuộc tính cụ thể của quan hệ và áp dụng điều kiện nhóm?
+A. WHERE
+B. ORDER BY
+C. GROUP BY
+D. HAVING
+
+Đáp án đúng: C. GROUP BY
+
+
+topic: Các phép toán trong đại số quan hệ
+difficulty fist: Đánh giá
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi: Phép chọn SELECT trong đại số quan hệ được sử dụng để làm gì?
+
+A. Tạo ra một quan hệ mới với các bộ dữ liệu duy nhất từ quan hệ nguồn thoả mãn một điều kiện xác định.
+B. Thực hiện phép kết nối giữa hai quan hệ trên miền thuộc tính chung.
+C. Xóa các bộ dữ liệu trùng lặp từ quan hệ nguồn.
+D. Thực hiện sửa đổi giá trị của một số thuộc tính trong quan hệ.
+
+Đáp án đúng: A. Tạo ra một quan hệ mới với các bộ dữ liệu duy nhất từ quan hệ nguồn thoả mãn một điều kiện xác định.
+
+
+topic: Các phép toán trong đại số quan hệ
+difficulty fist: Đánh giá
+eval_question_with_bloom: Nhớ.
+Câu hỏi: Phép chiếu PROJECT trong đại số quan hệ là gì?
+
+A. Tạo ra một quan hệ mới, các bộ được rút ra một cách duy nhất từ các bộ của quan hệ nguồn thoả mãn một điều kiện xác định.
+B. Tạo ra một quan hệ mới, các thuộc tính được rút ra hoặc được biến đổi từ các thuộc tính của quan hệ nguồn, các bộ là các bộ của quan hệ nguồn bỏ đi những bộ trùng lặp.
+C. Nhằm tạo ra một quan hệ mới, bằng cách nối nhiều quan hệ trên miền thuộc tính chung.
+D. Tạo ra một quan hệ mới, bằng cách chọn các bộ dữ liệu thoả mãn một điều kiện xác định.
+
+Đáp án đúng: B. Tạo ra một quan hệ mới, các thuộc tính được rút ra hoặc được biến đổi từ các thuộc tính của quan hệ nguồn, các bộ là các bộ của quan hệ nguồn bỏ đi những bộ trùng lặp.
+
+
+topic: Các phép toán trong đại số quan hệ
+difficulty fist: Đánh giá
+eval_question_with_bloom: Nhớ
+Câu hỏi: Phép kết nối JOIN trong đại số quan hệ là gì?
+A. Phép chọn SELECT
+B. Phép chiếu PROJECT
+C. Phép kết nối JOIN
+D. Phép chèn thêm
+Đáp án đúng: C. Phép kết nối JOIN
+
+
+topic: Tối ưu hóa câu hỏi trong cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Đánh giá theo thang đo Bloom: Đây là cấp độ **Hiểu** (Understand) vì câu hỏi yêu cầu hiểu và nhận biết thông tin về việc bảo đảm tính độc lập của dữ liệu trong quá trình tối ưu hóa câu hỏi truy vấn.
+Câu hỏi trắc nghiệm:
+Trong quá trình tối ưu hóa câu hỏi truy vấn dữ liệu, điều gì được xem là quan trọng để bảo đảm tính độc lập của dữ liệu với các chiến lược tìm kiếm, truy xuất dữ liệu?
+A. Tính khả thi của dữ liệu
+B. Tính toàn vẹn dữ liệu
+C. Tính độc lập của dữ liệu
+D. Tính nhất quán của dữ liệu
+
+Đáp án đúng: C. Tính độc lập của dữ liệu
+
+
+topic: Tối ưu hóa câu hỏi trong cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm: Trong kỹ thuật tối ưu hóa câu hỏi truy vấn, việc biến đổi dữ liệu sao cho chi phí thời gian thực hiện các phép toán là ít nhất được gọi là gì?
+A. Tính khả thi của dữ liệu
+B. Tính toàn vẹn dữ liệu
+C. Tính độc lập của dữ liệu
+D. Tính nhất quán của dữ liệu
+
+Đáp án đúng: C. Tính độc lập của dữ liệu
+
+
+topic: Tối ưu hóa câu hỏi trong cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm:
+Phương pháp nào sau đây được sử dụng để tối ưu hóa câu hỏi trong cơ sở dữ liệu?
+A. Phân rã câu hỏi dựa trên ngôn ngữ của đại số quan hệ.
+B. Sử dụng ngôn ngữ dữ liệu để biến đổi câu hỏi.
+C. Biểu thức đại số quan hệ không ảnh hưởng đến tối ưu hóa câu hỏi.
+D. Suy luận logic từ các tiên đề Armstrong không liên quan đến tối ưu hóa câu hỏi.
+
+Đáp án đúng: A. Phân rã câu hỏi dựa trên ngôn ngữ của đại số quan hệ.
+
+
+topic: Cơ sở dữ liệu phân tán
+difficulty fist: Nhớ
+eval_question_with_bloom: Phân tích
+Câu hỏi: "Đặc điểm nào sau đây không phải là đặc điểm của cơ sở dữ liệu phân tán?"
+A. Tính phân tán
+B. Tính độc lập
+C. Tính nhất quán
+D. Tính toàn vẹn
+
+Đáp án đúng: B. Tính độc lập
+
+
+topic: Cơ sở dữ liệu phân tán
+difficulty fist: Nhớ
+eval_question_with_bloom: Đánh giá: **Đánh giá (Evaluate)**
+Câu hỏi: "Ưu điểm nào sau đây là đúng về cơ sở dữ liệu phân tán?"
+A. Dễ dàng quản lý và bảo trì
+B. Tăng tính sẵn sàng và khả năng chịu lỗi
+C. Chi phí triển khai thấp
+D. Không cần kết nối mạng để truy cập dữ liệu
+
+Đáp án đúng: B. Tăng tính sẵn sàng và khả năng chịu lỗi
+
+
+topic: Cơ sở dữ liệu phân tán
+difficulty fist: Nhớ
+eval_question_with_bloom: Đánh giá: **Đánh giá (Evaluate)**
+Câu hỏi trắc nghiệm: Trong quản lý cơ sở dữ liệu phân tán, vấn đề nào sau đây là một thách thức phổ biến?
+A. Tính toàn vẹn dữ liệu không cần quan tâm
+B. Tính độc lập của dữ liệu không quan trọng
+C. Tính nhất quán của dữ liệu không cần kiểm tra
+D. Tính khả thi của dữ liệu là yếu tố quan trọng
+
+Đáp án đúng: D. Tính khả thi của dữ liệu là yếu tố quan trọng
+
+
+topic: Cơ sở dữ liệu hướng đối tượng
+difficulty fist: Áp dụng
+eval_question_with_bloom: Áp dụng
+Câu hỏi trắc nghiệm:
+
+Trong cơ sở dữ liệu hướng đối tượng, định nghĩa nào sau đây đúng về đa hình (polymorphism)?
+
+A. Đa hình cho phép một đối tượng kế thừa các thuộc tính từ nhiều lớp khác nhau.
+B. Đa hình cho phép một phương thức có thể thực hiện các hành vi khác nhau tùy theo đối tượng gọi nó.
+C. Đa hình là khả năng của một lớp kế thừa từ nhiều lớp cha.
+D. Đa hình là khả năng của một đối tượng có thể thay đổi kiểu dữ liệu của nó.
+
+Đáp án:
+B. Đa hình cho phép một phương thức có thể thực hiện các hành vi khác nhau tùy theo đối tượng gọi nó.
+
+
+topic: Cơ sở dữ liệu hướng đối tượng
+difficulty fist: Áp dụng
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+Ưu điểm nào sau đây là đúng về cơ sở dữ liệu hướng đối tượng?
+
+A. Dễ dàng mở rộng và bảo trì
+B. Không cung cấp tính kế thừa
+C. Không thể tái sử dụng code
+D. Không hỗ trợ việc lập trình phân tán
+
+Đáp án đúng: A. Dễ dàng mở rộng và bảo trì
+
+
+topic: Cơ sở dữ liệu hướng đối tượng
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi: Trong cơ sở dữ liệu hướng đối tượng, đặc điểm nào sau đây không phải là đặc điểm chính của mô hình hướng đối tượng?
+A. Kế thừa
+B. Đa hình
+C. Tính trừu tượng
+D. Tính toàn vẹn dữ liệu
+
+Đáp án đúng: D. Tính toàn vẹn dữ liệu
+
+
+topic: Mô hình cơ sở dữ liệu mạng
+difficulty fist: Nhớ
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm:
+Trong mô hình quan hệ trong cơ sở dữ liệu mạng, điều gì đúng về quan hệ giữa các bảng dữ liệu?
+A. Mỗi bảng dữ liệu có thể có nhiều quan hệ với các bảng khác.
+B. Mỗi bảng dữ liệu chỉ có thể có một quan hệ với một bảng khác.
+C. Quan hệ giữa các bảng dữ liệu không quan trọng trong mô hình quan hệ.
+D. Quan hệ giữa các bảng dữ liệu chỉ có thể là một-nhiều.
+
+Đáp án đúng: A. Mỗi bảng dữ liệu có thể có nhiều quan hệ với các bảng khác.
+
+
+topic: Mô hình cơ sở dữ liệu mạng
+difficulty fist: Nhớ
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm: Trong mô hình phân cấp trong cơ sở dữ liệu mạng, điều nào sau đây mô tả đúng về quan hệ giữa các entites?
+A. Mỗi entity chỉ có thể tham chiếu đến một entity khác.
+B. Mỗi entity có thể tham chiếu đến nhiều entity khác.
+C. Mỗi entity không thể tham chiếu đến entity khác.
+D. Mỗi entity chỉ tham chiếu đến chính nó.
+
+Đáp án đúng: B. Mỗi entity có thể tham chiếu đến nhiều entity khác.
+
+
+topic: Mô hình cơ sở dữ liệu mạng
+difficulty fist: Nhớ
+eval_question_with_bloom: Phân tích
+Câu hỏi: Trong mô hình cơ sở dữ liệu mạng, khái niệm "Tuyến cáp" được biểu diễn bằng trường nào sau đây trong quan hệ TUYEN?
+A. TC (Tên gọi tuyến cáp)
+B. T# (Mã tuyến)
+C. DAI (Độ dài tuyến cáp)
+D. GIA (Đơn giá)
+Đáp án đúng: B. T# (Mã tuyến)
+
+
+topic: Mô hình cơ sở dữ liệu phân cấp
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi: "Trong mô hình cơ sở dữ liệu phân cấp, quan hệ giữa các thực thể được thể hiện như thế nào?"
+
+A. Bằng cách sử dụng các bảng riêng biệt
+B. Bằng cách sử dụng các trường tham chiếu
+C. Bằng cách sử dụng các quan hệ cha con
+D. Bằng cách sử dụng các trường chung
+
+Đáp án đúng: C. Bằng cách sử dụng các quan hệ cha con
+
+
+topic: Mô hình cơ sở dữ liệu phân cấp
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm: "Ưu điểm nào sau đây là đúng về mô hình cơ sở dữ liệu phân cấp?"
+A. Dễ hiểu và dễ thực hiện
+B. Dễ mở rộng và thay đổi cấu trúc dữ liệu
+C. Hiệu suất truy xuất dữ liệu cao
+D. Không có sự phức tạp trong việc quản lý dữ liệu
+Đáp án đúng: B. Dễ mở rộng và thay đổi cấu trúc dữ liệu
+
+
+topic: Mô hình cơ sở dữ liệu phân cấp
+difficulty fist: Áp dụng
+eval_question_with_bloom: Nhớ
+Câu hỏi trắc nghiệm:
+
+Trong mô hình cơ sở dữ liệu phân cấp, quan hệ giữa các thực thể được biểu diễn bằng cách nào?
+A. Bảng
+B. Cây
+C. Đồ thị
+D. Danh sách
+
+Đáp án đúng: B. Cây
+
+
+topic: Mô hình thực thể - liên kết
+difficulty fist: Hiểu
+eval_question_with_bloom: Level: Hiểu
+Câu hỏi: Trong mô hình thực thể quan hệ, mối quan hệ giữa các thực thể được biểu diễn như thế nào?
+A. Bằng cách sử dụng các hằng số
+B. Bằng cách sử dụng các biến số
+C. Bằng cách sử dụng các mảng
+D. Bằng cách sử dụng các khóa ngoại
+
+Đáp án đúng: D. Bằng cách sử dụng các khóa ngoại
+
+
+topic: Mô hình thực thể - liên kết
+difficulty fist: Hiểu
+eval_question_with_bloom: Nhớ
+Câu hỏi trắc nghiệm: "Trong mô hình thực thể - liên kết, khái niệm 'Liên kết giữa các thực thể' ám chỉ điều gì?"
+A. Mỗi thực thể có thể liên kết với nhiều thực thể khác
+B. Mỗi thực thể chỉ có thể liên kết với một thực thể khác
+C. Không có khả năng liên kết giữa các thực thể
+D. Mỗi thực thể không thể liên kết với bất kỳ thực thể nào khác
+
+Đáp án đúng: A. Mỗi thực thể có thể liên kết với nhiều thực thể khác.
+
+
+topic: Mô hình thực thể - liên kết
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm singlechoice với nội dung liên quan đến 'Mô hình mạng trong cơ sở dữ liệu' trong chủ đề "Mô hình thực thể - liên kết":
+"Cách tiếp cận cơ bản để đánh giá tối ưu hóa biểu thức quan hệ thường cây kết nối trái theo chiều sâu, là phương án ưu hóa câu hỏi R không quan tâm tới thứ tự kết nối khi các toán hạng bên phải của mỗi phép kết nối. Cây kết nối trái theo chiều sâu rất có..."
+A. Chi phí rất nhỏ.
+B. Chi phí bằng chi phí biểu thức ban đầu.
+C. Cho phí thời gian nhỏ.
+D. Chí phí bộ nhớ nhỏ.
+
+Đáp án đúng: B. Chi phí bằng chi phí biểu thức ban đầu.
+
+
+topic: Phân biệt các mô hình dữ liệu
+difficulty fist: Nhớ
+eval_question_with_bloom: Nhớ
+Câu hỏi: Mục đích chính của mô hình dữ liệu là gì?
+A. Sử dụng hệ thống ký hiệu để biểu diễn dữ liệu
+B. Xây dựng các phép toán thao tác dữ liệu
+C. Làm nền tảng cho các hệ thống ứng dụng
+D. Sử dụng để thiết kế lược đồ khái niệm
+Đáp án đúng: A. Sử dụng hệ thống ký hiệu để biểu diễn dữ liệu
+
+
+topic: Phân biệt các mô hình dữ liệu
+difficulty fist: Nhớ
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm: Trong phân biệt các mô hình dữ liệu, hướng giá trị và hướng đối tượng của mô hình dữ liệu liên quan đến điều gì?
+A. Sử dụng hệ thống ký hiệu để biểu diễn dữ liệu và làm nền tảng cho các ứng dụng và ngôn ngữ thao tác dữ liệu.
+B. Sử dụng để thiết kế lược đồ khái niệm và cài đặt trong một mô hình dữ liệu với một hệ quản trị cơ sở dữ liệu.
+C. Là các mô hình dữ liệu hướng giá trị.
+D. Là các mô hình dữ liệu không có hệ thống ký hiệu để xây dựng các phép toán thao tác dữ liệu.
+Đáp án đúng: C. Là các mô hình dữ liệu hướng giá trị.
+
+
+topic: Phân biệt các mô hình dữ liệu
+difficulty fist: Nhớ
+eval_question_with_bloom: Nhớ
+Câu hỏi: Theo các tiêu chí để xác định mô hình dữ liệu tốt nhất, mô hình dữ liệu tốt nhất phụ thuộc vào yêu cầu truy xuất và khai thác thông tin của đơn vị quản lý nó. Điều nào sau đây không phải là một tiêu chí để xác định mô hình dữ liệu tốt nhất?
+A. Mục đích: Phần lớn các mô hình dữ liệu sử dụng hệ thống ký hiệu để biểu diễn dữ liệu và làm nền tảng cho các hệ thống ứng dụng và ngôn ngữ thao tác dữ liệu.
+B. Hướng giá trị hay hướng đối tượng: Các mô hình dữ liệu quan hệ và mô hình logic là các mô hình dữ liệu hướng giá trị.
+C. Tính đối xứng phải được bảo toàn và có cơ sở lý thuyết vững chắc.
+D. Mô hình dữ liệu không cần phải được sử dụng ở nhiều địa điểm và vào nhiều thời điểm khác nhau.
+
+Đáp án đúng: D. Mô hình dữ liệu không cần phải được sử dụng ở nhiều địa điểm và vào nhiều thời điểm khác nhau.
+
+
+topic: Cơ sở dữ liệu quan hệ và lý thuyết của E.F. Codd
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm: Trong mô hình cơ sở dữ liệu quan hệ, điều nào sau đây mô tả đúng về quan hệ giữa các bản ghi?
+A) Mỗi bản ghi có thể kết nối với nhiều bản ghi khác.
+B) Mỗi bản ghi phải có một khóa chính duy nhất.
+C) Quan hệ giữa các bản ghi không cần thiết phải được xác định.
+D) Quan hệ giữa các bản ghi có thể thay đổi sau khi đã được xác định.
+
+Đáp án đúng: B) Mỗi bản ghi phải có một khóa chính duy nhất.
+
+
+topic: Cơ sở dữ liệu quan hệ và lý thuyết của E.F. Codd
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích.
+Câu hỏi: Mô hình cơ sở dữ liệu quan hệ được xây dựng trên cơ sở toán học chặt chẽ và logic, điều nào sau đây là đúng về mô hình này?
+A. Mô hình không cần có khả năng biểu diễn thực thể và liên kết giữa các thực thể.
+B. Mô hình không cần có cấu trúc biểu diễn đơn giản.
+C. Mô hình không có cơ sở lý thuyết vững chắc.
+D. Mô hình có tính độc lập dữ liệu cao.
+Đáp án đúng: D. Mô hình có tính độc lập dữ liệu cao.
+
+
+topic: Cơ sở dữ liệu quan hệ và lý thuyết của E.F. Codd
+difficulty fist: Áp dụng
+eval_question_with_bloom: Level đánh giá: Hiểu
+Câu hỏi trắc nghiệm: Trong quá trình chuẩn hóa dữ liệu trong cơ sở dữ liệu quan hệ, mục đích chính của việc chia nhỏ dữ liệu thành các bảng nhỏ hơn là gì?
+
+A. Giảm việc lưu trữ dữ liệu dư thừa
+B. Tăng hiệu suất truy xuất dữ liệu
+C. Đảm bảo tính nhất quán và tính toàn vẹn của dữ liệu
+D. Giảm chi phí lưu trữ dữ liệu
+
+Đáp án đúng: C. Đảm bảo tính nhất quán và tính toàn vẹn của dữ liệu
+
+
+topic: Mối quan hệ nhiều - nhiều trong cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm: "Trong mô hình thực thể quan hệ trong cơ sở dữ liệu, mối quan hệ nhiều - nhiều được biểu diễn bằng cách nào?"
+A. Mô hình quan hệ
+B. Mô hình phân cấp
+C. Mô hình mạng
+D. Mô hình thực thể
+Đáp án đúng: C. Mô hình mạng
+
+
+topic: Mối quan hệ nhiều - nhiều trong cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Trong cơ sở dữ liệu, mối quan hệ nhiều - nhiều giữa các thực thể được biểu diễn thông qua:
+A. Khóa ngoại
+B. Trường chứa
+C. Mô hình quan hệ
+D. Thực thể trung gian
+
+Đáp án đúng: A. Khóa ngoại
+
+
+topic: Mối quan hệ nhiều - nhiều trong cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Nhớ
+Câu hỏi trắc nghiệm: Trong cơ sở dữ liệu, cách biểu diễn mối quan hệ nhiều - nhiều giữa hai thực thể được thực hiện như thế nào?
+A. Sử dụng khóa ngoại
+B. Sử dụng khóa chính
+C. Sử dụng trường nối
+D. Sử dụng chỉ mục
+
+Đáp án đúng: A. Sử dụng khóa ngoại
+
+
+topic: An toàn và bảo mật cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm:
+
+Trong bảo mật cơ sở dữ liệu, điều nào sau đây mô tả đúng về tính toàn vẹn dữ liệu?
+
+A. Tính toàn vẹn dữ liệu đảm bảo rằng dữ liệu không thể bị truy cập bởi người không được phép.
+B. Tính toàn vẹn dữ liệu đảm bảo rằng dữ liệu luôn đảm bảo tính độc lập.
+C. Tính toàn vẹn dữ liệu đảm bảo rằng dữ liệu không bị thay đổi mà không có sự cho phép.
+D. Tính toàn vẹn dữ liệu đảm bảo rằng dữ liệu chỉ có giá trị duy nhất cho mỗi bản ghi.
+
+Đáp án đúng: C. Tính toàn vẹn dữ liệu đảm bảo rằng dữ liệu không bị thay đổi mà không có sự cho phép.
+
+
+topic: An toàn và bảo mật cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Đánh giá: **Đánh giá (Evaluate)**.
+Câu hỏi trắc nghiệm: "Trong lĩnh vực an toàn và bảo mật cơ sở dữ liệu, điều nào sau đây không phải là một biện pháp để đảm bảo tính an toàn của dữ liệu?"
+
+A. Mã hóa dữ liệu trước khi lưu trữ.
+B. Thiết lập một cơ sở dữ liệu sao lưu định kỳ.
+C. Sử dụng mật khẩu mạnh và đổi mật khẩu định kỳ.
+D. Chia sẻ mật khẩu quản trị viên với tất cả nhân viên. 
+
+Đáp án đúng: D. Chia sẻ mật khẩu quản trị viên với tất cả nhân viên.
+
+
+topic: An toàn và bảo mật cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi trắc nghiệm:
+
+Phương pháp nào sau đây được sử dụng để tối ưu hoá câu hỏi trong cơ sở dữ liệu?
+
+A. Ngôn ngữ lập trình Java
+B. Ngôn ngữ của đại số quan hệ
+C. Ngôn ngữ tự nhiên
+D. Ngôn ngữ lập trình Python
+
+Đáp án đúng: B. Ngôn ngữ của đại số quan hệ
+
+
+topic: Quản trị truy cập và quyền hạn trong cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Level: Hiểu (Understand)
+Câu hỏi: Trong quản trị cơ sở dữ liệu, người quản trị cấp phép truy cập có nhiệm vụ gì?
+A. Thực hiện sao lưu dữ liệu định kỳ
+B. Xác định và kiểm soát quyền hạn truy cập vào cơ sở dữ liệu
+C. Thiết kế cấu trúc cơ sở dữ liệu
+D. Lập kế hoạch marketing cho cơ sở dữ liệu
+
+Đáp án đúng: B. Xác định và kiểm soát quyền hạn truy cập vào cơ sở dữ liệu.
+
+
+topic: Quản trị truy cập và quyền hạn trong cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Phân tích (Phân tích)
+Câu hỏi: Trong cơ sở dữ liệu, ràng buộc toàn vẹn dữ liệu đảm bảo điều gì?
+A. Dữ liệu được lưu trữ một cách ngẫu nhiên
+B. Dữ liệu phải được bảo vệ khỏi sự sửa đổi hoặc phá hoại không chủ định
+C. Dữ liệu có thể bị thay đổi mà không cần kiểm tra
+D. Dữ liệu được lưu trữ một cách không toàn vẹn
+
+Đáp án đúng: B. Dữ liệu phải được bảo vệ khỏi sự sửa đổi hoặc phá hoại không chủ định
+
+
+topic: Quản trị truy cập và quyền hạn trong cơ sở dữ liệu
+difficulty fist: Sáng tạo
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm: "Quyền hạn nào sau đây không phải là quyền hạn khi sử dụng hệ cơ sở dữ liệu?"
+
+A. Đọc một cách hợp pháp: người sử dụng được phép đọc, nhưng không được sửa đổi nội dung dữ liệu.
+B. Chèn một cách hợp pháp: người sử dụng được chèn thêm dữ liệu mới vào cơ sở dữ liệu, nhưng không được sửa đổi dữ liệu hiện có.
+C. Sửa đổi cấu trúc, bỏ hợp pháp.
+D. Người quản trị cơ sở dữ liệu cấp phép truy cập.
+
+Đáp án đúng: C. Sửa đổi cấu trúc, bỏ hợp pháp.
+
+
+topic: Phân loại dữ liệu trong cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm:
+
+"Trong cơ sở dữ liệu, phân loại dữ liệu theo cấu trúc có ý nghĩa gì?"
+A. Dữ liệu được lưu trữ dưới dạng không cấu trúc, không có mối quan hệ với nhau
+B. Dữ liệu được tổ chức thành các bảng có mối quan hệ với nhau thông qua khóa ngoại
+C. Dữ liệu được lưu trữ dưới dạng một cấu trúc phức tạp, không thể truy xuất dễ dàng
+D. Dữ liệu được phân loại dựa trên mức độ quan trọng và ưu tiên sử dụng
+
+Đáp án đúng: B. Dữ liệu được tổ chức thành các bảng có mối quan hệ với nhau thông qua khóa ngoại.
+
+
+topic: Phân loại dữ liệu trong cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm: Theo phân loại dữ liệu theo mục đích sử dụng trong cơ sở dữ liệu, mô hình dữ liệu quan hệ và mô hình logic được coi là các mô hình dữ liệu hướng đến điều gì?
+A. Hướng giá trị
+B. Hướng đối tượng
+C. Hướng quan hệ
+D. Hướng thời gian
+
+Đáp án đúng: A. Hướng giá trị
+
+
+topic: Phân loại dữ liệu trong cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Phân loại dữ liệu theo định dạng lưu trữ trong cơ sở dữ liệu là gì?
+
+A. Dữ liệu dạng văn bản, dữ liệu dạng số, dữ liệu hình ảnh
+B. Dữ liệu dạng âm thanh, dữ liệu dạng video, dữ liệu dạng số nguyên
+C. Dữ liệu dạng chuỗi ký tự, dữ liệu dạng ngày tháng, dữ liệu dạng thời gian
+D. Dữ liệu dạng JSON, dữ liệu dạng XML, dữ liệu dạng đồ thị
+
+Đáp án đúng: C. Dữ liệu dạng chuỗi ký tự, dữ liệu dạng ngày tháng, dữ liệu dạng thời gian
+
+
+topic: Vai trò của ánh xạ trong mô hình cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Phân tích
+Câu hỏi trắc nghiệm:
+
+Trong mô hình cơ sở dữ liệu, vai trò của ánh xạ là gì?
+A. Xác định cấu trúc lưu trữ dữ liệu
+B. Xác định thứ tự truy xuất dữ liệu
+C. Xác định mối quan hệ giữa các bảng dữ liệu
+D. Xác định ngôn ngữ truy vấn dữ liệu
+
+Đáp án đúng: C. Xác định mối quan hệ giữa các bảng dữ liệu
+
+
+topic: Các chiến lược sao lưu và phục hồi dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi trắc nghiệm:
+
+"Trong chiến lược sao lưu dữ liệu định kỳ, tại sao việc thực hiện sao lưu định kỳ là quan trọng?"
+
+A. Để đảm bảo dữ liệu được lưu trữ an toàn và không mất mát khi xảy ra sự cố.
+B. Để giảm chi phí sao lưu dữ liệu cho doanh nghiệp.
+C. Để tăng tốc độ truy xuất dữ liệu từ bản sao lưu.
+D. Để tạo ra nhiều bản sao lưu dữ liệu để dễ dàng quản lý. 
+
+Đáp án đúng: A. Để đảm bảo dữ liệu được lưu trữ an toàn và không mất mát khi xảy ra sự cố.
+
+
+topic: Các chiến lược sao lưu và phục hồi dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Phân tích
+Câu hỏi: Phương pháp nào sau đây không phải là một phương pháp phục hồi dữ liệu sau sự cố trong các chiến lược sao lưu và phục hồi dữ liệu?
+A. Sao lưu toàn bộ dữ liệu trước khi sự cố xảy ra để khôi phục lại sau đó
+B. Sử dụng phần mềm phục hồi dữ liệu để khôi phục dữ liệu bị mất
+C. Sử dụng dữ liệu từ các bản sao lưu định kỳ để khôi phục lại dữ liệu
+D. Xóa toàn bộ dữ liệu và bắt đầu lại từ đầu
+Đáp án đúng: D. Xóa toàn bộ dữ liệu và bắt đầu lại từ đầu
+
+
+topic: Các chiến lược sao lưu và phục hồi dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Áp dụng
+Câu hỏi trắc nghiệm: Theo các chiến lược sao lưu và phục hồi dữ liệu, công cụ sao lưu dữ liệu nào được sử dụng để tạo bản sao lưu dữ liệu định kỳ và tự động theo lịch trình đã được thiết lập?
+
+A. Công cụ sao lưu đầy đủ
+B. Công cụ sao lưu toàn vẹn
+C. Công cụ sao lưu định kỳ
+D. Công cụ sao lưu bất kỳ
+
+Đáp án đúng: C. Công cụ sao lưu định kỳ
+
+
+topic: Kiến trúc Client-Server trong cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+Mô hình cơ sở dữ liệu Client-Server là gì?
+
+A. Mô hình trong đó cơ sở dữ liệu chỉ lưu trữ trên client
+B. Mô hình trong đó cơ sở dữ liệu chỉ lưu trữ trên server
+C. Mô hình trong đó cơ sở dữ liệu được chia thành 2 phần: phần client và phần server
+D. Mô hình trong đó cơ sở dữ liệu không liên kết giữa client và server
+
+Đáp án đúng: C. Mô hình trong đó cơ sở dữ liệu được chia thành 2 phần: phần client và phần server
+
+
+topic: Kiến trúc Client-Server trong cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Nhớ (Remember)
+Câu hỏi trắc nghiệm:
+"Cơ sở dữ liệu là gì?"
+A. Một bộ sưu tập rất lớn về các loại dữ liệu tác nghiệp.
+B. Một bộ sưu tập các ứng dụng máy tính.
+C. Một bộ sưu tập các trang web trên Internet.
+D. Một bộ sưu tập sách vở trong thư viện.
+
+Đáp án đúng: A. Một bộ sưu tập rất lớn về các loại dữ liệu tác nghiệp.
+
+
+topic: Kiến trúc Client-Server trong cơ sở dữ liệu
+difficulty fist: Phân tích
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi trắc nghiệm:
+
+"Mục tiêu của các hệ cơ sở dữ liệu là gì?"
+A. Để thay đổi cấu trúc lưu trữ dữ liệu
+B. Để làm thay đổi chiến lược truy nhập dữ liệu
+C. Để người sử dụng không làm thay đổi cấu trúc lưu trữ dữ liệu và chiến lược truy nhập
+D. Để xác định các kiểu khác nhau của bản ghi lưu trữ
+
+Đáp án đúng: C. Để người sử dụng không làm thay đổi cấu trúc lưu trữ dữ liệu và chiến lược truy nhập
+
+
+topic: Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet
+difficulty fist: Áp dụng
+eval_question_with_bloom: Đánh giá: **Hiểu**
+Câu hỏi trắc nghiệm:
+
+Mô hình cơ sở dữ liệu Client-Server là gì?
+
+A. Mô hình chỉ hoạt động trên môi trường Internet.
+B. Mô hình chỉ hoạt động trên môi trường Intranet.
+C. Mô hình dựa vào việc phân chia dữ liệu giữa máy chủ (server) và máy khách (client).
+D. Mô hình không liên quan đến việc lưu trữ dữ liệu.
+
+Đáp án đúng: C. Mô hình dựa vào việc phân chia dữ liệu giữa máy chủ (server) và máy khách (client).
+
+
+topic: Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet
+difficulty fist: Áp dụng
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm: Trong quá trình tối ưu hóa câu hỏi truy vấn dữ liệu, phương pháp nào giúp giảm thời gian thực hiện và sử dụng bộ nhớ ít hơn?
+A. Ngôn ngữ của đại số quan hệ.
+B. Ngôn ngữ dữ liệu.
+C. Biểu thức đại số quan hệ.
+D. Suy diễn logic từ các tiên đề Armstrong. 
+
+Đáp án đúng: C. Biểu thức đại số quan hệ.
+
+
+topic: Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet
+difficulty fist: Áp dụng
+eval_question_with_bloom: Hiểu
+Câu hỏi trắc nghiệm:
+
+Trong cơ sở dữ liệu, ràng buộc toàn vẹn dữ liệu là gì?
+
+A. Ràng buộc để đảm bảo dữ liệu không bị mất 
+B. Ràng buộc để đảm bảo dữ liệu được lưu trữ an toàn 
+C. Ràng buộc để đảm bảo tính toàn vẹn của dữ liệu 
+D. Ràng buộc để đảm bảo dữ liệu được truy cập nhanh chóng 
+
+Đáp án đúng: C. Ràng buộc để đảm bảo tính toàn vẹn của dữ liệu
+
+
+topic: Cấu trúc lưu trữ vật lý của cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi: Trong mô hình kiến trúc 3 mức cơ sở dữ liệu, điều gì đảm bảo tính độc lập của dữ liệu?
+
+A. Cấu trúc lưu trữ dữ liệu không thay đổi
+B. Thay đổi cấu trúc lưu trữ dữ liệu không ảnh hưởng đến sơ đồ quan niệm
+C. Mỗi bảng chỉ có thể có một khóa chính
+D. Có thể thay đổi định nghĩa về cấu trúc lưu trữ dữ liệu
+
+Đáp án đúng: B. Thay đổi cấu trúc lưu trữ dữ liệu không ảnh hưởng đến sơ đồ quan niệm.
+
+
+topic: Cấu trúc lưu trữ vật lý của cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Đánh giá: Hiểu
+Câu hỏi trắc nghiệm:
+
+"Tại sao việc tổ chức lưu trữ dữ liệu là yếu tố quan trọng trong cấu trúc lưu trữ vật lý của cơ sở dữ liệu?"
+
+A. Để tăng hiệu suất truy xuất dữ liệu
+B. Để giảm dung lượng lưu trữ
+C. Để tăng tính nhất quán của dữ liệu
+D. Để giảm chi phí vận hành cơ sở dữ liệu
+
+Đáp án đúng: C. Để tăng tính nhất quán của dữ liệu
+
+
+topic: Cấu trúc lưu trữ vật lý của cơ sở dữ liệu
+difficulty fist: Hiểu
+eval_question_with_bloom: Áp dụng
+Câu hỏi trắc nghiệm: Kỹ thuật tổ chức lưu trữ dữ liệu theo B-cây cân bằng Files là gì?
+
+A. Là kỹ thuật lưu trữ dữ liệu theo cấu trúc cây cân bằng để đảm bảo tối ưu hiệu suất truy xuất dữ liệu.
+B. Là kỹ thuật lưu trữ dữ liệu theo cấu trúc danh sách liên kết để giảm thiểu thời gian truy xuất dữ liệu.
+C. Là kỹ thuật lưu trữ dữ liệu theo cấu trúc mạng để tăng tính toàn vẹn dữ liệu.
+D. Là kỹ thuật lưu trữ dữ liệu theo cấu trúc tập tin để đảm bảo tính nhất quán dữ liệu.
+
+Đáp án đúng: A. Là kỹ thuật lưu trữ dữ liệu theo cấu trúc cây cân bằng để đảm bảo tối ưu hiệu suất truy xuất dữ liệu.
+
+
+topic: Chức năng của các hệ quản trị cơ sở dữ liệu (DBMS)
+difficulty fist: Phân tích
+eval_question_with_bloom: Level: Hiểu
+Câu hỏi trắc nghiệm:
+
+"Mô tả dữ liệu tạo lập và duy trì sự tồn tại của CSDL" liên quan đến chức năng nào của các hệ quản trị cơ sở dữ liệu (DBMS)?
+
+A. Quản lý truy cập dữ liệu
+B. Xử lý truy vấn dữ liệu
+C. Sao lưu và phục hồi dữ liệu
+D. Tạo và duy trì cấu trúc dữ liệu
+
+Đáp án đúng: D. Tạo và duy trì cấu trúc dữ liệu
+
+
+topic: Chức năng của các hệ quản trị cơ sở dữ liệu (DBMS)
+difficulty fist: Phân tích
+eval_question_with_bloom: Level: Nhớ (Remember)
+Câu hỏi trắc nghiệm:
+
+Trong chủ đề "Chức năng của các hệ quản trị cơ sở dữ liệu (DBMS)", chức năng chính của hệ quản trị cơ sở dữ liệu là gì?
+
+A. Đọc và ghi dữ liệu vào cơ sở dữ liệu
+B. Tạo và quản lý các bảng dữ liệu
+C. Tối ưu hóa truy vấn dữ liệu
+D. Quản lý người dùng và phân quyền truy cập
+
+Đáp án đúng: A. Đọc và ghi dữ liệu vào cơ sở dữ liệu
+
+
+topic: Chức năng của các hệ quản trị cơ sở dữ liệu (DBMS)
+difficulty fist: Phân tích
+eval_question_with_bloom: Phân tích.
+Câu hỏi trắc nghiệm: Trong hệ quản trị cơ sở dữ liệu (DBMS), chức năng nào sau đây đảm bảo tính toàn vẹn dữ liệu?
+A. Hệ quản trị cơ sở dữ liệu cung cấp khả năng chia sẻ dữ liệu giữa nhiều người dùng.
+B. Hệ quản trị cơ sở dữ liệu cung cấp khả năng sao lưu và phục hồi dữ liệu.
+C. Hệ quản trị cơ sở dữ liệu cung cấp khả năng tạo và quản lý các ràng buộc dữ liệu.
+D. Hệ quản trị cơ sở dữ liệu cung cấp khả năng truy vấn và cập nhật dữ liệu. 
+
+Đáp án đúng: C. Hệ quản trị cơ sở dữ liệu cung cấp khả năng tạo và quản lý các ràng buộc dữ liệu.
+
+
