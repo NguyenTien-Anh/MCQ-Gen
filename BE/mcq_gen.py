@@ -8,10 +8,10 @@ from llama_index.core import Settings
 from llama_index.core import PromptTemplate
 from PyPDF2 import PdfReader
 from dotenv import load_dotenv
-from docx import Document as DocxDocument
+# from docx import Document as DocxDocument
 import json
 import string
-
+import fitz  # Thư viện PyMuPDF
 
 load_dotenv()
 
@@ -120,7 +120,7 @@ def get_bloom_evaluation(question):
 
     QA_PROMPT_BLOOM = PromptTemplate(PROMPT_TEMPLATE_BLOOM)
     query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
     response = query_engine_bloom.query(question)
     return response
@@ -148,13 +148,13 @@ def select_topic(topic, quantity):
         select_topic_prompt = "Hãy chọn " + str(
             quantity) + " nội dung liên quan đến chủ đề \"" + topic + "\" và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
         query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
     else:
         select_topic_prompt = "Hãy chọn " + str(
             quantity) + " nội dung bất kì trong dữ liệu bạn có và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
         query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
 
     response = query_engine0.query(select_topic_prompt)
@@ -168,6 +168,27 @@ def check(s):
     return False
 
 
+def pdf_to_html_with_images(pdf_file):
+    """
+    Đọc file PDF và trả về dữ liệu HTML dưới dạng chuỗi, giữ lại ảnh.
+
+    Args:
+        pdf_file (str): Đường dẫn đến file PDF đầu vào.
+
+    Returns:
+        str: Dữ liệu HTML của file PDF.
+    """
+    try:
+        doc = fitz.open(pdf_file)
+        html_content = ""
+        for page in doc:
+            text = page.get_text("html")
+            html_content += text
+        return html_content
+    except Exception as e:
+        print(f"Lỗi khi chuyển đổi: {e}")
+        return None
+    
 def read_pdf_file(file):
     file_content = ''
     reader = PdfReader(file)
@@ -269,7 +290,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         print("TẠO DATA THÀNH CÔNG !!!")
 
     print('ĐANG TẠO CÂU HỎI ...')
-    llm = OpenAI(model="gpt-3.5-turbo-0125")
+    llm = OpenAI(model="gpt-4o-mini")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
     bloom_dict = {
@@ -364,10 +385,10 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
 
     # GPT
     query_engine1 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_GEN_FORMAT,
-                                         llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.5, max_tokens=512),
+                                         llm=OpenAI(model='gpt-4o-mini', temperature=0.5, max_tokens=512),
                                          max_tokens=-1)
     query_engine2 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_EVA_FORMAT,
-                                         llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                         llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                          max_tokens=-1)
 
     query_engine_tools = [
@@ -390,7 +411,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
                     "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng.  "
                     "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
                     "Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó. "
-                    "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
+                     "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
                     "Nếu các đáp án tương tự nhau thì hãy sửa lại. "
                     "Cải thiện câu hỏi trắc nghiệm. "
                     "Kết quả cuối cùng là 1 câu hỏi trắc nghiệm."
@@ -504,7 +525,7 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
         print("TẠO DATA THÀNH CÔNG !!!")
 
     print('ĐANG TẠO CÂU HỎI ...')
-    llm = OpenAI(model="gpt-3.5-turbo-0125")
+    llm = OpenAI(model="gpt-4o-mini")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
     bloom_dict = {
@@ -559,7 +580,7 @@ def mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, t
     # print(QA_PROMPT_GEN_FORMAT)
     # GPT
     query_engine1 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_GEN_FORMAT,
-                                         llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.5, max_tokens=512),
+                                         llm=OpenAI(model='gpt-4o-mini', temperature=0.5, max_tokens=512),
                                          max_tokens=-1)
     subTopics = select_topic(topic, quantity)
     print(f"\n\n\n------------------subTopics----------------\n{subTopics}")
@@ -676,7 +697,8 @@ topics = [
     "Phân loại và quản lý các quyền truy cập cơ sở dữ liệu"
 ]
 
-file_content=read_pdf_file("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf")
+file_content=pdf_to_html_with_images("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf")
+print(file_content)
 import random
 for topic in topics:
     bloom = random.choice(bloom_list)
