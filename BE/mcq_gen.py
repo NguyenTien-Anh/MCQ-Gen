@@ -697,6 +697,7 @@ topics = [
     "Phân loại và quản lý các quyền truy cập cơ sở dữ liệu"
 ]
 
+<<<<<<< HEAD
 file_content=pdf_to_html_with_images("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf")
 print(file_content)
 import random
@@ -709,3 +710,18 @@ for topic in topics:
     type="SingleChoice"
     mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)
     # print(test)
+=======
+
+def main():
+    file_content=read_pdf_file("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf")
+    import random
+    for topic in topics:
+        bloom = random.choice(bloom_list)
+        file_path="E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf"
+        quantity=3
+        difficulty=bloom
+        number_of_answers=4
+        type="SingleChoice"
+        mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)
+        # print(test)
+>>>>>>> 057898a9555099bde5ef74f37c634606ecb46998
