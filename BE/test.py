@@ -1,6 +1,15 @@
-arr = ['Cơ sở dữ liệu là gì trong chủ đề Mô hình cơ sở dữ liệu của bộ môn cơ sở dữ liệu?\n\nA) Một bộ sưu tập rất lớn về các loại dữ liệu tác nghiệp\nB) Một tập File dữ liệu\nC) Một tập các chương trình ứng dụng và dữ liệu\nD) Hệ quản trị cơ sở dữ liệu\n\nĐáp án đúng: A) Một bộ sưu tập rất lớn về các loại dữ liệu tác nghiệp.', 'Câu hỏi trắc nghiệm: Mô hình kiến trúc 3 mức cơ sở dữ liệu trong chủ đề Mô hình cơ sở dữ liệu bao gồm những mức nào?\nA) Mức trong\nB) Mức mô hình dữ liệu\nC) Mức ngoài\nD) Mức trung tâm\nĐáp án đúng: A) Mức trong, B) Mức mô hình dữ liệu', 'Câu hỏi trắc nghiệm: Trong chủ đề Mô hình cơ sở dữ liệu, tính độc lập của dữ liệu đề cập đến việc gì?\nA) Bảo đảm tính toàn vẹn của dữ liệu\nB) Đảm bảo tính nhất quán dữ liệu trong lưu trữ\nC) Không phụ thuộc lẫn nhau giữa cấu trúc lưu trữ và chiến lược truy nhập dữ liệu\nD) Dễ bị vi phạm tính độc lập của dữ liệu\nĐáp án đúng: B) Đảm bảo tính nhất quán dữ liệu trong lưu trữ và C) Không phụ thuộc lẫn nhau giữa cấu trúc lưu trữ và chiến lược truy nhập dữ liệu.']
+from openai import OpenAI
+client = OpenAI()
 
-from mcq_gen import format_mcq
+completion = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {
+            "role": "user",
+            "content": "Xin chào."
+        }
+    ]
+)
 
-arr = format_mcq(arr)
-pass
+print(completion.choices[0].message)
