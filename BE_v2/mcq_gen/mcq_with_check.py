@@ -17,7 +17,9 @@ print("Folder cha đã được thêm vào sys.path:", parent_folder)
 
 from read_data import read_docx_file, read_pdf_file, read_txt_file
 from ops import get_react_system_header_str, get_bloom_evaluation, select_topic, format_mcq
-from tools import gen_mcq, check_mcq
+from tools import gen_mcq, check_mcq, check_difficult_input
+# gpt-4o-mini
+# gpt-3.5-turbo-0125
 def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers=4, model="gpt-4o-mini" ):
     print("NUM ANSWERS: ", number_of_answers)
     if status == 'true':
@@ -60,9 +62,21 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
     query_engine1 = gen_mcq(data, number_of_answers, model)
-    query_engine2 = check_mcq(data, difficulty, number_of_answers, type, model)
-
+    query_engine2 = check_mcq(data, number_of_answers, type, model)
+    query_engine3 = check_difficult_input(data, model)
     query_engine_tools = [
+        QueryEngineTool(
+            query_engine=query_engine3,
+            metadata=ToolMetadata(
+                name="Check_difficult_input",
+                description=(
+                    "Đầu vào là một nội dung câu hỏi. Đầu ra là mức độ khó của nội dung phù hợp với yêu cầucầu. "
+                    "Đánh giá mức độ khó nhất có thể của nội dung đưa vào khi sinh câu hỏi trắc nghiệm."
+                    "So sánh mức độ khó nhất có thể của nội dung và mức độ khó của yêu cầu: nếu không thể đạt được mục tiêu độ khó yêu cầu thì hãy giảm độ khó xuống mức tốt nhất có thể."
+                    "**Chỉ giảm độ khó yêu cầu xuống, không được phép thay đổi nội dung câu hỏi.**"
+                ),
+            ),
+        ),
         QueryEngineTool(
             query_engine=query_engine1,
             metadata=ToolMetadata(
@@ -153,29 +167,94 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             prompt = type_dict[
                          type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + ". " + \
                      bloom_dict[difficulty]
-        prompt = prompt + " Sau khi tạo câu hỏi sử dụng công cụ kiểm tra lại."
+        prompt = prompt + ". Đâù tiên kiểm tra mức độ khó yêu cầu có phù hợp không rồi chọn độ khó phù hợp. Sau đó sinh câu hỏi và sử dụng các công cụ khác để kiểm tra."
         print(f"\n\n\n-------------------prompt------------------------\n{prompt}")
         question = agent.chat(prompt)
         kq = str(question.response)
         eval_question = get_bloom_evaluation(data, kq)
         kq= str("topic: ")+str(topic)+"\n"+ str("difficulty fist: ")+str(difficulty)+"\n"+ str("eval_question_with_bloom: ")+str(eval_question)+"\n"+str("Câu hỏi trắc nghiệm: ")+str(kq)
         print(kq)
-        # with open("kq_check.txt", "a", encoding="utf-8") as file:
-        #     file.write(kq)
-        #     file.write("\n\n\n")
+        with open("E:/6. Agent_MCQ_gen/MCQ-Gen/BE_v2/mcq_gen/kq_gpt4o_with_prompt_with_topic.txt", "a", encoding="utf-8") as file:
+            file.write(kq)
+            file.write("\n\n\n")
             # mcqs.append(kq)
     # print("TẠO CÂU HỎI THÀNH CÔNG !!!")
     # print("ĐANG FORMAT CÂU HỎI ...")
     # mcqs = format_mcq(mcqs)
     # print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
     # return mcqs, notify
+
+topics = [
+    "Khái niệm cơ sở dữ liệu là gì",
+    "Sự cần thiết của các hệ cơ sở dữ liệu",
+    "Mô hình kiến trúc 3 mức của cơ sở dữ liệu",
+    "Mục tiêu của các hệ cơ sở dữ liệu",
+    "Hệ quản trị cơ sở dữ liệu và người quản trị",
+    "Tổ chức lưu trữ dữ liệu",
+    "Các mô hình truy xuất dữ liệu",
+    "Khái niệm về tính toàn vẹn dữ liệu",
+    "Phụ thuộc hàm trong cơ sở dữ liệu",
+    "Chuẩn hóa dữ liệu và các dạng chuẩn",
+    "Ngôn ngữ SQL và truy vấn cơ sở dữ liệu",
+    "Các phép toán trong đại số quan hệ",
+    "Tối ưu hóa câu hỏi trong cơ sở dữ liệu",
+    "Cơ sở dữ liệu phân tán",
+    "Cơ sở dữ liệu hướng đối tượng",
+    "Mô hình cơ sở dữ liệu mạng",
+    "Mô hình cơ sở dữ liệu phân cấp",
+    "Mô hình thực thể - liên kết",
+    "Phân biệt các mô hình dữ liệu",
+    "Cơ sở dữ liệu quan hệ và lý thuyết của E.F. Codd",
+    "Mối quan hệ nhiều - nhiều trong cơ sở dữ liệu",
+    "An toàn và bảo mật cơ sở dữ liệu",
+    "Quản trị truy cập và quyền hạn trong cơ sở dữ liệu",
+    "Phân loại dữ liệu trong cơ sở dữ liệu",
+    "Vai trò của ánh xạ trong mô hình cơ sở dữ liệu",
+    "Các chiến lược sao lưu và phục hồi dữ liệu",
+    "Kiến trúc Client-Server trong cơ sở dữ liệu",
+    "Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet",
+    "Cấu trúc lưu trữ vật lý của cơ sở dữ liệu",
+    "Chức năng của các hệ quản trị cơ sở dữ liệu (DBMS)",
+    "Hệ thống các ký hiệu biểu diễn dữ liệu",
+    "Tập hợp các phép toán thao tác trên cơ sở dữ liệu",
+    "Mô hình dữ liệu mạng",
+    "Mô hình cơ sở dữ liệu phân cấp",
+    "Mô hình cơ sở dữ liệu quan hệ",
+    "Mô hình thực thể - liên kết",
+    "Các đặc trưng của mô hình dữ liệu",
+    "Sự ổn định trong thiết kế mô hình dữ liệu",
+    "Tính đơn giản và tính dư thừa trong mô hình dữ liệu",
+    "Tính đối xứng và cơ sở lý thuyết của mô hình dữ liệu",
+    "Phân biệt giữa các mô hình dữ liệu",
+    "Mô hình dữ liệu hướng đối tượng",
+    "Mô hình dữ liệu phân tán",
+    "Kiến trúc tổng quát hệ cơ sở dữ liệu 3 mức",
+    "Các mô hình truy xuất dữ liệu",
+    "Mô hình dữ liệu quan hệ và lý thuyết đại số quan hệ",
+    "Chuẩn hóa dữ liệu và chuẩn 3NF",
+    "Phương pháp khung nhìn trong tối ưu hóa câu hỏi truy vấn",
+    "Quy trình tối ưu hóa câu hỏi truy vấn trong cơ sở dữ liệu",
+    "Quản lý bộ đệm và bộ nhớ trong hệ quản trị cơ sở dữ liệu",
+    "Quản lý các thao tác trên cơ sở dữ liệu",
+    "Môi trường giao tiếp giữa người sử dụng và hệ cơ sở dữ liệu",
+    "Quản lý quyền hạn truy nhập trong cơ sở dữ liệu",
+    "Sự cần thiết của các hệ cơ sở dữ liệu trong quản lý thông tin",
+    "Các chiến lược sao lưu và phục hồi dữ liệu",
+    "Hệ thống phân tán và cơ sở dữ liệu phân tán",
+    "Tính toàn vẹn của dữ liệu và các ràng buộc toàn vẹn",
+    "Các phương pháp bảo vệ an toàn cơ sở dữ liệu",
+    "Cấu trúc và mô hình cơ sở dữ liệu Client-Server",
+    "Nguyên lý hoạt động của hệ quản trị cơ sở dữ liệu",
+    "Phân loại và quản lý các quyền truy cập cơ sở dữ liệu"
+]
 import random
-bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sáng tạo"]
-topic = "Khái niệm cơ sở dữ liệu là gì"
-file_path="E:/6. Agent_MCQ_gen/MCQ-Gen_thang_v2/BE/CSDL giáo trình.pdf"
-quantity=3
-bloom = random.choice(bloom_list)
-difficulty=bloom
-number_of_answers=4
-type="SingleChoice"
-mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)
+for i in range(5):
+    bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sáng tạo"]
+    topic = "Khái niệm cơ sở dữ liệu"
+    file_path="E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf"
+    quantity=1
+    # bloom = "Nhớ"
+    difficulty= "Sáng tạo"
+    number_of_answers=4
+    type="SingleChoice"
+    mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)

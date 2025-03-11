@@ -26,7 +26,7 @@ def gen_mcq(data, number_of_answers, model):
     )
     print(f"---------------PROMPT_TEMPLATE_GEN-----------------\n{PROMPT_TEMPLATE_GEN}")
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
-    with open('E:/6. Agent_MCQ_gen/MCQ-Gen_thang_v2/BE_v2/tools/prompt.json', 'r', encoding='utf-8') as file:
+    with open('E:/6. Agent_MCQ_gen/MCQ-Gen/BE_v2/tools/prompt.json', 'r', encoding='utf-8') as file:
         list_prompt_gen = json.load(file)
 
     gen_prompt_step_by_step = ""
@@ -48,3 +48,6 @@ def gen_mcq(data, number_of_answers, model):
                                          llm=OpenAI(model= model, temperature=0.5, max_tokens=512),
                                          max_tokens=-1)
     return query_engine1
+
+
+
