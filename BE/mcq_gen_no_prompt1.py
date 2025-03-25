@@ -87,40 +87,27 @@ def get_bloom_evaluation(question):
     "Bạn là một chuyên gia về giảng dạy, hãy đánh giá câu hỏi tôi đưa vào theo thang đo Bloom. Thang đo Bloom có 6 cấp độ như sau:"
     "\n\n1. **Nhớ (Remember)**: Cấp độ này yêu cầu người học ghi nhớ hoặc nhận diện thông tin đã học, không cần hiểu sâu hay giải thích thêm. "
     "Câu hỏi ở cấp độ này sẽ kiểm tra khả năng nhớ lại các khái niệm, sự kiện, hoặc định nghĩa. "
-    "Ví dụ: 'Nêu định nghĩa của lực ma sát.'"
-    "\n   A. Lực cản trở chuyển động của vật trên bề mặt\n   B. Lực giúp tăng tốc vật chuyển động\n   C. Lực hút giữa hai vật\n   D. Lực làm vật dừng lại hoàn toàn"
-    
     "\n\n2. **Hiểu (Understand)**: Câu hỏi yêu cầu người học giải thích hoặc diễn giải ý nghĩa của thông tin đã học. "
     "Đây là cấp độ yêu cầu người học không chỉ nhớ thông tin mà còn phải hiểu và có thể giải thích được ý nghĩa của thông tin đó. "
-    "Ví dụ: 'Tại sao một vật chuyển động lại dừng lại khi không có lực tác dụng thêm?'"
-    "\n   A. Do lực hấp dẫn\n   B. Do lực ma sát làm tiêu hao động năng\n   C. Do trọng lượng vật giảm dần\n   D. Do vận tốc ban đầu không đủ lớn"
-    
+
     "\n\n3. **Áp dụng (Apply)**: Câu hỏi yêu cầu sử dụng kiến thức trong tình huống thực tế. "
     "Ở cấp độ này, người học phải vận dụng các lý thuyết hoặc nguyên lý vào một tình huống mới hoặc thực tế. "
-    "Ví dụ: 'Một xe ô tô đang di chuyển với vận tốc 60 km/h, lực ma sát tác dụng lên xe là 500 N. Tính lực kéo cần thiết để xe giữ nguyên tốc độ.'"
-    "\n   A. 400 N\n   B. 500 N\n   C. 600 N\n   D. 0 N"
-    
+   
     "\n\n4. **Phân tích (Analyze)**: Câu hỏi yêu cầu người học phân tích thông tin, chia nhỏ và xác định mối quan hệ giữa các phần của thông tin. "
     "Ở cấp độ này, người học phải phân tích các yếu tố hoặc mối quan hệ giữa các phần của vấn đề để hiểu rõ hơn về chúng. "
-    "Ví dụ: 'Điều gì xảy ra khi tăng độ nhám của bề mặt tiếp xúc trong một hệ thống ma sát?'"
-    "\n   A. Tăng ma sát và giảm chuyển động\n   B. Giảm ma sát và tăng chuyển động\n   C. Không thay đổi ma sát\n   D. Không ảnh hưởng đến chuyển động"
-    
+   
     "\n\n5. **Đánh giá (Evaluate)**: Câu hỏi yêu cầu người học đưa ra nhận định hoặc đánh giá về một vấn đề hoặc quan điểm. "
     "Câu hỏi ở cấp độ này yêu cầu người học đưa ra phán đoán dựa trên các tiêu chí hoặc bằng chứng, đánh giá một quan điểm hoặc giải pháp. "
-    "Ví dụ: 'Đánh giá hiệu quả của việc sử dụng phanh ABS trên ô tô so với phanh thường.'"
-    "\n   A. Giúp xe dừng nhanh hơn\n   B. Tăng độ an toàn khi phanh gấp\n   C. Giảm chi phí bảo trì xe\n   D. Không có lợi ích cụ thể nào"
-    
+  
     "\n\n6. **Sáng tạo (Create)**: Câu hỏi yêu cầu người học tạo ra một sản phẩm mới hoặc giải pháp sáng tạo từ kiến thức đã học. "
     "Đây là cấp độ yêu cầu người học phát triển một ý tưởng, thiết kế hoặc giải pháp mới. "
-    "Ví dụ: 'Thiết kế một hệ thống phanh xe mới có khả năng tự động điều chỉnh lực phanh dựa trên điều kiện mặt đường.'"
-    "\n   A. Hệ thống điều chỉnh lực bằng cảm biến nhiệt\n   B. Hệ thống ABS kết hợp với phân bố lực phanh điện tử\n   C. Phanh tay kết hợp với hệ thống phanh cơ khí\n   D. Phanh từ tính sử dụng lực hút nam châm"
-    
+   
     "\n\nHãy đưa ra câu trả lời là **1 level đánh giá** phù hợp nhất (Nhớ, Hiểu, Áp dụng, Phân tích, Đánh giá, hoặc Sáng tạo) mà không cần giải thích: {query_str}"
     )
 
     QA_PROMPT_BLOOM = PromptTemplate(PROMPT_TEMPLATE_BLOOM)
     query_engine_bloom = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_BLOOM,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
     response = query_engine_bloom.query(question)
     return response
@@ -148,13 +135,13 @@ def select_topic(topic, quantity):
         select_topic_prompt = "Hãy chọn " + str(
             quantity) + " nội dung liên quan đến chủ đề \"" + topic + "\" và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
         query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
     else:
         select_topic_prompt = "Hãy chọn " + str(
             quantity) + " nội dung bất kì trong dữ liệu bạn có và đưa ra duy nhất một câu trả lời đúng định dạng kiểu list trong python."
         query_engine0 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT0_other,
-                                             llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                             llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                              max_tokens=-1)
 
     response = query_engine0.query(select_topic_prompt)
@@ -224,7 +211,7 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, type, number_of
         return mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers)
     else:
         print("KHÔNG KIỂM TRA LẠI !!!")
-        return mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers)
+        # return mcqGen_without_check(topic, quantity, difficulty, file, inputText, status, type, number_of_answers)
 
 
 def format_mcq(mcqs):
@@ -290,18 +277,18 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         print("TẠO DATA THÀNH CÔNG !!!")
 
     print('ĐANG TẠO CÂU HỎI ...')
-    llm = OpenAI(model="gpt-3.5-turbo-0125")
+    llm = OpenAI(model="gpt-4o-mini")
     text_splitter = SentenceSplitter(chunk_size=512, chunk_overlap=10)
     Settings.text_splitter = text_splitter
     bloom_dict = {
-    "Nhớ": "Câu hỏi yêu cầu người học ghi nhớ hoặc nhận diện thông tin đã học trước đó. Câu hỏi chỉ yêu cầu người học có thể nhớ lại các sự kiện, khái niệm, thuật ngữ, hoặc định nghĩa mà họ đã học. Câu hỏi ở cấp độ này chỉ yêu cầu nhớ lại thông tin, không yêu cầu giải thích hay phân tích gì thêm. Ví dụ: 'Đâu là năm diễn ra Cách mạng Tháng Tám ở Việt Nam?' \nA. 1945 \nB. 1954 \nC. 1975 \nD. 1986",
+    "Nhớ": "Câu hỏi yêu cầu người học ghi nhớ hoặc nhận diện thông tin đã học trước đó. Câu hỏi chỉ yêu cầu người học có thể nhớ lại các sự kiện, khái niệm, thuật ngữ, hoặc định nghĩa mà họ đã học. Câu hỏi ở cấp độ này chỉ yêu cầu nhớ lại thông tin, không yêu cầu giải thích hay phân tích gì thêm.",
     
-    "Hiểu": "Câu hỏi yêu cầu người học giải thích hoặc diễn giải ý nghĩa của thông tin đã học. Người học phải hiểu và nắm vững ý nghĩa của thông tin trước khi có thể diễn đạt lại bằng từ ngữ của mình. Câu hỏi này yêu cầu người học phải làm rõ những gì họ đã học thay vì chỉ đơn giản là nhớ thông tin. Ví dụ: 'Chọn câu trả lời đúng nhất để giải thích tại sao lá cây có màu xanh?' \nA. Do chứa diệp lục hấp thụ ánh sáng xanh \nB. Do chứa diệp lục phản xạ ánh sáng xanh \nC. Do chứa nước trong tế bào lá \nD. Do chứa các sắc tố hấp thụ tất cả ánh sáng ngoại trừ xanh",
-    
-    "Áp dụng": "Câu hỏi yêu cầu sử dụng kiến thức đã học trong các tình huống thực tế. Người học cần phải áp dụng các lý thuyết hoặc nguyên lý vào một tình huống mới. Đây là cấp độ yêu cầu người học sử dụng các công cụ hoặc quy tắc đã học để giải quyết vấn đề. Ví dụ: 'Nếu một tam giác có hai cạnh là 3 cm và 4 cm, đâu là độ dài cạnh huyền?' \nA. 5 cm \nB. 6 cm \nC. 7 cm \nD. 8 cm",
-    
-    "Phân tích": "Câu hỏi yêu cầu người học phân tích thông tin, chia nhỏ thành các phần và hiểu mối quan hệ giữa chúng. Người học cần phải xem xét các yếu tố chi tiết và hiểu cách chúng liên kết hoặc tác động với nhau. Đây là cấp độ đòi hỏi tư duy phức tạp và khả năng phân tích sâu sắc. Ví dụ: 'Trong bài thơ “Tây Tiến” của Quang Dũng, chi tiết nào sau đây thể hiện tinh thần hào hùng của người lính?' \nA. 'Sông Mã xa rồi Tây Tiến ơi!' \nB. 'Đêm mơ Hà Nội dáng kiều thơm' \nC. 'Rải rác biên cương mồ viễn xứ' \nD. 'Áo bào thay chiếu anh về đất'",
-    
+    "Hiểu": "Câu hỏi yêu cầu người học giải thích hoặc diễn giải ý nghĩa của thông tin đã học. Người học phải hiểu và nắm vững ý nghĩa của thông tin trước khi có thể diễn đạt lại bằng từ ngữ của mình. Câu hỏi này yêu cầu người học phải làm rõ những gì họ đã học thay vì chỉ đơn giản là nhớ thông tin.",
+
+    "Áp dụng": "Câu hỏi yêu cầu sử dụng kiến thức đã học trong các tình huống thực tế. Người học cần phải áp dụng các lý thuyết hoặc nguyên lý vào một tình huống mới. Đây là cấp độ yêu cầu người học sử dụng các công cụ hoặc quy tắc đã học để giải quyết vấn đề.",
+
+    "Phân tích": "Câu hỏi yêu cầu người học phân tích thông tin, chia nhỏ thành các phần và hiểu mối quan hệ giữa chúng. Người học cần phải xem xét các yếu tố chi tiết và hiểu cách chúng liên kết hoặc tác động với nhau. Đây là cấp độ đòi hỏi tư duy phức tạp và khả năng phân tích sâu sắc.",
+
     "Đánh giá": "Câu hỏi yêu cầu đưa ra phán đoán hoặc nhận xét về một ý tưởng, quan điểm dựa trên tiêu chí hoặc bằng chứng học được. Người học cần phải sử dụng lý thuyết và các dữ liệu có sẵn để đánh giá một vấn đề hoặc giải pháp. Đây là cấp độ yêu cầu đưa ra quan điểm cá nhân dựa trên các lý lẽ vững chắc. Ví dụ: 'Đánh giá ý kiến sau: Biến đổi khí hậu là thách thức lớn nhất đối với nhân loại hiện nay. Bạn đồng ý với nhận định này không?' \nA. Hoàn toàn đồng ý \nB. Phần nào đồng ý \nC. Không đồng ý \nD. Không có ý kiến",
     
     "Sáng tạo": "Câu hỏi yêu cầu người học tạo ra một sản phẩm mới, ý tưởng mới hoặc giải pháp sáng tạo dựa trên những kiến thức đã học. Đây là cấp độ yêu cầu người học không chỉ tái tạo lại thông tin mà còn phải sáng tạo, phát triển những điều mới mẻ từ kiến thức hiện có. Ví dụ: 'Bạn được giao nhiệm vụ tổ chức một sự kiện tuyên truyền bảo vệ môi trường tại trường học. Đâu là ý tưởng phù hợp nhất?' \nA. Trồng cây xanh tại khuôn viên trường \nB. Tổ chức buổi hội thảo về môi trường \nC. Thiết kế áp phích tuyên truyền bảo vệ môi trường \nD. Cả A, B, và C đều đúng"
@@ -314,18 +301,15 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         "\n-----------------------------\n"
         "{context_str}"
         "\n-----------------------------\n"
-        "Quy trình thực hiện step by step để tạo câu hỏi trắc nghiệm."
-        "\n{prompt_step_by_step}\n"
-        "Ví dụ cho việc thực hiện quy trình là:"
-        "\n{prompt_example}"
-        "\n-----------------------------\n"
-        "Bạn hãy thực hiện step by step quy trình trên và tạo 1 câu hỏi theo yêu cầu, đảm bảo định dạng câu trả lời:  {query_str}\n"
         "**Yêu cầu về định dạng câu trả lời là:**\n"
         "{attention}"
+        "Ví dụ về một câu hỏi phù hợp với yêu cầu đầu ra là: "
+        "{example_question}"
+        "{query_str}"
     )
     print(f"---------------PROMPT_TEMPLATE_GEN-----------------\n{PROMPT_TEMPLATE_GEN}")
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
-    with open('prompt.json', 'r', encoding='utf-8') as file:
+    with open('prompt1.json', 'r', encoding='utf-8') as file:
         list_prompt_gen = json.load(file)
 
     gen_prompt_step_by_step = ""
@@ -341,8 +325,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     print(f"\n\n\n------------gen_prompt_example-------------------------\n{gen_prompt_example}")
     print(f"\n\n\n------------gen_attention------------------------------\n{gen_attention}")
 
-    QA_PROMPT_GEN_FORMAT = QA_PROMPT_GEN.partial_format(prompt_step_by_step=gen_prompt_step_by_step,
-                                                        prompt_example=gen_prompt_example, attention=gen_attention)
+    QA_PROMPT_GEN_FORMAT = QA_PROMPT_GEN.partial_format(attention=gen_attention, example_question=gen_prompt_example)
     # print(QA_PROMPT_GEN_FORMAT)
     PROMPT_TEMPLATE_EVA = (
         "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn. "
@@ -353,14 +336,10 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         "Dữ liệu đưa vào là tài liệu về môn học."
         "\n-----------------------------\n"
         "{context_str}"
-        "\n-----------------------------\n"
-        "Hãy thực hiện step by step các bước theo quy trình để đánh giá câu hỏi trắc nghiệm."
-        "\n{prompt_step_by_step}\n"
-        "Ví dụ cho cách thực hiện quy trình trên.\n"
-        "{prompt_example}"
-        "\n-----------------------------\n"
         "Định dạng của câu hỏi cần đánh giá là:\n"
         "**{attention_eva}**"
+        "Ví dụ về đầu ra của một câu hỏi sau khi đánh giá là: "
+        "{examples_question_eval}"
         "\n-----------------------------\n"
         "Đầu ra là 1 lời đánh giá và một câu hỏi trắc nghiệm. Hãy đánh giá và cập nhật câu hỏi:  {query_str}. "
         "Đảm bảo định dạng phản hồi là 1 lời đánh giá và 1 câu hỏi trắc nghiệm, sau đó chỉ rõ đáp án đúng."
@@ -368,7 +347,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     print(f"\n\n\n---------------PROMPT_TEMPLATE_EVA-----------------\n{PROMPT_TEMPLATE_EVA}")
     QA_PROMPT_EVA = PromptTemplate(PROMPT_TEMPLATE_EVA)
     eva_prompt_step_by_step = "Bước 1: Kiểm tra độ rõ ràng của câu hỏi và các đáp án.\nBước 2: Đánh giá tính liên quan của câu hỏi đến nội dung đã học.\nBước 3: Xác minh tính đúng đắn của đáp án đúng và sai.\nBước 4: Đánh giá độ khó của câu hỏi.\nBước 5: Đánh giá tính khách quan của câu hỏi.\nBước 6: Sửa đổi câu hỏi nếu cần thiết dựa trên các đánh giá.\nBước 7: Trả về câu hỏi đã được sửa đổi hoặc câu hỏi ban đầu."
-    eva_prompt_example = "Bước 1: Câu hỏi \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" là rõ ràng và dễ hiểu.\nBước 2: Câu hỏi này liên quan trực tiếp đến nội dung đã học về cơ sở dữ liệu và các loại khóa.\nBước 3: Đáp án A) Khóa chính (Primary Key) là đúng. Các đáp án B) Khóa ngoại (Foreign Key), C) Khóa duy nhất (Unique Key), D) Khóa kết hợp (Composite Key), và E) Khóa tạm thời (Temporary Key) đều không phải là đáp án đúng cho câu hỏi này.\nBước 4: Độ khó của câu hỏi được đánh giá là trung bình vì nó yêu cầu người học hiểu rõ về các loại khóa trong cơ sở dữ liệu.\nBước 5: Câu hỏi này là khách quan, không thiên vị và không dẫn đến bất kỳ sự nhầm lẫn nào cho người trả lời.\nBước 6: Không cần sửa đổi câu hỏi, vì nó đã đạt yêu cầu và rõ ràng.\nCâu hỏi trắc nghiệm cuối cùng: \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" A) Khóa chính (Primary Key) B) Khóa ngoại (Foreign Key) C) Khóa duy nhất (Unique Key) D) Khóa kết hợp (Composite Key) E) Khóa tạm thời (Temporary Key) Đáp án đúng: A) Khóa chính (Primary Key)."
+    eva_prompt_example = "Câu hỏi trắc nghiệm cuối cùng sau khi đánh giá và chỉnh sửa là: \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" A) Khóa chính (Primary Key) B) Khóa ngoại (Foreign Key) C) Khóa duy nhất (Unique Key) D) Khóa kết hợp (Composite Key) E) Khóa tạm thời (Temporary Key) Đáp án đúng: A) Khóa chính (Primary Key)."
     attention_eva_dict = {
         "MultipleChoice": "Câu hỏi trắc nghiệm MultipleChoice gồm " + str(number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng.",
         "SingleChoice": "Câu hỏi trắc nghiệm SingleChoice gồm " + str(number_of_answers) + " đáp án và có 1 đáp án đúng, " + str(number_of_answers - 1) + " đáp án sai.",
@@ -378,17 +357,16 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     print(f"\n\n\n---------------eva_prompt_example----------------------\n{eva_prompt_example}")
     print(f"\n\n\n---------------attention_eva_dict[type]----------------\n{attention_eva_dict[type]}")
     QA_PROMPT_EVA_FORMAT = QA_PROMPT_EVA.partial_format(difficulty_bloom=bloom_dict[difficulty],
-                                                        prompt_step_by_step=eva_prompt_step_by_step,
-                                                        prompt_example=eva_prompt_example,
-                                                        attention_eva=attention_eva_dict[type])
+                                                        attention_eva=attention_eva_dict[type],
+                                                        examples_question_eval = eva_prompt_example)
     # print(QA_PROMPT_EVA_FORMAT)
 
     # GPT
     query_engine1 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_GEN_FORMAT,
-                                         llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.5, max_tokens=512),
+                                         llm=OpenAI(model='gpt-4o-mini', temperature=0.5, max_tokens=512),
                                          max_tokens=-1)
     query_engine2 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_EVA_FORMAT,
-                                         llm=OpenAI(model='gpt-3.5-turbo-0125', temperature=0.1, max_tokens=512),
+                                         llm=OpenAI(model='gpt-4o-mini', temperature=0.1, max_tokens=512),
                                          max_tokens=-1)
 
     query_engine_tools = [
@@ -408,7 +386,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             metadata=ToolMetadata(
                 name="Check1",
                 description=(
-                    "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng.  "
+                    "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng.  "
                     "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
                     "Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó. "
                      "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
@@ -423,7 +401,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         #     metadata=ToolMetadata(
         #         name="Check2",
         #         description=(
-        #             "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu đánh giá và 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng. "
+        #             "Đầu vào là một câu hỏi trắc nghiệm. Đầu ra là 1 câu hỏi trắc nghiệm. Hãy chỉ rõ câu trả lời đúng. "
         #             "Tiến hành đánh giá câu hỏi. Giải thích câu trả lời đúng, nếu câu hỏi hoặc câu trả lời sai thì thực hiện chỉnh sửa lại. "
         #             "Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó. "
         #             "Nếu không có câu trả lời đúng thì hãy sửa lại câu trả lời. "
@@ -484,7 +462,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         kq = str(question.response)
         eval_question = get_bloom_evaluation(kq)
         kq= str("topic: ")+str(topic)+"\n"+ str("difficulty fist: ")+str(difficulty)+"\n"+ str("eval_question_with_bloom: ")+str(eval_question)+"\n"+str("Câu hỏi trắc nghiệm: ")+str(kq)
-        with open("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/kqua3.5.txt", "a", encoding="utf-8") as file:
+        with open("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/kqua4.0_no_prompt1.txt", "a", encoding="utf-8") as file:
             file.write(kq)
             file.write("\n\n\n")
         # mcqs.append(kq)
@@ -507,21 +485,15 @@ bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sán
 
 # Hiểu
 # topics = [
-#         "Sự cần thiết của các hệ cơ sở dữ liệu",
-#         "Mục tiêu của các hệ cơ sở dữ liệu",
-#         "Phân biệt các mô hình dữ liệu",
 #         "Tính toàn vẹn của dữ liệu và các ràng buộc toàn vẹn",
 #         "Kiến trúc tổng quát hệ cơ sở dữ liệu 3 mức"
 # ]
 # Áp dụng
-# topics = [
-#         "Tổ chức lưu trữ dữ liệu",
-#         "Các chiến lược sao lưu và phục hồi dữ liệu",
-#         "Quản lý quyền hạn truy nhập trong cơ sở dữ liệu",
-#         "Phương pháp khung nhìn trong tối ưu hóa câu hỏi truy vấn",
-#         "Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet"
+topics = [
+        "Phương pháp khung nhìn trong tối ưu hóa câu hỏi truy vấn",
+        "Ứng dụng cơ sở dữ liệu trên môi trường Internet/Intranet"
 
-# ]
+]
 
 # Phân tích
 # topics = [
@@ -543,18 +515,18 @@ bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sán
 # ]
 
 # Sáng tạo
-topics = [
-        "Thiết kế mô hình thực thể - liên kết cho một hệ thống cụ thể",
-        "Xây dựng chiến lược sao lưu và phục hồi dữ liệu tối ưu",
-        "Đề xuất phương pháp tối ưu hóa hiệu suất truy vấn SQL",
-        "Phát triển mô hình dữ liệu phân tán cho một doanh nghiệp",
-        "Xây dựng một hệ thống quản lý cơ sở dữ liệu phân tán hiệu quả", 
-]
+# topics = [
+#         "Thiết kế mô hình thực thể - liên kết cho một hệ thống cụ thể",
+#         "Xây dựng chiến lược sao lưu và phục hồi dữ liệu tối ưu",
+#         "Đề xuất phương pháp tối ưu hóa hiệu suất truy vấn SQL",
+#         "Phát triển mô hình dữ liệu phân tán cho một doanh nghiệp",
+#         "Xây dựng một hệ thống quản lý cơ sở dữ liệu phân tán hiệu quả", 
+# ]
 file_content=read_pdf_file("E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf")
 # print(file_content)
 import random
 for topic in topics:
-    bloom = "Sáng tạo"
+    bloom = "Áp dụng"
     file_path="E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf"
     quantity=4
     difficulty=bloom
@@ -562,5 +534,6 @@ for topic in topics:
     type="SingleChoice"
     mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)
     # print(test)
-# gpt-4o-mini
 # gpt-3.5-turbo-0125
+# gpt-4o-mini
+

@@ -167,7 +167,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
             prompt = type_dict[
                          type] + " Câu hỏi có nội dung liên quan đến " + genned_topic + ". " + \
                      bloom_dict[difficulty]
-        prompt = prompt + ". Đâù tiên kiểm tra mức độ khó yêu cầu có phù hợp không rồi chọn độ khó phù hợp. Sau đó sinh câu hỏi và sử dụng các công cụ khác để kiểm tra."
+        prompt = prompt + ". Thực hiện step by step: Đâù tiên kiểm tra mức độ khó yêu cầu có phù hợp không rồi chọn độ khó phù hợp. Sau đó sinh câu hỏi và sử dụng các công cụ khác để kiểm tra. Đảm bảo kết quả trả về đúng định dạng câu hỏi trắc nghiệm. "
         print(f"\n\n\n-------------------prompt------------------------\n{prompt}")
         question = agent.chat(prompt)
         kq = str(question.response)

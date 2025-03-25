@@ -1,0 +1,60 @@
+{
+    "prompt_gen": [
+        {
+            "type": "MultipleChoice",
+            "number_of_answers": 3,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 3 đáp án lựa chọn (bao gồm ít nhất 2 đáp án đúng).\nBước 4: Xác định các đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là cơ sở dữ liệu quan hệ.\nBước 2: Viết câu hỏi: \"Những điều nào sau đây đúng về cơ sở dữ liệu quan hệ? (Chọn tất cả các đáp án đúng)\"\nBước 3: Các đáp án lựa chọn: A) Dữ liệu được tổ chức thành bảng. B) Dữ liệu không thể sửa đổi sau khi được lưu trữ. C) Sử dụng khóa chính để xác định duy nhất từng bản ghi.\nBước 4: Các đáp án đúng là A) Dữ liệu được tổ chức thành bảng và C) Sử dụng khóa chính để xác định duy nhất từng bản ghi.\nBước 5: Câu hỏi và các đáp án đã rõ ràng. Câu hỏi trắc nghiệm: \"Những điều nào sau đây đúng về cơ sở dữ liệu quan hệ? (Chọn tất cả các đáp án đúng)\" A) Dữ liệu được tổ chức thành bảng. B) Dữ liệu không thể sửa đổi sau khi được lưu trữ. C) Sử dụng khóa chính để xác định duy nhất từng bản ghi. Đáp án đúng: A) Dữ liệu được tổ chức thành bảng, C) Sử dụng khóa chính để xác định duy nhất từng bản ghi.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 3 đáp án (bao gồm ít nhất 2 đáp án đúng và 1 đáp án sai) .**"
+        },
+        {
+            "type": "MultipleChoice",
+            "number_of_answers": 4,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 4 đáp án lựa chọn (bao gồm ít nhất 2 đáp án đúng).\nBước 4: Xác định các đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là các thuộc tính của cơ sở dữ liệu quan hệ.\nBước 2: Viết câu hỏi: \"Những điều nào sau đây đúng về các thuộc tính trong cơ sở dữ liệu quan hệ? (Chọn tất cả các đáp án đúng)\"\nBước 3: Các đáp án lựa chọn: A) Các thuộc tính phải có giá trị duy nhất. B) Các thuộc tính không thể có giá trị null. C) Các thuộc tính có thể được sử dụng để định danh một bản ghi. D) Các thuộc tính có thể là một tập hợp các giá trị.\nBước 4: Các đáp án đúng là A) Các thuộc tính phải có giá trị duy nhất và C) Các thuộc tính có thể được sử dụng để định danh một bản ghi.\nBước 5: Câu hỏi và các đáp án đã rõ ràng. Câu hỏi trắc nghiệm: \"Những điều nào sau đây đúng về các thuộc tính trong cơ sở dữ liệu quan hệ? (Chọn tất cả các đáp án đúng)\" A) Các thuộc tính phải có giá trị duy nhất. B) Các thuộc tính không thể có giá trị null. C) Các thuộc tính có thể được sử dụng để định danh một bản ghi. D) Các thuộc tính có thể là một tập hợp các giá trị. Đáp án đúng: A) Các thuộc tính phải có giá trị duy nhất, C) Các thuộc tính có thể được sử dụng để định danh một bản ghi.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 4 đáp án (bao gồm ít nhất 2 đáp án đúng và 2 đáp án sai) .**"
+        },
+        {
+            "type": "MultipleChoice",
+            "number_of_answers": 5,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 5 đáp án lựa chọn (bao gồm ít nhất 2 đáp án đúng).\nBước 4: Xác định các đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là các loại ràng buộc trong cơ sở dữ liệu quan hệ.\nBước 2: Viết câu hỏi: \"Những loại ràng buộc nào sau đây có thể được áp dụng trong cơ sở dữ liệu quan hệ? (Chọn tất cả các đáp án đúng)\"\nBước 3: Các đáp án lựa chọn: A) Ràng buộc khóa chính. B) Ràng buộc khóa ngoại. C) Ràng buộc duy nhất. D) Ràng buộc tham chiếu. E) Ràng buộc kiểu dữ liệu.\nBước 4: Các đáp án đúng là A) Ràng buộc khóa chính, B) Ràng buộc khóa ngoại, C) Ràng buộc duy nhất và E) Ràng buộc kiểu dữ liệu.\nBước 5: Câu hỏi và các đáp án đã rõ ràng. Câu hỏi trắc nghiệm: \"Những loại ràng buộc nào sau đây có thể được áp dụng trong cơ sở dữ liệu quan hệ? (Chọn tất cả các đáp án đúng)\" A) Ràng buộc khóa chính. B) Ràng buộc khóa ngoại. C) Ràng buộc duy nhất. D) Ràng buộc tham chiếu. E) Ràng buộc kiểu dữ liệu. Đáp án đúng: A) Ràng buộc khóa chính, B) Ràng buộc khóa ngoại, C) Ràng buộc duy nhất, E) Ràng buộc kiểu dữ liệu.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 5 đáp án (bao gồm ít nhất 2 đáp án đúng và 3 đáp án sai) .**"
+        },
+        {
+            "type": "SingleChoice",
+            "number_of_answers": 2,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 2 đáp án lựa chọn (bao gồm 1 đáp án đúng và 1 đáp án sai).\nBước 4: Xác định đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là vai trò của khóa chính trong cơ sở dữ liệu.\nBước 2: Viết câu hỏi: \"Khóa chính trong một bảng cơ sở dữ liệu được sử dụng để làm gì?\"\nBước 3: Các đáp án lựa chọn:\nA) Xác định duy nhất mỗi bản ghi trong bảng.\nB) Tăng tốc độ truy vấn dữ liệu trong bảng.\nBước 4: Đáp án đúng là A) Xác định duy nhất mỗi bản ghi trong bảng.\nBước 5: Câu hỏi và các đáp án đã rõ ràng.\nCâu hỏi trắc nghiệm: \"Khóa chính trong một bảng cơ sở dữ liệu được sử dụng để làm gì?\"\nA) Xác định duy nhất mỗi bản ghi trong bảng.\nB) Tăng tốc độ truy vấn dữ liệu trong bảng.\nĐáp án đúng: A) Xác định duy nhất mỗi bản ghi trong bảng.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 1 đáp án đúng và gồm 2 đáp án.**"
+        },
+        {
+            "type": "SingleChoice",
+            "number_of_answers": 3,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 3 đáp án lựa chọn (bao gồm 1 đáp án đúng và 2 đáp án sai).\nBước 4: Xác định đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là đặc điểm của cơ sở dữ liệu quan hệ.\nBước 2: Viết câu hỏi: \"Điều nào sau đây là một đặc điểm của cơ sở dữ liệu quan hệ?\"\nBước 3: Các đáp án lựa chọn:\nA) Dữ liệu được tổ chức thành bảng.\nB) Mỗi bản ghi có thể có nhiều thuộc tính giống nhau.\nC) Các bảng không thể liên kết với nhau.\nBước 4: Đáp án đúng là A) Dữ liệu được tổ chức thành bảng.\nBước 5: Câu hỏi và các đáp án đã rõ ràng.\nCâu hỏi trắc nghiệm: \"Điều nào sau đây là một đặc điểm của cơ sở dữ liệu quan hệ?\"\nA) Dữ liệu được tổ chức thành bảng.\nB) Mỗi bản ghi có thể có nhiều thuộc tính giống nhau.\nC) Các bảng không thể liên kết với nhau.\nĐáp án đúng: A) Dữ liệu được tổ chức thành bảng.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 1 đáp án đúng và gồm 3 đáp án.**"
+        },
+        {
+            "type": "SingleChoice",
+            "number_of_answers": 4,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 4 đáp án lựa chọn (bao gồm 1 đáp án đúng và 3 đáp án sai).\nBước 4: Xác định đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là khóa chính trong cơ sở dữ liệu.\nBước 2: Viết câu hỏi: \"Điều nào sau đây mô tả đúng về khóa chính trong cơ sở dữ liệu?\"\nBước 3: Các đáp án lựa chọn:\nA) Khóa chính có thể chứa giá trị NULL.\nB) Khóa chính phải có giá trị duy nhất cho mỗi bản ghi.\nC) Một bảng chỉ có thể có một khóa chính.\nD) Khóa chính có thể thay đổi sau khi đã được xác định.\nBước 4: Đáp án đúng là B) Khóa chính phải có giá trị duy nhất cho mỗi bản ghi.\nBước 5: Câu hỏi và các đáp án đã rõ ràng.\nCâu hỏi trắc nghiệm: \"Điều nào sau đây mô tả đúng về khóa chính trong cơ sở dữ liệu?\"\nA) Khóa chính có thể chứa giá trị NULL.\nB) Khóa chính phải có giá trị duy nhất cho mỗi bản ghi.\nC) Một bảng chỉ có thể có một khóa chính.\nD) Khóa chính có thể thay đổi sau khi đã được xác định.\nĐáp án đúng: B) Khóa chính phải có giá trị duy nhất cho mỗi bản ghi.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 1 đáp án đúng và gồm 4 đáp án.**"
+        },
+        {
+            "type": "SingleChoice",
+            "number_of_answers": 5,
+            "prompt_step_by_step": "Bước 1: Xác định nội dung chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên nội dung đó.\nBước 3: Cung cấp 5 đáp án lựa chọn (bao gồm 1 đáp án đúng và 4 đáp án sai).\nBước 4: Xác định đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là các kiểu dữ liệu trong cơ sở dữ liệu.\nBước 2: Viết câu hỏi: \"Trong các kiểu dữ liệu sau, kiểu nào là kiểu dữ liệu số trong SQL?\"\nBước 3: Các đáp án lựa chọn:\nA) VARCHAR\nB) DATE\nC) INT\nD) TEXT\nE) FLOAT\nBước 4: Đáp án đúng là C) INT.\nBước 5: Câu hỏi và các đáp án đã rõ ràng.\nCâu hỏi trắc nghiệm: \"Trong các kiểu dữ liệu sau, kiểu nào là kiểu dữ liệu số trong SQL?\"\nA) VARCHAR\nB) DATE\nC) INT\nD) TEXT\nE) FLOAT\nĐáp án đúng: C) INT.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi có 1 đáp án đúng và gồm 5 đáp án.**"
+        },
+        {
+            "type": "TrueFalse",
+            "number_of_answers": 2,
+            "prompt_step_by_step": "Bước 1: Xác định khái niệm chính mà câu hỏi sẽ kiểm tra.\nBước 2: Viết câu hỏi dựa trên khái niệm đó.\nBước 3: Cung cấp 2 đáp án lựa chọn (True hoặc False).\nBước 4: Xác định đáp án đúng.\nBước 5: Đảm bảo câu hỏi và các đáp án rõ ràng và không gây nhầm lẫn.",
+            "prompt_example": "Bước 1: Nội dung chính sẽ là khái niệm về khóa chính trong cơ sở dữ liệu.\nBước 2: Viết câu hỏi: \"Khóa chính trong cơ sở dữ liệu là một thuộc tính hoặc tập hợp thuộc tính mà giá trị của nó có thể xác định duy nhất một bản ghi trong bảng?\"\nBước 3: Các đáp án lựa chọn:\nA) True\nB) False\nBước 4: Đáp án đúng là A) True.\nBước 5: Câu hỏi và các đáp án đã rõ ràng.\nCâu hỏi trắc nghiệm: \"Khóa chính trong cơ sở dữ liệu là một thuộc tính hoặc tập hợp thuộc tính mà giá trị của nó có thể xác định duy nhất một bản ghi trong bảng?\"\nA) Đúng\nB) Sai\nĐáp án đúng: A) Đúng.",
+            "attention" :"**Đảm bảo đầu ra là một câu hỏi chỉ gồm 2 đáp án :'đúng' và 'sai'.**"
+        }
+    ]
+}

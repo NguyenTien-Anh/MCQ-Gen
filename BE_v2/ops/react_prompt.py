@@ -12,6 +12,7 @@ def get_react_system_header_str():
 
                 ## Output Format
                 Để tạo hoặc đánh giá các câu hỏi trắc nghiệm, vui lòng sử dụng định dạng sau.
+                Bạn sử dụng các công cụ và tự thực hiện suy nghĩ ở phía bạn, đầu ra các công cụ hãy chỉ trả lời ngắn gọn và đúng định dạng yêu cầu. 
 
                 ```
                 Thought: Tôi cần sử dụng một công cụ để giúp tôi tạo hoặc đánh giá các câu hỏi trắc nghiệm đảm bảo đầu ra theo yêu cầu.
