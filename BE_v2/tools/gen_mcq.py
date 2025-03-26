@@ -7,7 +7,8 @@ from llama_index.core import Settings
 from llama_index.core import PromptTemplate
 import json
 
-def gen_mcq(data, number_of_answers, model): 
+
+def gen_mcq(data, number_of_answers, model):
     PROMPT_TEMPLATE_GEN = (
         "Bạn là một chuyên gia câu hỏi trắc nghiệm, hãy sinh ra câu hỏi trắc nghiệm trên nội dung đưa vào và chỉ ra đáp án đúng. "
         "Đầu vào là một nội dung môn học. "
@@ -24,9 +25,10 @@ def gen_mcq(data, number_of_answers, model):
         "**Yêu cầu về định dạng câu trả lời là:**\n"
         "{attention}"
     )
-    print(f"---------------PROMPT_TEMPLATE_GEN-----------------\n{PROMPT_TEMPLATE_GEN}")
+    print(
+        f"---------------PROMPT_TEMPLATE_GEN-----------------\n{PROMPT_TEMPLATE_GEN}")
     QA_PROMPT_GEN = PromptTemplate(PROMPT_TEMPLATE_GEN)
-    with open('E:/6. Agent_MCQ_gen/MCQ-Gen/BE_v2/tools/prompt.json', 'r', encoding='utf-8') as file:
+    with open(r'D:\MCQ-Gen\BE_v2\tools\prompt.json', 'r', encoding='utf-8') as file:
         list_prompt_gen = json.load(file)
 
     gen_prompt_step_by_step = ""
@@ -38,16 +40,17 @@ def gen_mcq(data, number_of_answers, model):
             gen_prompt_example = prompt_gen["prompt_example"]
             gen_attention = prompt_gen["attention"]
 
-    print(f"\n\n\n------------gen_prompt_step_by_step--------------------\n{gen_prompt_step_by_step}")
-    print(f"\n\n\n------------gen_prompt_example-------------------------\n{gen_prompt_example}")
-    print(f"\n\n\n------------gen_attention------------------------------\n{gen_attention}")
+    print(
+        f"\n\n\n------------gen_prompt_step_by_step--------------------\n{gen_prompt_step_by_step}")
+    print(
+        f"\n\n\n------------gen_prompt_example-------------------------\n{gen_prompt_example}")
+    print(
+        f"\n\n\n------------gen_attention------------------------------\n{gen_attention}")
 
     QA_PROMPT_GEN_FORMAT = QA_PROMPT_GEN.partial_format(prompt_step_by_step=gen_prompt_step_by_step,
                                                         prompt_example=gen_prompt_example, attention=gen_attention)
     query_engine1 = data.as_query_engine(similarity_top_k=3, text_qa_template=QA_PROMPT_GEN_FORMAT,
-                                         llm=OpenAI(model= model, temperature=0.5, max_tokens=512),
+                                         llm=OpenAI(
+                                             model=model, temperature=0.5, max_tokens=512),
                                          max_tokens=-1)
     return query_engine1
-
-
-

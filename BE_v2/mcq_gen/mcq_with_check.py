@@ -130,8 +130,6 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
     agent.update_prompts({"agent_worker:system_prompt": react_system_prompt})
     agent.reset()
 
-
-
     subTopics = select_topic(data, topic, quantity, model)
     print(f"\n\n\n----------------subTopics----------------\n{subTopics}")
     list_topic = subTopics.split(", ")
@@ -174,15 +172,16 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
         eval_question = get_bloom_evaluation(data, kq)
         kq= str("topic: ")+str(topic)+"\n"+ str("difficulty fist: ")+str(difficulty)+"\n"+ str("eval_question_with_bloom: ")+str(eval_question)+"\n"+str("Câu hỏi trắc nghiệm: ")+str(kq)
         print(kq)
-        with open("E:/6. Agent_MCQ_gen/MCQ-Gen/BE_v2/mcq_gen/kq_gpt4o_with_prompt_with_topic.txt", "a", encoding="utf-8") as file:
-            file.write(kq)
-            file.write("\n\n\n")
-            # mcqs.append(kq)
+        # with open("E:/6. Agent_MCQ_gen/MCQ-Gen/BE_v2/mcq_gen/kq_gpt4o_with_prompt_with_topic.txt", "a", encoding="utf-8") as file:
+        #     file.write(kq)
+        #     file.write("\n\n\n")
+        # mcqs.append(kq)
     # print("TẠO CÂU HỎI THÀNH CÔNG !!!")
     # print("ĐANG FORMAT CÂU HỎI ...")
     # mcqs = format_mcq(mcqs)
     # print("FORMAT CÂU HỎI THÀNH CÔNG !!!")
     # return mcqs, notify
+
 
 topics = [
     "Khái niệm cơ sở dữ liệu là gì",
@@ -247,14 +246,15 @@ topics = [
     "Nguyên lý hoạt động của hệ quản trị cơ sở dữ liệu",
     "Phân loại và quản lý các quyền truy cập cơ sở dữ liệu"
 ]
-import random
-for i in range(5):
-    bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sáng tạo"]
-    topic = "Khái niệm cơ sở dữ liệu"
-    file_path="E:/6. Agent_MCQ_gen/MCQ-Gen/BE/CSDL giáo trình.pdf"
-    quantity=1
+for i in range(1):
+    bloom_list = ["Nhớ", "Hiểu", "Áp dụng",
+                  "Phân tích", "Đánh giá", "Sáng tạo"]
+    topic = "Mục tiêu của các hệ cơ sở dữ liệu"
+    file_path = "D:\MCQ-Gen\BE\CSDL giáo trình.pdf"
+    quantity = 2
     # bloom = "Nhớ"
-    difficulty= "Sáng tạo"
-    number_of_answers=4
-    type="SingleChoice"
-    mcqGen_with_check(topic, quantity, difficulty, file_path, "", "true", type, number_of_answers)
+    difficulty = "Sáng tạo"
+    number_of_answers = 4
+    type = "SingleChoice"
+    mcqGen_with_check(topic, quantity, difficulty, file_path,
+                      "", "true", type, number_of_answers)

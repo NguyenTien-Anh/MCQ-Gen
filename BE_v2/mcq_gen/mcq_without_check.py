@@ -115,7 +115,7 @@ def mcqGen_with_check(topic, quantity, difficulty, file, inputText, status, type
 import random
 bloom_list=["Nhớ", "Hiểu", "Áp dụng", "Phân tích", "Đánh giá", "Sáng tạo"]
 topic = "Khái niệm cơ sở dữ liệu là gì"
-file_path="E:/6. Agent_MCQ_gen/MCQ-Gen_thang_v2/BE/CSDL giáo trình.pdf"
+file_path="D:\MCQ-Gen\BE\CSDL giáo trình.pdf"
 quantity=3
 bloom = random.choice(bloom_list)
 difficulty=bloom
