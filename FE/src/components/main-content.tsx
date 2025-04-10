@@ -290,14 +290,9 @@ export const MainContent = () => {
                   disabled={loading}
                 >
                   <option value="auto">Auto</option>
-                  <option value="dễ">Easy</option>
-                  <option value="trung bình">Medium</option>
                   <option value="nhớ">Remember</option>
                   <option value="hiểu">Understand</option>
                   <option value="áp dụng">Apply</option>
-                  <option value="phân tích">Analyze</option>
-                  <option value="đánh giá">Evaluate</option>
-                  <option value="sáng tạo">Create</option>
                 </select>
               </label>
             </div>

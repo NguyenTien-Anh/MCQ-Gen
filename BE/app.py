@@ -15,11 +15,11 @@ def home():
 def mcq():
     data = request.form
     topic = data.get('topic')
-    quantity = data.get('quantity')
+    quantity = int(data.get('quantity'))
     difficulty = data.get('difficulty')
     file = request.files['file'] if 'file' in request.files else None
     inputText = data.get('inputText')
-    status = data.get('status')
+    status = True if data.get('status') == 'true' else False
     questionType = data.get('questionType')
     numAnswer = int(data.get('numAnswer'))
     isRecheck = True if data.get('isRecheck') == 'true' else False
@@ -36,4 +36,4 @@ def mcq():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
