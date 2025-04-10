@@ -58,11 +58,11 @@ The MCQ generation process follows this workflow:
 
 ### Backend Setup
 
-For detailed backend installation instructions, please refer to `BE/README.md`
+For detailed backend installation instructions, please refer to [`BE/README.md`](https://github.com/NguyenTien-Anh/MCQ-Gen/tree/master/BE#readme)
 
 ### Frontend Setup
 
-For detailed frontend installation instructions, please refer to `FE/README.md`
+For detailed frontend installation instructions, please refer to [`FE/README.md`](https://github.com/NguyenTien-Anh/MCQ-Gen/tree/master/FE#readme)
 
 
 ## Usage
