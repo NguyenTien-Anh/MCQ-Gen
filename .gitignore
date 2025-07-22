@@ -2,5 +2,7 @@ BE/__pycache__
 BE/.idea
 BE/.venv
 BE/docs
+BE/.env
 
 FE/node_modules
+FE/.env
