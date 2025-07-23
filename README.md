@@ -2,7 +2,7 @@
 
 A powerful tool that automatically generates high-quality multiple choice questions from uploaded documents or entered text, using AI to create educational assessment content.
 
-![MCQ Generator Interface](/ui.png)
+![MCQ Generator Interface](public/ui.png)
 
 ## Overview
 
@@ -32,7 +32,7 @@ This application allows educators, trainers, and content creators to easily gene
 
 ## Workflow Architecture
 
-![MCQ Generator Pipeline](/pipeline.png)
+![MCQ Generator Pipeline](public/pipeline.png)
 
 The MCQ generation process follows this workflow:
 
