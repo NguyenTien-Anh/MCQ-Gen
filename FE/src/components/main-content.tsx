@@ -189,32 +189,7 @@ export const MainContent = () => {
               <label htmlFor="SingleChoice" className="text-gray-700">
                 Single choice
               </label>
-              <input
-                type="radio"
-                id="MultipleChoice"
-                checked={questionType === "MultipleChoice"}
-                onChange={() => { handleQuestionTypeChange("MultipleChoice"), setNumAnswer(4) }}
-                className="ml-4 mr-2"
-              />
-              <label htmlFor="MultipleChoice" className="text-gray-700">
-                Multiple choice
-              </label>
-              <input
-                type="radio"
-                id="TrueFalse"
-                checked={questionType === "TrueFalse"}
-                onChange={() => { handleQuestionTypeChange("TrueFalse"), setNumAnswer(2) }}
-                className="ml-4 mr-2"
-              />
-              <label htmlFor="TrueFalse" className="text-gray-700">
-                True/False
-              </label>
             </div>
-            <b>Note: Question type - number of answer constraints</b>
-            <p>True/False: 2</p>
-            <p>Single choice: 2 - 5</p>
-            <p>Multiple choice: 3 - 5</p>
-            <br></br>
             <h2 className="text-lg font-medium mb-2">Recheck?</h2>
             <div className="flex items-center mb-4">
               <input
@@ -262,20 +237,6 @@ export const MainContent = () => {
                   min={1}
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                  required
-                  disabled={loading}
-                />
-              </label>
-              <label className="block flex-1">
-                <span className="text-gray-700">Num of answer:</span>
-                <input
-                  type="number"
-                  id="numAnswer"
-                  min={2}
-                  max={5}
-                  value={numAnswer}
-                  onChange={(e) => setNumAnswer(Number(e.target.value))}
                   className="block w-full p-2 border border-gray-300 rounded"
                   required
                   disabled={loading}
