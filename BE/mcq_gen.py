@@ -82,8 +82,34 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, type, number_of
                                                         prompt_example=gen_prompt_example, attention=gen_attention)
 
     QA_PROMPT_EVA = PromptTemplate(PROMPT_TEMPLATE_EVA)
-    eva_prompt_step_by_step = "Bước 1: Kiểm tra độ rõ ràng của câu hỏi và các đáp án. Bước 2: Đánh giá tính liên quan của câu hỏi đến nội dung đã học. Bước 3: Xác minh tính đúng đắn của đáp án đúng và sai. Bước 4: Đánh giá độ khó của câu hỏi. Bước 5: Đánh giá tính khách quan của câu hỏi. Bước 6: Sửa đổi câu hỏi nếu cần thiết dựa trên các đánh giá. Bước 7: Trả về câu hỏi đã được sửa đổi hoặc câu hỏi ban đầu."
-    eva_prompt_example = "Bước 1: Câu hỏi \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" là rõ ràng và dễ hiểu.\nBước 2: Câu hỏi này liên quan trực tiếp đến nội dung đã học về cơ sở dữ liệu và các loại khóa.\nBước 3: Đáp án A) Khóa chính (Primary Key) là đúng. Các đáp án B) Khóa ngoại (Foreign Key), C) Khóa duy nhất (Unique Key), D) Khóa kết hợp (Composite Key), và E) Khóa tạm thời (Temporary Key) đều không phải là đáp án đúng cho câu hỏi này.\nBước 4: Độ khó của câu hỏi được đánh giá là trung bình vì nó yêu cầu người học hiểu rõ về các loại khóa trong cơ sở dữ liệu.\nBước 5: Câu hỏi này là khách quan, không thiên vị và không dẫn đến bất kỳ sự nhầm lẫn nào cho người trả lời.\nBước 6: Không cần sửa đổi câu hỏi, vì nó đã đạt yêu cầu và rõ ràng.\nCâu hỏi trắc nghiệm cuối cùng: \"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\" A) Khóa chính (Primary Key) B) Khóa ngoại (Foreign Key) C) Khóa duy nhất (Unique Key) D) Khóa kết hợp (Composite Key) E) Khóa tạm thời (Temporary Key) Đáp án đúng: A) Khóa chính (Primary Key)."
+    eva_prompt_step_by_step = (
+    "Bước 1: Kiểm tra độ rõ ràng và chính xác ngữ pháp của thân câu hỏi và các đáp án.\n"
+    "Bước 2: Đánh giá mức độ liên quan của câu hỏi với chủ đề trong tài liệu.\n"
+    "Bước 3: Kiểm tra tính đúng đắn của đáp án đúng và sự sai hợp lý của các đáp án nhiễu dựa trên tài liệu.\n"
+    "Bước 4: Đánh giá mức độ khó của câu hỏi so với yêu cầu {difficulty_bloom}.\n"
+    "Bước 5: Đánh giá tính khách quan: câu hỏi không gây hiểu nhầm, không thiên vị.\n"
+    "Bước 6: Nếu câu hỏi chưa đạt 5/5 tiêu chí, sửa lại hoặc tạo câu hỏi mới đảm bảo đủ tiêu chí.\n"
+    "Bước 7: Trả về điểm đánh giá (0–5), tiêu chí đạt, và câu hỏi cuối cùng (kèm đáp án đúng)."
+    )
+
+    eva_prompt_example = (
+    "Điểm đánh giá: 5/5.\n"
+    "Tiêu chí đạt:\n"
+    "- Dẫn xuất từ tài liệu: 1 điểm\n"
+    "- Liên quan chủ đề: 1 điểm\n"
+    "- Chính xác ngữ nghĩa và ngữ pháp: 1 điểm\n"
+    "- Một đáp án đúng duy nhất: 1 điểm\n"
+    "- Chất lượng phương án nhiễu: 1 điểm\n"
+    "Tổng cộng: 5/5 điểm.\n\n"
+    "Câu hỏi trắc nghiệm cuối cùng:\n"
+    "\"Trong các loại khóa sau, loại nào được sử dụng để xác định duy nhất một bản ghi trong bảng?\"\n"
+    "A) Khóa chính (Primary Key)\n"
+    "B) Khóa ngoại (Foreign Key)\n"
+    "C) Khóa duy nhất (Unique Key)\n"
+    "D) Khóa kết hợp (Composite Key)\n"
+    "E) Khóa tạm thời (Temporary Key)\n"
+    "Đáp án đúng: A) Khóa chính (Primary Key)")
+
     attention_eva_dict = {
         "MultipleChoice": "Câu hỏi trắc nghiệm MultipleChoice gồm " + str(
             number_of_answers) + " đáp án và có ít nhất 2 đáp án đúng. ",
@@ -204,3 +230,5 @@ def mcqGen(topic, quantity, difficulty, file, inputText, status, type, number_of
         kq = json.loads(str(format_question.response))
         mcqs.append(kq)
     return mcqs, notify
+
+

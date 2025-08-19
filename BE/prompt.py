@@ -92,20 +92,33 @@ PROMPT_TEMPLATE_GEN = (
     )
 
 PROMPT_TEMPLATE_EVA = (
-        "Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn."
-        "Đầu vào là 1 câu hỏi trắc nghiệm về môn học."
-        "Dữ liệu đưa vào là tài liệu về môn học."
+        """
+        Bạn là một chuyên gia về câu hỏi trắc nghiệm, hãy kiểm tra lại độ chính xác của câu hỏi và chỉnh sửa lại chúng tốt hơn.
+        Nếu độ khó không đạt yêu cầu thì thực hiện chỉnh sửa lại độ khó.
+        Đầu vào là 1 câu hỏi trắc nghiệm về môn học.
+        Dữ liệu đưa vào là tài liệu về môn học.
         "\n -----------------------------\n"
         "{context_str}"
         "\n -----------------------------\n"
-        "Hãy thực hiện step by step các bước theo quy trình để đánh giá câu hỏi trắc nghiệm."
-        "{prompt_step_by_step}"
-        "Ví dụ cho cách thực hiện quy trình trên."
-        "{prompt_example}"
-        "\n -----------------------------\n"
-        "Định dạng của câu hỏi cần đánh giá là:"
-        "**{attention_eva}**"
-        "\n -----------------------------\n"
-        "Đầu ra là 1 lời đánh giá và một câu hỏi trắc nghiệm. Hãy đánh giá và cập nhật câu hỏi:  {query_str}."
-        "Đảm bảo định dạng phản hồi là 1 lời đánh giá và 1 câu hỏi trắc nghiệm, sau đó chỉ rõ đáp án đúng."
-    )
+        YÊU CẦU ĐÁNH GIÁ (BẮT BUỘC PHẢI ĐẠT 5/5 TIÊU CHÍ):
+        Dẫn xuất từ tài liệu: Nội dung câu hỏi phải được trực tiếp dẫn xuất từ tài liệu cung cấp bên trên.
+        Liên quan chủ đề: Câu hỏi phải phù hợp với chủ đề đã chỉ định.
+        Chính xác ngữ nghĩa và ngữ pháp: Thân câu hỏi và tất cả các lựa chọn phải đúng ngữ pháp và không có lỗi ngữ nghĩa hay thuật ngữ mơ hồ.
+        Một đáp án đúng duy nhất: Chỉ một đáp án đúng, và đáp án đó phải chính xác dựa trên tài liệu.
+        Chất lượng phương án nhiễu: Các lựa chọn sai (nhiễu) phải sai dựa trên tài liệu, nhưng vẫn hợp lý, không trùng lặp hoặc chồng chéo với đáp án đúng hoặc nhau.
+        Nếu câu hỏi không đạt đủ 5/5 tiêu chí, hãy sinh lại câu hỏi mới hoàn toàn để đảm bảo đúng yêu cầu.
+        Hãy thực hiện step by step các bước theo quy trình để đánh giá câu hỏi trắc nghiệm.
+        {prompt_step_by_step}
+
+        Ví dụ về đầu ra cuối cùng là:
+        {prompt_example}
+
+        Định dạng của câu hỏi cần đánh giá là:
+        {attention_eva}
+
+        Đầu ra yêu cầu:
+        Chỉ hiển thị số điểm (0-5 điểm, mỗi tiêu chí là một điểm) đạt được, danh sách các tiêu chí đạt điểm.
+        Câu hỏi trắc nghiệm hoàn chỉnh, đầy đủ.
+        Nếu không đạt 5/5 điểm: sinh lại câu hỏi mới hoàn chỉnh, đảm bảo đạt đủ 5 điểm, và ghi rõ đáp án đúng.
+        """)
+
